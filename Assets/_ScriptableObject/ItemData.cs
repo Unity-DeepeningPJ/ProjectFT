@@ -18,8 +18,6 @@ public class EquipItem
     public float value;
 }
 
-
-
 [CreateAssetMenu(fileName = "Item", menuName = "New Item")]
 public class ItemData : ScriptableObject
 {
