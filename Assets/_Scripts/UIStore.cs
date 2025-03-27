@@ -7,14 +7,10 @@ public class UIStore : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI goldTxt;
 
-    ItemDataList itemDataList;
-    InventoryManager inven;
 
     private void Awake()
     {
-        itemDataList = new ItemDataList();
-        itemDataList.Init();
-        inven = FindObjectOfType<InventoryManager>();        
+            
     }
 
     private void UpdateGold()

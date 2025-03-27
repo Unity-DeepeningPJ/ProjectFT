@@ -2050,6 +2050,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dd3966b8e4f420409c4f50f2abd9061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  goldTxt: {fileID: 0}
 --- !u!1 &973977571
 GameObject:
   m_ObjectHideFlags: 0
@@ -3894,6 +3895,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1731202871}
   - component: {fileID: 1731202873}
+  - component: {fileID: 1731202874}
   m_Layer: 5
   m_Name: Contents_Sell
   m_TagString: Untagged
@@ -3932,6 +3934,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1731202870}
   m_CullTransparentMesh: 1
+--- !u!114 &1731202874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731202870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2b80cb16ac16b748a1fea38308e2169, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1768395228
 GameObject:
   m_ObjectHideFlags: 0
@@ -4445,6 +4459,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2128701887}
   - component: {fileID: 2128701888}
+  - component: {fileID: 2128701889}
   m_Layer: 5
   m_Name: Contents_Buy
   m_TagString: Untagged
@@ -4483,6 +4498,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2128701886}
   m_CullTransparentMesh: 1
+--- !u!114 &2128701889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128701886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1aa3a6608458ed439f5f8c48b52ef6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sellBtn: {fileID: 1350894238}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
