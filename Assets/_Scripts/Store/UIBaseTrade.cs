@@ -5,11 +5,16 @@ using UnityEngine.UI;
 
 public class UIBaseTrade : MonoBehaviour
 {
-    private ItemData selecetItem;
+    //[SerializeField] Button tradeBtn;
 
-    [SerializeField] Button sellBtn;
+
 
     private void Awake()
+    {
+            
+    }
+
+    public virtual void SelctSlot(int index)
     {
         
     }
