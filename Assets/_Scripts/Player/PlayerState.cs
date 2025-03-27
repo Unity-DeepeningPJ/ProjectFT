@@ -7,11 +7,13 @@
 
     public float CriticalChance { get; private set; }
 
+    //장비로 인한 추가 스탯
     private int _equipPower;
     private int _equipDefense;
     private int _equipHealth;
     private float _equipCriticalChance;
 
+    //최종 스탯
     public int TotalPower => Power + _equipPower;
     public int TotalDefense => Defense + _equipDefense;
     public int TotalHealth => health + _equipHealth;
@@ -31,6 +33,7 @@
         _equipCriticalChance = 0;
     }
 
+    //경험치 추가 및 레벨업
     public void AddExp(int amount)
     {
         CurrentExp += amount;
@@ -47,6 +50,7 @@
         ExpToNextLevel = (int)(ExpToNextLevel * 1.2f);
     }
 
+    //장비 장착, 해제
     public void Equip()
     {
 
