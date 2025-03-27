@@ -22,13 +22,10 @@ public class GameManager : MonoBehaviour
     // [SerializeField] private InventoryManager inventoryManager;
     // [SerializeField] private UIinventoryManager uIinventoryManager;
 
-    // 나중에 추가할 매니저들: StageManager, EnemyManager, UIManager 등
+    // 나중에 추가할 매니저들: StageManager, EnemyManager 등등
     
     // 게임 상태 관련
     public enum GameState { Playing, Paused, GameOver, MainMenu }
-    
-    // 오프라인 진행 관련
-    [SerializeField] private float goldPerMinuteOffline = 5f;
     
     private void Awake()
     {
