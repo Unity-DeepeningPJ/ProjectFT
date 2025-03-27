@@ -18,7 +18,7 @@ public class UiSlot : MonoBehaviour
         // 슬롯 클릭 이벤트
     }
 
-    public void UpdateSlot(SlotItem slot)
+    public void UpdateSlot(SlotItemData slot)
     {
         if (!slot.IsEmpty)
         {

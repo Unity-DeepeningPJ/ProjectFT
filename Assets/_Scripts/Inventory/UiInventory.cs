@@ -15,7 +15,7 @@ public class UiInventory : MonoBehaviour
         //슬롯 데이터 
         slots = new List<UiSlot>();
 
-
+        GameManager.Instance.inventoryManager.OnInventoryChanged += UpdateUI;
 
     }
 
@@ -35,16 +35,15 @@ public class UiInventory : MonoBehaviour
         // 생성해주기? 
     }
 
-    // 슬롯을 더해주는 기능 
-
+    // 슬롯에 itemdata 넣어주기 
     private void UpdateUI()
     {
         for (int i = 0; i < slots.Count; i++)
         {
-            //if (i <GameManager.Instance.inventoryManager.)
-            //{
-
-            //}
+            if (i < GameManager.Instance.inventoryManager.slotItemDatas.Count)
+            {
+                slots[i].UpdateSlot(GameManager.Instance.inventoryManager.slotItemDatas[i]);
+            }
         }
     }
 

@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlotItem : MonoBehaviour
+public class SlotItemData : MonoBehaviour
 {
     public ItemData item;
     public int amount;
 
     public bool IsEmpty => item == null;
 
-    public SlotItem()
+    public SlotItemData()
     {
         item = null;
         amount = 0;
@@ -23,10 +23,10 @@ public class SlotItem : MonoBehaviour
 
     public void RemoveItem(ItemData newitem, int count = 1)
     {
+        item = null;
         amount -= count;
         if (amount <= 0)
         {
-            item = null;
             amount = 0;
         }
     }
