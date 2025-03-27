@@ -1,35 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UiSlot : MonoBehaviour
 {
-    public ItemData item;
-    public int amount;
+    [SerializeField] private Image iconImage;
+    [SerializeField] private Button slotButton;
 
-    public bool IsEmpty => item == null;
-
-
-    public UiSlot()
+    private void Start()
     {
-        item = null;
-        amount = 0;
+        slotButton.onClick.AddListener(onSlotClick);
     }
 
-    public void AddItem(ItemData newitem,int count =1)
+    private void onSlotClick()
     {
-        item = newitem;
-        amount = count;
+        // 슬롯 클릭 이벤트
     }
 
-    public void RemoveItem(ItemData newitem, int count =1)
+    public void UpdateSlot(SlotItem slot)
     {
-        amount -= count;
-        if (amount <=0)
+        if (!slot.IsEmpty)
         {
-            item = null;
-            amount = 0;
+            //존재하면 이미지 update해주기 
+            iconImage.sprite = slot.item.Icon;
+            //iconImage.enabled = true;
         }
+        
     }
 
 }

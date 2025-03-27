@@ -26,4 +26,11 @@ public class InventoryManager : MonoBehaviour
         
 
     }
+
+
+
+    public void InventoryItemAdd(ItemData item)
+    {
+        inventoryItem.Add(item.id, item);
+    }
 }

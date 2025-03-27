@@ -25,8 +25,6 @@ public class UiInventory : MonoBehaviour
     }
     private void Init()
     {
-        
-
         //슬롯 생성만  > UI도 그려주기 
         for (int i = 0; i < GameManager.Instance.inventoryManager.MaxSlots; i++)
         {
@@ -39,6 +37,15 @@ public class UiInventory : MonoBehaviour
 
     // 슬롯을 더해주는 기능 
 
+    private void UpdateUI()
+    {
+        for (int i = 0; i < slots.Count; i++)
+        {
+            //if (i <GameManager.Instance.inventoryManager.)
+            //{
 
+            //}
+        }
+    }
 
 }
