@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class ItemDataList
 {
-    public Dictionary<int, ItemData> itemList;
+    public Dictionary<int, ItemData> ItemList { get; private set; }
 
     public void Init()
     {
+        ItemList = new Dictionary<int, ItemData>();
         LoadItemData();
-        Debug.Log($"{itemList.Count} 아이템 업로드 했습니다.");
+        Debug.Log($"{ItemList.Count} 수량 아이템 업로드 했습니다.");
     }
 
     private void LoadItemData()
@@ -18,13 +19,13 @@ public class ItemDataList
 
         foreach (var item in loadItems)
         {
-            itemList.Add(item.id, item);
+            ItemList.Add(item.id, item);
         }
     }
 
     public ItemData GetItemDataById(int id)
     {
-        if (itemList.TryGetValue(id, out ItemData itemData))
+        if (ItemList.TryGetValue(id, out ItemData itemData))
         {
             return itemData;
         }
