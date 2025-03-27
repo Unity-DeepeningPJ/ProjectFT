@@ -11,7 +11,7 @@ public abstract class StateMachine
 {
     protected IState currentState;
 
-    public void ChangeStats(IState state)
+    public void ChangeState(IState state)
     {
         currentState?.Exit();
         currentState = state;

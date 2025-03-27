@@ -5,7 +5,7 @@ public class PlayerController : MonoBehaviour
     public PlayerInput playerInput { get; private set; }
     public PlayerInput.PlayerActions playerActions { get; private set; }
 
-    void Start()
+    private void Awake()
     {
         playerInput = new PlayerInput();
         playerActions = playerInput.Player;
@@ -19,5 +19,10 @@ public class PlayerController : MonoBehaviour
     private void OnDisable()
     {
         playerInput.Disable();
+    }
+
+    public float GetMoveInput()
+    {
+        return playerActions.Move.ReadValue<Vector2>().x;
     }
 }
