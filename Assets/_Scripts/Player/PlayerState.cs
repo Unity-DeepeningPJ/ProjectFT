@@ -6,6 +6,7 @@
     public int ExpToNextLevel { get; private set; }
 
     public float CriticalChance { get; private set; }
+    public float DashDistance { get; private set; }
 
     //장비로 인한 추가 스탯
     private int _equipPower;
@@ -26,6 +27,7 @@
         CurrentExp = data.startExp;
         ExpToNextLevel = data.expToNextLevel;
         CriticalChance = data.baseCriticalChance;
+        DashDistance = data.baseDashDistance;
 
         _equipPower = 0;
         _equipDefense = 0;

@@ -9,6 +9,7 @@ public class PlayerData : ScriptableObject
     public int baseHealth;
     public float baseSpeed;
     public float baseJumpPower;
+    public float baseDashDistance;
     public float baseCriticalChance;
 
     public int startLevel;

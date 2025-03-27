@@ -4,6 +4,8 @@ public class PlayerStateMachine : StateMachine
 {
     public Player Player { get; }
 
+    public Vector2 MoveInput { get; set; }
+
     public Transform MainCamTransform;
 
     public PlayerIdleState IdleState { get; private set; }

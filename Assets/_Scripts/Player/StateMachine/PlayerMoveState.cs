@@ -1,41 +1,41 @@
 ﻿using UnityEngine;
 
-public class PlayerMoveState : IState
+public class PlayerMoveState : PlayerBaseState
 {
-    private PlayerStateMachine _stateMachine;
-    private Rigidbody2D _rigidBody;
-    private float moveSpeed;
+    public PlayerMoveState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
-    public PlayerMoveState(PlayerStateMachine stateMachine)
+    public override void Enter()
     {
-        _stateMachine = stateMachine;
-        _rigidBody = stateMachine.Player.GetComponent<Rigidbody2D>();
-        moveSpeed = stateMachine.Player.Data.baseSpeed;
+        base.Enter();
     }
 
-    public void Enter() { }
-
-    public void Exit() { }
-
-    public void HandleInput()
+    public override void HandleInput()
     {
-        float moveInput = _stateMachine.Player.Controller.GetMoveInput();
-
-        if (moveInput == 0)
+        base.HandleInput();
+        if (_stateMachine.MoveInput.x == 0)
         {
             _stateMachine.ChangeState(_stateMachine.IdleState);
         }
+        else if (_stateMachine.Player.Controller.playerActions.Jump.triggered)
+        {
+            _stateMachine.ChangeState(_stateMachine.JumpState);
+        }
+        else if (_stateMachine.Player.Controller.playerActions.Dash.triggered)
+        {
+            _stateMachine.ChangeState(_stateMachine.DashState);
+        }
     }
 
-    public void Update() { }
-
-    public void PhysicsUpdate()
+    public override void PhysicsUpdate()
     {
-        float moveInput = _stateMachine.Player.Controller.GetMoveInput();
+        base.PhysicsUpdate();
+        Move();
+    }
 
-        Vector3 newPosition = _rigidBody.position;
-        newPosition.x += moveInput * moveSpeed * Time.fixedDeltaTime;
-
-        _rigidBody.position = newPosition;
+    private void Move()
+    {
+        Vector2 moveDirection = new Vector2(_stateMachine.MoveInput.x, 0);
+        float moveSpeed = player.PlayerState.speed;
+        player.Rigidbody.velocity = new Vector2(moveDirection.x * moveSpeed, player.Rigidbody.velocity.y);
     }
 }

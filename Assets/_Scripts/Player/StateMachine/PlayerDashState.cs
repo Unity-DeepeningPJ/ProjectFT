@@ -1,36 +1,45 @@
 ﻿using UnityEngine;
 
-public class PlayerDashState : IState
+public class PlayerDashState : PlayerBaseState
 {
-    private PlayerStateMachine _stateMachine;
+    private Vector2 _dashDirection;
+    private float _dashDistance;
 
-    public PlayerDashState(PlayerStateMachine stateMachine)
+    public PlayerDashState(PlayerStateMachine stateMachine) : base(stateMachine) { }
+
+    public override void Enter()
     {
-        _stateMachine = stateMachine;
+        base.Enter();
+
+        _dashDirection = _stateMachine.Player.transform.right * _stateMachine.MoveInput.x;
+        _dashDistance = _stateMachine.Player.PlayerState.DashDistance;
+
+        _stateMachine.Player.Rigidbody.velocity = _dashDirection * 10f;
+        player.isInvincible = true;
     }
 
-    public void Enter()
+    public override void Exit()
     {
-        throw new System.NotImplementedException();
+        base.Exit();
+        player.isInvincible = false;
     }
 
-    public void Exit()
+    public override void PhysicsUpdate()
     {
-        throw new System.NotImplementedException();
+        base.PhysicsUpdate();
+        Dash();
     }
 
-    public void HandleInput()
+    private void Dash()
     {
-        throw new System.NotImplementedException();
-    }
-
-    public void PhysicsUpdate()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void Update()
-    {
-        throw new System.NotImplementedException();
+        if (player.isInvincible)
+        {
+            float ditanceMoved = Vector2.Distance(_stateMachine.Player.transform.position, _dashDirection);
+            if (ditanceMoved >= _stateMachine.Player.PlayerState.DashDistance)
+            {
+                player.isInvincible = false;
+                _stateMachine.ChangeState(_stateMachine.IdleState);
+            }
+        }
     }
 }

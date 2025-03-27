@@ -1,29 +1,34 @@
 ﻿using UnityEngine;
 
-public class PlayerIdleState : IState
+public class PlayerIdleState : PlayerBaseState
 {
-    private PlayerStateMachine _stateMachine;
+    public PlayerIdleState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
-    public PlayerIdleState(PlayerStateMachine stateMachine)
+    public override void Enter()
     {
-        _stateMachine = stateMachine;
+        base.Enter();
+        player.Rigidbody.velocity = Vector2.zero;
     }
 
-    public void Enter() { }
-
-    public void Exit() { }
-
-    public void HandleInput()
+    public override void HandleInput()
     {
-        if(_stateMachine.Player.Controller.GetMoveInput() != 0)
+        base.HandleInput();
+        if(_stateMachine.MoveInput.x != 0)
         {
             _stateMachine.ChangeState(_stateMachine.MoveState);
         }
+        else if(_stateMachine.Player.Controller.playerActions.Jump.triggered)
+        {
+            _stateMachine.ChangeState(_stateMachine.JumpState);
+        }
+        else if (_stateMachine.Player.Controller.playerActions.Dash.triggered)
+        {
+            _stateMachine.ChangeState(_stateMachine.DashState);
+        }
     }
 
-    public void Update() { }
-
-    public void PhysicsUpdate()
+    public override void Update()
     {
+        base.Update();
     }
 }

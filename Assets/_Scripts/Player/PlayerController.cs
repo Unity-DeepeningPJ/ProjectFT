@@ -20,9 +20,4 @@ public class PlayerController : MonoBehaviour
     {
         playerInput.Disable();
     }
-
-    public float GetMoveInput()
-    {
-        return playerActions.Move.ReadValue<Vector2>().x;
-    }
 }
