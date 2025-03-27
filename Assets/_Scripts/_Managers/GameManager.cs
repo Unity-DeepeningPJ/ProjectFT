@@ -20,13 +20,14 @@ public class GameManager : MonoBehaviour
     // 다른 매니저들에 대한 참조
     [SerializeField] private AbilityManager abilityManager;
     // [SerializeField] private UIManager uIManager;
-    public InventoryManager inventoryManager;
+    [SerializeField] private InventoryManager inventoryManager;
     // [SerializeField] private UIinventoryManager uIinventoryManager;
 
     // 나중에 추가할 매니저들: StageManager, EnemyManager 등등
 
-    // 다른 컴포넌트가 AbilityManager에 접근할 수 있도록 프로퍼티로 노출
+    // 다른 컴포넌트가 접근할 수 있도록 프로퍼티로 노출
     public AbilityManager AbilityManager => abilityManager;
+    public InventoryManager InventoryManager => inventoryManager;
     
     // 게임 상태 관련
     public enum GameState { Playing, Paused, GameOver, MainMenu }
