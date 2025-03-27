@@ -7,21 +7,32 @@ public class Bullet : MonoBehaviour
     public float speed = 5f;
     public float lifeTime = 2f;
     public LayerMask playerLayer; // 플레이어 레이어
-    private Vector2 direction = Vector2.right; // 이동 방향 (기본값: 오른쪽)
 
+    private Vector2 direction = Vector2.right; // 이동 방향 (기본값: 오른쪽)
     private Transform playerTransform; // 플레이어 Transform
     private float currentLifeTime;
+
+    private Rigidbody2D rb; // Rigidbody2D 컴포넌트
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        if (rb == null)
+        {
+            Debug.LogError("Rigidbody2D component not found on Bullet!");
+        }
+    }
 
     void OnEnable()
     {
         currentLifeTime = 0f;
+        rb.velocity = Vector2.zero;
 
         // 플레이어 Transform 찾기
         GameObject player = FindClosestObjectWithLayer(transform.position, playerLayer); // LayerMask를 사용하여 플레이어 찾기
         if (player != null)
         {
             playerTransform = player.transform;
-            // 기본 방향을 플레이어 방향으로 설정
             SetDirection((playerTransform.position - transform.position).normalized);
         }
         else
@@ -33,13 +44,17 @@ public class Bullet : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(direction * speed * Time.deltaTime);
         currentLifeTime += Time.deltaTime;
 
         if (currentLifeTime >= lifeTime)
         {
-            ObjectPool.Instance.ReturnObjectToPool(gameObject);
+            ReturnToPool();
         }
+    }
+
+    void FixedUpdate()
+    {
+        rb.velocity = direction * speed;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -48,6 +63,14 @@ public class Bullet : MonoBehaviour
         // 데미지 로직 구현 필요
 
         // 충돌 후 오브젝트 풀로 반환
+        ReturnToPool();
+    }
+
+    void ReturnToPool()
+    {
+        Debug.Log("ReturnToPool 호출");
+        gameObject.SetActive(false);
+        rb.velocity = Vector2.zero;
         ObjectPool.Instance.ReturnObjectToPool(gameObject);
     }
 

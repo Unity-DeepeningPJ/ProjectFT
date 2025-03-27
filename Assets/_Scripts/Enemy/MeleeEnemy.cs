@@ -6,31 +6,38 @@ using UnityEngine;
 
 public class MeleeEnemy : BaseState
 {
+    [Header("Movement")]
     public float moveDistance = 2f; // 이동 거리
     public float moveSpeed = 2f; // 이동 속도
     public float chaseSpeed = 5f; // 추격 속도
+
+    [Header("Attack")]
     public float attackDamage = 10f; // 공격 데미지
     public float attackRate = 1f; // 공격 속도 (초당 공격 횟수)
+    public float dashDistance = 3f; // 돌진 거리
+    public float dashDuration = 0.5f; // 돌진 지속 시간
+
+    [Header("Detection")]
     public LayerMask playerLayer; // 플레이어 레이어
     public float detectionRange = 5f; // 플레이어 인식 범위
     public float attackRange = 1f; // 공격 범위
-    public float dashDistance = 3f; // 돌진 거리
+
+    [Header("Idle")]
     public float idleTime = 1f; // 멈춰있는 시간
 
-    private Vector2 startPosition;
-    private bool movingRight = true;
-    private float nextAttackTime;
-    private Transform playerTransform; // 플레이어의 Transform
-    private bool playerInRange = false; // 플레이어가 범위 내에 있는지 여부
-    private bool isChasing = false; // 추격 중인지 여부
-    private bool isAttacking = false; // 공격 중인지 여부
-    private Vector2 dashTarget; // 돌진 목표 위치
-    private float dashStartTime; // 돌진 시작 시간
-    private float stopTime; // 멈춘 시간
-    public float dashDuration = 0.5f; // 돌진 지속 시간
-    private bool isIdle = false; // 멈춰있는지 여부
+    protected Vector2 startPosition;
+    protected bool movingRight = true;
+    protected float nextAttackTime;
+    protected Transform playerTransform; // 플레이어의 Transform
+    protected bool playerInRange = false; // 플레이어가 범위 내에 있는지 여부
+    protected bool isChasing = false; // 추격 중인지 여부
+    protected bool isAttacking = false; // 공격 중인지 여부
+    protected Vector2 dashTarget; // 돌진 목표 위치
+    protected float dashStartTime; // 돌진 시작 시간
+    protected float stopTime; // 멈춘 시간
+    protected bool isIdle = false; // 멈춰있는지 여부
 
-    private Rigidbody2D rb; // Rigidbody2D 컴포넌트
+    protected Rigidbody2D rb; // Rigidbody2D 컴포넌트
 
     public MeleeEnemy(int Power, int Defense, int health, float speed, float jumpPower) : base(Power, Defense, health, speed, jumpPower)
     {
@@ -94,7 +101,7 @@ public class MeleeEnemy : BaseState
         }
     }
 
-    void Move()
+    public void Move()
     {
         // 좌우 이동 로직 (기존 코드와 동일)
         if (movingRight)
@@ -134,7 +141,7 @@ public class MeleeEnemy : BaseState
         }
     }
 
-    void StartAttack()
+    public void StartAttack()
     {
         if (Time.time >= nextAttackTime)
         {
@@ -152,7 +159,7 @@ public class MeleeEnemy : BaseState
         }
     }
 
-    void Dash()
+    public void Dash()
     {
         if (isChasing)
         {
@@ -167,7 +174,7 @@ public class MeleeEnemy : BaseState
         }
     }
 
-    void StopAttack()
+    public void StopAttack()
     {
         isAttacking = false;
         isChasing = false;
@@ -190,7 +197,7 @@ public class MeleeEnemy : BaseState
         StopAttack();
     }
 
-    void FindPlayer()
+    public void FindPlayer()
     {
         GameObject player = FindClosestObjectWithLayerInRange(transform.position, playerLayer, detectionRange);
 
