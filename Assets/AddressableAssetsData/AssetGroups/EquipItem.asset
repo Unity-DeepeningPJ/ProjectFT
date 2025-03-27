@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: EquipItem
+  m_EditorClassIdentifier: 
+  m_GroupName: EquipItem
+  m_Data:
+    m_SerializedData: []
+  m_GUID: c9815fe6a5a1b9143885d4e135241c43
+  m_SerializeEntries:
+  - m_GUID: 006a6bb2750bf65409091792c6379743
+    m_Address: Assets/_ScriptableObject/ItemSO/Glove_1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - EquipItem
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 16070c128eb17a44a83879e43c67fea0
+    m_Address: Assets/_ScriptableObject/ItemSO/Shield_1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - EquipItem
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f4d4771637c68be4baccccf42a40723b
+    m_Address: Assets/_ScriptableObject/ItemSO/Sword_1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - EquipItem
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c3f361e85607fa64393ee4a6ff3e48ce
+    m_Address: Assets/_ScriptableObject/ItemSO/Coat_1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - EquipItem
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 1b4ae3efec074bb4d92fc64aff67145e, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: d79a30d18ec500642b382164ae7d2edd, type: 2}
+    - {fileID: 11400000, guid: e3fcff5b669cf4c478c8c3813427827f, type: 2}
