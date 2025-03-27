@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryManager : MonoBehaviour
+public class UiInventory : MonoBehaviour
 {
+
+    public int MaxSlots = 16;
     // Start is called before the first frame update
     void Start()
     {
