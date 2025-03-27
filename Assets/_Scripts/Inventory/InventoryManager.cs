@@ -10,5 +10,6 @@ public class InventoryManager : MonoBehaviour
 
 
     public List<UiSlot> slots;
+    public Dictionary<int, ItemData> inventoryItem;
 
 }
