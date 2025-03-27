@@ -6,21 +6,19 @@ using UnityEngine.UI;
 
 public class UIItemBuy : UIBaseTrade
 {
-    [SerializeField] Transform slotsTransform;
-    [SerializeField] GameObject slotPrefap;
-    [SerializeField] Button sellBtn;
-
     UIStoreSlot[] slots;
 
     ItemDataList itemDataList;
     ItemData selecetItem;
     UIStoreSlot selectSlot;
 
+    public Action buy;
+
     private void Awake()
     {
         itemDataList = new ItemDataList();
         itemDataList.Init();
-        sellBtn.onClick.AddListener(OnClickSellItem);
+        tradeBtn.onClick.AddListener(OnClickBuyItem);
 
         //아이템 수량만큼 슬롯 가져오기
         slots = new UIStoreSlot[itemDataList.ItemList.Count];
@@ -47,15 +45,22 @@ public class UIItemBuy : UIBaseTrade
         }
     }
 
-    public override void SelctSlot(int index)
+    public override void SelectSlot(int index)
     {
+        if (selectSlot != null)
+        {
+            selectSlot.GetComponent<Outline>().enabled = false; 
+        }
+
         selecetItem = slots[index].item;
         selectSlot = slots[index];
+        selectSlot.GetComponent<Outline>().enabled = true;
     }
 
-    public void OnClickSellItem()
+    public void OnClickBuyItem()
     {
-        // selecetItem.gold 만큼 gold 관리하는곳에 넘겨주기
-        Debug.Log($"{selecetItem.gold} 골드 주기");
+        buy?.Invoke();
+        // selecetItem.gold 만큼 gold 관리하는 곳에서 차감
+        Debug.Log($"{selecetItem.gold} 골드 차감");
     }
 }
