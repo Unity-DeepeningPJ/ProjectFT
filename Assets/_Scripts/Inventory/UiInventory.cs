@@ -4,17 +4,23 @@ using UnityEngine;
 
 public class UiInventory : MonoBehaviour
 {
+    [SerializeField] private UiSlot uiSlot;
+    
 
-    public int MaxSlots = 16;
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
+        //슬롯 데이터 
         
+        Init();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Init()
     {
-        
+        //GameManager.Instance.inv
     }
+
+    // 슬롯을 더해주는 기능 
+
+
+
 }
