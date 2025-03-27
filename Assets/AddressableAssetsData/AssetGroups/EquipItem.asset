@@ -16,31 +16,7 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: c9815fe6a5a1b9143885d4e135241c43
-  m_SerializeEntries:
-  - m_GUID: 006a6bb2750bf65409091792c6379743
-    m_Address: Assets/_ScriptableObject/ItemSO/Glove_1.asset
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - EquipItem
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 16070c128eb17a44a83879e43c67fea0
-    m_Address: Assets/_ScriptableObject/ItemSO/Shield_1.asset
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - EquipItem
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f4d4771637c68be4baccccf42a40723b
-    m_Address: Assets/_ScriptableObject/ItemSO/Sword_1.asset
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - EquipItem
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c3f361e85607fa64393ee4a6ff3e48ce
-    m_Address: Assets/_ScriptableObject/ItemSO/Coat_1.asset
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - EquipItem
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 1b4ae3efec074bb4d92fc64aff67145e, type: 2}
   m_SchemaSet:

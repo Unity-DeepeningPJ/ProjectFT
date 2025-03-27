@@ -11,15 +11,6 @@ public enum EquipType
     Glove
 }
 
-[SerializeField]
-public class EquipItem
-{
-    public EquipType equipType;
-    public float value;
-}
-
-
-
 [CreateAssetMenu(fileName = "Item", menuName = "New Item")]
 public class ItemData : ScriptableObject
 {
