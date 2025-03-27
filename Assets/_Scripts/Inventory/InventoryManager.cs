@@ -5,24 +5,28 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    // ÀÎº¥Åä¸®°¡ º¯ÇßÀ»¶§ ´Ù½Ã ÃÊ±âÈ­ ÇØÁÖ´Â ÀÌº¥Æ®µµ ¸¸µé¾î¾ßµÊ 
+    // ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½Ê±ï¿½È­ ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ßµï¿½ 
     public int MaxSlots = 16;
 
 
-    // ÀÎº¥Åä¸® º¸À¯ ¾ÆÀÌÅÛlist 
+    // ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½list 
     //public Dictionary<int, ItemData> inventoryItem;
-    //ÀÎº¥Åä¸® ½½·ÔData list 
+    //ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½Data list 
     public List<SlotItemData> slotItemDatas;
     public event Action OnInventoryChanged;
 
-
-
+    //ï¿½×½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ list
+    [SerializeField] private List<ItemData> TestItemData;
+    private void Start()
+    {
+        Init();
+    }
     private void Init()
     {
-        //¾ÆÀÌÅÛ µ¥ÀÌÅÍ
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         //inventoryItem = new Dictionary<int, ItemData>();
         slotItemDatas= new List<SlotItemData>();
-        //±»ÀÌ °³¼ö¸¸Å­ ¸¸µé¾îÁà¾ßÇÏ´Â°¡?
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Â°ï¿½?
         for (int i = 0; i < MaxSlots; i++)
         {
             slotItemDatas.Add(new SlotItemData());
@@ -31,12 +35,13 @@ public class InventoryManager : MonoBehaviour
 
     public bool AddInventoryitme(ItemData itemData)
     {
-        //slotItemDatas¿¡ ¾ÆÀÌÅÛ Ãß°¡ 
-        var emptySlot = slotItemDatas.Find(slot => slot.IsEmpty);
+        //slotItemDatasï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ 
+        var emptySlot = slotItemDatas.Find(slot => slot.IsEmpty ==true);
         if (emptySlot == null)
         {
             emptySlot.AddItem(itemData);
-            OnInventoryChanged?.Invoke(); //º¯°æ ÀÌº¥Æ® ½ÇÇà
+            //slotItemDatas.Add(emptySlot);
+            OnInventoryChanged?.Invoke(); //ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½
             return true;
         }
         return false;
@@ -44,12 +49,13 @@ public class InventoryManager : MonoBehaviour
 
     public bool RemoveInventoryitme(ItemData itemData)
     {
-        //slotItemDatas¿¡¼­ ¾ÆÀÌÅÛ »èÁ¦ 
+        //slotItemDatasï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 
         var ExistItme=slotItemDatas.Find(slotitem => slotitem.item.id == itemData.id);
         if (ExistItme !=null)
         {
             ExistItme.RemoveItem(itemData);
+            //slotItemDatas.Remove(ExistItme);
             OnInventoryChanged?.Invoke();
             return true;
         }
@@ -57,6 +63,22 @@ public class InventoryManager : MonoBehaviour
     }
 
 
+    //ï¿½×½ï¿½Æ® ï¿½ï¿½ 
+    public void Additem_test()
+    {
+        for (int i = 0; i < TestItemData.Count; i++)
+        {
+            AddInventoryitme(TestItemData[i]);
+        }
+    }
+
+    public void Removeitem_test()
+    {
+        for (int i = 0; i < TestItemData.Count; i++)
+        {
+            RemoveInventoryitme(TestItemData[i]);
+        }
+    }
 
 
 

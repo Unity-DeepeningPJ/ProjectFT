@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UiInventory : MonoBehaviour
 {
-    
+
     public List<UiSlot> slots;
     [SerializeField] private UiSlot uiSlotPrefab;
     [SerializeField] private Transform slotsparent;
@@ -15,20 +15,20 @@ public class UiInventory : MonoBehaviour
         //슬롯 데이터 
         slots = new List<UiSlot>();
 
-        GameManager.Instance.inventoryManager.OnInventoryChanged += UpdateUI;
 
     }
 
     private void Start()
     {
+        GameManager.Instance.InventoryManager.OnInventoryChanged += UpdateUI;
         Init();
     }
     private void Init()
     {
         //슬롯 생성만  > UI도 그려주기 
-        for (int i = 0; i < GameManager.Instance.inventoryManager.MaxSlots; i++)
+        for (int i = 0; i < GameManager.Instance.InventoryManager.MaxSlots; i++)
         {
-            UiSlot slotobj =Instantiate(uiSlotPrefab, slotsparent);
+            UiSlot slotobj = Instantiate(uiSlotPrefab, slotsparent);
             slots.Add(slotobj);
         }
 
@@ -40,9 +40,9 @@ public class UiInventory : MonoBehaviour
     {
         for (int i = 0; i < slots.Count; i++)
         {
-            if (i < GameManager.Instance.inventoryManager.slotItemDatas.Count)
+            if (i < GameManager.Instance.InventoryManager.slotItemDatas.Count)
             {
-                slots[i].UpdateSlot(GameManager.Instance.inventoryManager.slotItemDatas[i]);
+                slots[i].UpdateSlot(GameManager.Instance.InventoryManager.slotItemDatas[i]);
             }
         }
     }
