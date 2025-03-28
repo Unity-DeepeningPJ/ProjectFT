@@ -228,7 +228,7 @@ GameObject:
   - component: {fileID: 905192977}
   - component: {fileID: 905192976}
   - component: {fileID: 905192975}
-  m_Layer: 4
+  m_Layer: 7
   m_Name: Square (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -412,7 +412,7 @@ GameObject:
   - component: {fileID: 938931575}
   - component: {fileID: 938931579}
   - component: {fileID: 938931578}
-  m_Layer: 4
+  m_Layer: 7
   m_Name: Square (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -656,13 +656,13 @@ GameObject:
   - component: {fileID: 1532566922}
   - component: {fileID: 1532566921}
   - component: {fileID: 1532566925}
-  m_Layer: 4
+  m_Layer: 7
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!61 &1532566921
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -722,7 +722,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveDistance: 2
   moveSpeed: 1
-  fireRate: 3
+  fireRate: 1
   firePoint: {fileID: 1532566924}
   playerLayer:
     serializedVersion: 2

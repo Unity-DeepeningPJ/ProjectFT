@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -60,14 +58,14 @@ public class MeleeEnemy : BaseState
     {
         FindPlayer();
 
-        
+
 
         if (isIdle)
         {
-            
+
             if (Time.time - stopTime >= idleTime)
             {
-                isIdle = false;                
+                isIdle = false;
 
                 FindPlayer();
                 if (playerInRange && playerTransform != null)
@@ -89,7 +87,7 @@ public class MeleeEnemy : BaseState
             else
             {
                 Move(); // 기본 이동
-                
+
             }
         }
         else
@@ -117,7 +115,7 @@ public class MeleeEnemy : BaseState
                 movingRight = true;
             }
         }
-        
+
     }
 
     void ChasePlayer()
@@ -144,7 +142,7 @@ public class MeleeEnemy : BaseState
         {
             isAttacking = true;
             isChasing = true;
-            
+
 
             // 돌진 목표 위치 설정
             dashTarget = playerTransform.position;
@@ -178,7 +176,7 @@ public class MeleeEnemy : BaseState
         isIdle = true;
         stopTime = Time.time;
         rb.velocity = Vector2.zero; // 멈춤
-        
+
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -188,7 +186,7 @@ public class MeleeEnemy : BaseState
         {
             Debug.Log("Attack!");
             // 데미지를 주는 로직 구현
-            
+
         }
 
         StopAttack();
@@ -202,15 +200,15 @@ public class MeleeEnemy : BaseState
         {
             playerTransform = player.transform;
             playerInRange = true; // 플레이어가 범위 내에 있음
-            
+
         }
         else
         {
             playerTransform = null;
             playerInRange = false; // 플레이어가 범위 밖에 있음
             isChasing = false;
-            
-            
+
+
         }
     }
 
@@ -231,7 +229,7 @@ public class MeleeEnemy : BaseState
                 {
                     closest = go;
                     distance = curDistance;
-                    
+
                 }
             }
         }
