@@ -7,6 +7,7 @@
 
     public float CriticalChance { get; private set; }
     public float DashDistance { get; private set; }
+    public float DashSpeed { get; private set; }
 
     //장비로 인한 추가 스탯
     private int _equipPower;
@@ -28,6 +29,7 @@
         ExpToNextLevel = data.expToNextLevel;
         CriticalChance = data.baseCriticalChance;
         DashDistance = data.baseDashDistance;
+        DashSpeed = data.baseDashSpeed;
 
         _equipPower = 0;
         _equipDefense = 0;

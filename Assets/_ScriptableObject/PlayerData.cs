@@ -10,6 +10,7 @@ public class PlayerData : ScriptableObject
     public float baseSpeed;
     public float baseJumpPower;
     public float baseDashDistance;
+    public float baseDashSpeed;
     public float baseCriticalChance;
 
     public int startLevel;

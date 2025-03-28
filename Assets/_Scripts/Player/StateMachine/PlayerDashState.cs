@@ -3,7 +3,6 @@
 public class PlayerDashState : PlayerBaseState
 {
     private Vector2 _dashTargetPosition;
-    private float _dashSpeed = 10f;
     private float _dashDirection;
 
     public PlayerDashState(PlayerStateMachine stateMachine) : base(stateMachine) { }
@@ -37,7 +36,7 @@ public class PlayerDashState : PlayerBaseState
             _stateMachine.Player.transform.position = Vector2.MoveTowards(
                 _stateMachine.Player.transform.position,
                 _dashTargetPosition,
-                _dashSpeed * Time.deltaTime);
+                _stateMachine.Player.PlayerState.DashSpeed * Time.fixedDeltaTime);
 
             if (Vector2.Distance(_stateMachine.Player.transform.position, _dashTargetPosition) < 0.1f)
             {

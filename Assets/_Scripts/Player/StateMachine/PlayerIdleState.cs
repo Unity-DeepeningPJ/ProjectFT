@@ -13,7 +13,9 @@ public class PlayerIdleState : PlayerBaseState
     public override void HandleInput()
     {
         base.HandleInput();
-        if(_stateMachine.MoveInput.x != 0)
+
+        //각 입력에 맞는 상태로 변환
+        if (_stateMachine.MoveInput.x != 0)
         {
             _stateMachine.ChangeState(_stateMachine.MoveState);
         }

@@ -12,6 +12,8 @@ public class PlayerMoveState : PlayerBaseState
     public override void HandleInput()
     {
         base.HandleInput();
+
+        //각 입력에 맞는 상태로 변환
         if (_stateMachine.MoveInput.x == 0)
         {
             _stateMachine.ChangeState(_stateMachine.IdleState);
@@ -38,6 +40,7 @@ public class PlayerMoveState : PlayerBaseState
         float moveSpeed = player.PlayerState.speed;
         player.Rigidbody.velocity = new Vector2(moveDirection.x * moveSpeed, player.Rigidbody.velocity.y);
 
+        //플레이어 방향 전환
         if(moveDirection.x != 0)
         {
             player.transform.localScale = new Vector3(moveDirection.x, 1, 1);

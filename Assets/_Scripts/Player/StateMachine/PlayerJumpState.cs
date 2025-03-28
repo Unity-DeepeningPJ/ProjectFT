@@ -7,6 +7,8 @@ public class PlayerJumpState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
+
+        //점프
         player.Rigidbody.velocity = new Vector2(player.Rigidbody.velocity.x, player.PlayerState.jumpPower);
         player.isGrounded = false;
     }
@@ -19,6 +21,8 @@ public class PlayerJumpState : PlayerBaseState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+
+        //점프가 끝나면 상태 변경
         if (!player.isGrounded && _stateMachine.Player.Rigidbody.velocity.y <= 0)
         {
             if (_stateMachine.MoveInput.x != 0)

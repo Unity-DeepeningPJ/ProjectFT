@@ -10,7 +10,6 @@ public class Player : MonoBehaviour
     public bool isGrounded { get; set; }
     public bool isInvincible { get; set; }
 
-
     private void Awake()
     {
         PlayerState = new PlayerState(Data);
