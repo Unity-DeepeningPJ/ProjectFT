@@ -2,33 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlotItemData : MonoBehaviour
+public class SlotItemData 
 {
     public ItemData item;
     public int amount;
 
-    //public bool IsEmpty => item == null;
-    public bool IsEmpty;
+    public bool IsEmpty => item == null;
+    //public bool IsEmpty;
 
     public SlotItemData()
     {
         item = null;
         amount = 0;
-        IsEmpty= true;
+        //IsEmpty= true;
     }
 
     public void AddItem(ItemData newitem, int count = 1)
     {
         item = newitem;
         amount = count;
-        IsEmpty= false;
+        //IsEmpty= false;
     }
 
     public void RemoveItem(ItemData newitem, int count = 1)
     {
         item = null;
         amount -= count;
-        IsEmpty= true;
+        //IsEmpty= true;
         if (amount <= 0)
         {
             amount = 0;
