@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : BaseState
+public class Enemy : BaseState, IDamageable
 {
     public float moveDistance = 2f; // 이동 거리
     public float moveSpeed = 2f; // 이동 속도
@@ -10,6 +10,8 @@ public class Enemy : BaseState
     public Transform firePoint; // 투사체 발사 위치
     public LayerMask playerLayer; // 플레이어 레이어
     public float detectionRange = 5f; // 플레이어 인식 범위
+    public int maxHealth = 200;  
+    private int currentHealth;
 
     //private int 
     private Vector2 startPosition;
@@ -21,13 +23,15 @@ public class Enemy : BaseState
 
     public Enemy(int Power, int Defense, int health, float speed, float jumpPower) : base(Power, Defense, health, speed, jumpPower)
     {
+        
     }
 
     void Start()
     {
         startPosition = transform.position;
         nextFireTime = Time.time;
-        
+        currentHealth = maxHealth;
+
     }
 
     void Update()
@@ -39,6 +43,10 @@ public class Enemy : BaseState
         {
             Shoot();
             nextFireTime = Time.time + 1f / fireRate;           
+        }
+        if (currentHealth <= 0) // 현재 체력이 0 이하가 되면
+        {
+            Die(); // Die() 함수 호출
         }
     }
 
@@ -131,5 +139,19 @@ public class Enemy : BaseState
             }
         }
         return closest;
+    }
+
+    public void TakePhysicalDamage(int damage)
+    {
+        currentHealth -= damage;
+        if (currentHealth <= 0) 
+        {
+            Die(); 
+        }
+    }
+    void Die()
+    {
+        Debug.Log("Enemy Die!");
+        Destroy(gameObject); 
     }
 }
