@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Glove_1
   m_EditorClassIdentifier: 
   id: 2
-  type: 3
+  type: 0
   itemName: "\uC7A5\uAC11"
   description: "\uC7A5\uAC11 \uC785\uB2C8\uB2E4."
   value: 20

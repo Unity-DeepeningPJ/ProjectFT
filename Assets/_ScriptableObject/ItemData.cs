@@ -20,6 +20,7 @@ public class ItemData : ScriptableObject
     public string itemName;
     public string description;
     public int value;
+    public int gold;
 
     public Sprite Icon;
     public GameObject itemObj;
