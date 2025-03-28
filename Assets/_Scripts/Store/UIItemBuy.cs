@@ -71,9 +71,22 @@ public class UIItemBuy : UIBaseTrade
             return;
         }
 
-        inven.AddInventoryitme(selecetItem);
+        if (selecetItem.type == EquipType.Consumealbe)
+        {
+            for (int i = 0; i < inven.slotItemDatas.Count; i++)
+            {
+                Debug.Log(inven.slotItemDatas[i].item.type);
+                if (inven.slotItemDatas[i].item.type == EquipType.Consumealbe)
+                    inven.slotItemDatas[i].AddItem(selecetItem);
+            }
+        }
+        else
+        {
+            inven.AddInventoryitme(selecetItem);
+        }
+        
         GameManager.Instance.PlayerManager.player.Currency.GoldAdd(CurrenyType.Gold, -selecetItem.gold);
-        buy?.Invoke("판매 완료");
+        buy?.Invoke("구매 완료");
 
         ClearPrevSelect();
     }
