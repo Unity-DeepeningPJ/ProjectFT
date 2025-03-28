@@ -12,6 +12,7 @@ public class PlayerStateMachine : StateMachine
     public PlayerMoveState MoveState { get; private set; }
     public PlayerDashState DashState { get; private set; }
     public PlayerJumpState JumpState { get; private set; }
+    public PlayerAttackState AttackState { get; private set; }
 
     public PlayerStateMachine(Player player)
     {
@@ -22,6 +23,7 @@ public class PlayerStateMachine : StateMachine
         MoveState = new PlayerMoveState(this);
         DashState = new PlayerDashState(this);
         JumpState = new PlayerJumpState(this);
+        AttackState = new PlayerAttackState(this);
 
         ChangeState(IdleState);
     }
