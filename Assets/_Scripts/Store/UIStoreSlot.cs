@@ -45,11 +45,10 @@ public class UIStoreSlot : MonoBehaviour
     public void OnClinkSelctSlot()
     {
         var currentTrade = GetComponentInParent<UIBaseTrade>();
-        Debug.Log("요기서호출됐다.");
 
         if (currentTrade != null)
         {
-            currentTrade.SelctSlot(index);
+            currentTrade.SelectSlot(index);
         }
     }
 }
