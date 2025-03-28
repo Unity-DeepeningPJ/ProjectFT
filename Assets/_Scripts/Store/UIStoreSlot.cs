@@ -12,6 +12,7 @@ public class UIStoreSlot : MonoBehaviour
     [SerializeField] TextMeshProUGUI nameTxt;
     [SerializeField] TextMeshProUGUI descripTxt;
     [SerializeField] TextMeshProUGUI typeTxt;
+    [SerializeField] TextMeshProUGUI goldTxt;
 
     public int index;
 
@@ -24,12 +25,11 @@ public class UIStoreSlot : MonoBehaviour
 
     public void SetSlot(ItemData item)
     {
-        if (this.item == null) return;
-
         this.item = item;
         itemImage.sprite = item.Icon;
         nameTxt.text = item.itemName.ToString();
         descripTxt.text = item.description.ToString();
+        goldTxt.text = item.gold.ToString();
         typeTxt.text = $"{item.type} + {item.value}";
     }
 

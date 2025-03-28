@@ -23,9 +23,12 @@ public class UIStore : MonoBehaviour
 
         exitBtn.onClick.AddListener(StoreExit);
         completeBtn.onClick.AddListener(OnClickCompleteButton);
+
         buyUI.buy += ToggleComplete;
         buyUI.buy += () => CompleteTxt("구매 완료");
 
+        sellUI.sell += ToggleComplete;
+        sellUI.sell += () => CompleteTxt("판매 완료");
     }
 
     private void UpdateGold()
