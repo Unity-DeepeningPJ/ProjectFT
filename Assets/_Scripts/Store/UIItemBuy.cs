@@ -63,7 +63,7 @@ public class UIItemBuy : UIBaseTrade
         if (selecetItem == null) return;
 
         inven.AddInventoryitme(selecetItem);
-        GameManager.Instance.PlayerManager.player.Currency.GoldAdd(CurrenyType.Gold, -selecetItem.gold);
+        //GameManager.Instance.PlayerManager.player.Currency.GoldAdd(CurrenyType.Gold, -selecetItem.gold);
         buy?.Invoke();        
         Debug.Log($"{selecetItem.gold} 골드 차감");
         // selecetItem.gold 만큼 gold 관리하는 곳에서 차감

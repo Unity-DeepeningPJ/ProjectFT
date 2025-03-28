@@ -70,7 +70,7 @@ public class UIItemSell : UIBaseTrade
         if (selecetItem == null) return;
 
         inven.RemoveInventoryitme(selecetItem);
-        GameManager.Instance.PlayerManager.player.Currency.GoldAdd(CurrenyType.Gold, selecetItem.gold);
+        //GameManager.Instance.PlayerManager.player.Currency.GoldAdd(CurrenyType.Gold, selecetItem.gold);
         sell?.Invoke();
         Debug.Log($"{selecetItem.gold} 골드 증가");
         // selecetItem.gold 만큼 gold 관리하는 곳에서 증가
