@@ -20,7 +20,7 @@ public class UiSlot : MonoBehaviour
     // 더블 클릭 관련 변수
     private float lastClickTime = 0f;
     private float doubleClickTimeThreshold = 0.3f; // 더블 클릭 인식 간격 (초)
-
+    private Coroutine clickCoroutine;
 
     private void Start()
     {
@@ -30,27 +30,41 @@ public class UiSlot : MonoBehaviour
 
     private void onSlotClick()
     {
-        if (currentItemData ==null && currentItemData.IsEmpty)
+        //빈슬롯 
+        if (currentItemData ==null || currentItemData.IsEmpty)
         {
             Debug.Log("빈 슬롯 클릭");
             return;
         }
 
-        //더블 클릭 체크 
-        float timeSinceLastClick = Time.timeScale - lastClickTime;
-
-        if (timeSinceLastClick <doubleClickTimeThreshold)
+        // 이전 클릭 코루틴이 있다면 중단 (더블클릭으로 판단)
+        if (clickCoroutine != null)
         {
-            Debug.Log($"더블 클릭 : {currentItemData.item.itemName}");
+            StopCoroutine(clickCoroutine);
+            clickCoroutine = null;
+
+            // 더블 클릭 처리
+            Debug.Log($"더블 클릭: {currentItemData.item.itemName}");
             OnItemDoubleClicked?.Invoke(currentItemData);
         }
-        else //원클릭
+        else
         {
-            Debug.Log($"원 클릭 : {currentItemData.item.itemName}");
-            OnItemClicked.Invoke(currentItemData);
+            // 새로운 클릭 시작
+            clickCoroutine = StartCoroutine(SingleClickDelay());
         }
 
-        lastClickTime =Time.time;
+    }
+
+    private IEnumerator SingleClickDelay()
+    {
+        // 더블클릭 대기 시간만큼 기다림
+        yield return new WaitForSeconds(doubleClickTimeThreshold);
+
+        // 시간이 지나면 싱글클릭으로 처리
+        Debug.Log($"클릭: {currentItemData.item.itemName}");
+        OnItemClicked?.Invoke(currentItemData);
+
+        clickCoroutine = null;
     }
 
     public void UpdateSlot(SlotItemData slot)
