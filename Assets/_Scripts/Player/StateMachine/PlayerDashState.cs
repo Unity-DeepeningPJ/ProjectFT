@@ -2,8 +2,9 @@
 
 public class PlayerDashState : PlayerBaseState
 {
-    private Vector2 _dashDirection;
-    private float _dashDistance;
+    private Vector2 _dashTargetPosition;
+    private float _dashSpeed = 10f;
+    private float _dashDirection;
 
     public PlayerDashState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
@@ -11,10 +12,13 @@ public class PlayerDashState : PlayerBaseState
     {
         base.Enter();
 
-        _dashDirection = _stateMachine.Player.transform.right * _stateMachine.MoveInput.x;
-        _dashDistance = _stateMachine.Player.PlayerState.DashDistance;
+        if (_stateMachine.MoveInput.x != 0)
+            _dashDirection = _stateMachine.MoveInput.x;
+        else
+            _dashDirection = _stateMachine.Player.transform.localScale.x;
 
-        _stateMachine.Player.Rigidbody.velocity = _dashDirection * 10f;
+        _dashTargetPosition = (Vector2)_stateMachine.Player.transform.position + new Vector2(_dashDirection * _stateMachine.Player.PlayerState.DashDistance, 0);
+
         player.isInvincible = true;
     }
 
@@ -27,15 +31,15 @@ public class PlayerDashState : PlayerBaseState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-        Dash();
-    }
 
-    private void Dash()
-    {
         if (player.isInvincible)
         {
-            float ditanceMoved = Vector2.Distance(_stateMachine.Player.transform.position, _dashDirection);
-            if (ditanceMoved >= _stateMachine.Player.PlayerState.DashDistance)
+            _stateMachine.Player.transform.position = Vector2.MoveTowards(
+                _stateMachine.Player.transform.position,
+                _dashTargetPosition,
+                _dashSpeed * Time.deltaTime);
+
+            if (Vector2.Distance(_stateMachine.Player.transform.position, _dashTargetPosition) < 0.1f)
             {
                 player.isInvincible = false;
                 _stateMachine.ChangeState(_stateMachine.IdleState);

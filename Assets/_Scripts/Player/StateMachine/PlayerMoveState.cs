@@ -37,5 +37,10 @@ public class PlayerMoveState : PlayerBaseState
         Vector2 moveDirection = new Vector2(_stateMachine.MoveInput.x, 0);
         float moveSpeed = player.PlayerState.speed;
         player.Rigidbody.velocity = new Vector2(moveDirection.x * moveSpeed, player.Rigidbody.velocity.y);
+
+        if(moveDirection.x != 0)
+        {
+            player.transform.localScale = new Vector3(moveDirection.x, 1, 1);
+        }
     }
 }
