@@ -325,19 +325,5 @@ public class Boss : MeleeEnemy, IDamageable
         }
         return closest;
     }
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-
-        // IDamageable 인터페이스를 구현한 컴포넌트를 가져오기
-        IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
-
-        // IDamageable 인터페이스가 존재하고, 플레이어 레이어를 가진 오브젝트와 충돌했으며, 공격 중일 때 데미지 주기
-        if (isAttacking && ((1 << collision.gameObject.layer) & playerLayer) != 0 && damageable != null)
-        {
-            Debug.Log("Attack!");
-            damageable.TakePhysicalDamage(attackDamage); // 플레이어에게 데미지 주기
-
-        }
-        StopAttack();
-    }
+    
 }
