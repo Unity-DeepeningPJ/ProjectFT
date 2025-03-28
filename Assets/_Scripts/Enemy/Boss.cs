@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Boss : MeleeEnemy
+public class Boss : MeleeEnemy, IDamageable
 {
     [Header("Health")]
     public int maxHealth = 200; // 최대 체력
@@ -127,22 +127,7 @@ public class Boss : MeleeEnemy
         }
     }
 
-    void ChasePlayer()
-    {
-        isChasing = true;
-        // 플레이어 방향으로 이동
-        if (playerTransform != null) // playerTransform이 null이 아닌지 확인
-        {
-            Vector2 direction = new Vector2(playerTransform.position.x - transform.position.x, 0).normalized;
-            rb.velocity = new Vector2(direction.x * chaseSpeed, rb.velocity.y); // Rigidbody2D를 사용하여 이동
-        }
-        else
-        {
-            Debug.LogError("playerTransform is null in ChasePlayer()!");
-            rb.velocity = Vector2.zero;
-            isChasing = false; // playerTransform이 null이면 추격 중단
-        }
-    }
+    
 
     void StartAttack()
     {
@@ -312,12 +297,7 @@ public class Boss : MeleeEnemy
         isSpecialAttacking = false;
     }
 
-    void TakeDamage(int damage)
-    {
-        currentHealth -= damage;
-        Debug.Log("Boss 데미지 받음! 남은 체력: " + currentHealth);
-    }
-
+    
     void Die()
     {
         Debug.Log("Boss Die!");
@@ -344,5 +324,20 @@ public class Boss : MeleeEnemy
             }
         }
         return closest;
+    }
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+
+        // IDamageable 인터페이스를 구현한 컴포넌트를 가져오기
+        IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
+
+        // IDamageable 인터페이스가 존재하고, 플레이어 레이어를 가진 오브젝트와 충돌했으며, 공격 중일 때 데미지 주기
+        if (isAttacking && ((1 << collision.gameObject.layer) & playerLayer) != 0 && damageable != null)
+        {
+            Debug.Log("Attack!");
+            damageable.TakePhysicalDamage(attackDamage); // 플레이어에게 데미지 주기
+
+        }
+        StopAttack();
     }
 }

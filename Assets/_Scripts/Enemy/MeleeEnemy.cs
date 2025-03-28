@@ -2,7 +2,7 @@ using UnityEngine;
 
 
 
-public class MeleeEnemy : BaseState
+public class MeleeEnemy : BaseState, IDamageable
 {
     [Header("Movement")]
     public float moveDistance = 2f; // 이동 거리
@@ -10,7 +10,7 @@ public class MeleeEnemy : BaseState
     public float chaseSpeed = 5f; // 추격 속도
 
     [Header("Attack")]
-    public float attackDamage = 10f; // 공격 데미지
+    public int attackDamage = 10; // 공격 데미지
     public float attackRate = 1f; // 공격 속도 (초당 공격 횟수)
     public float dashDistance = 3f; // 돌진 거리
     public float dashDuration = 0.5f; // 돌진 지속 시간
@@ -22,6 +22,11 @@ public class MeleeEnemy : BaseState
 
     [Header("Idle")]
     public float idleTime = 1f; // 멈춰있는 시간
+
+
+    public int maxHealth = 100; // 최대 체력 (Inspector 창에서 설정 가능)
+    public int currentHealth; // 현재 체력 (Inspector 창에서 확인 가능)
+    
 
     protected Vector2 startPosition;
     protected bool movingRight = true;
@@ -51,6 +56,7 @@ public class MeleeEnemy : BaseState
         {
             Debug.LogError("Rigidbody2D component not found!");
         }
+        currentHealth = maxHealth;
         Move(); // 초기 이동 시작
     }
 
@@ -94,6 +100,10 @@ public class MeleeEnemy : BaseState
         {
             Dash(); // 돌진
         }
+        if (currentHealth <= 0) // 현재 체력이 0 이하가 되면
+        {
+            Die(); // Die() 함수 호출
+        }
     }
 
     public void Move()
@@ -118,23 +128,7 @@ public class MeleeEnemy : BaseState
 
     }
 
-    void ChasePlayer()
-    {
-        isChasing = true;
-        // 플레이어 방향으로 이동
-        if (playerTransform != null) // playerTransform이 null이 아닌지 확인
-        {
-            Vector2 direction = new Vector2(playerTransform.position.x - transform.position.x, 0).normalized;
-            rb.velocity = new Vector2(direction.x * chaseSpeed, rb.velocity.y); // Rigidbody2D를 사용하여 이동
-            Debug.Log("Chasing Velocity: " + rb.velocity); // 추격 속도 확인
-        }
-        else
-        {
-            Debug.LogError("playerTransform is null in ChasePlayer()!");
-            rb.velocity = Vector2.zero;
-            isChasing = false; // playerTransform이 null이면 추격 중단
-        }
-    }
+    
 
     public void StartAttack()
     {
@@ -175,7 +169,7 @@ public class MeleeEnemy : BaseState
         isChasing = false;
         isIdle = true;
         stopTime = Time.time;
-        rb.velocity = Vector2.zero; // 멈춤
+        rb.velocity = Vector2.zero; // 멈춤        
 
     }
 
@@ -234,5 +228,33 @@ public class MeleeEnemy : BaseState
             }
         }
         return closest;
+    }
+
+    public void TakePhysicalDamage(int damage)
+    {
+        currentHealth -= damage;
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+    void Die()
+    {        
+        Destroy(gameObject); // 또는 오브젝트 풀에 반환
+    }
+    void OnTriggerEnter2D(Collider2D collision)
+    {       
+
+        // IDamageable 인터페이스를 구현한 컴포넌트를 가져오기
+        IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
+
+        // IDamageable 인터페이스가 존재하고, 플레이어 레이어를 가진 오브젝트와 충돌했으며, 공격 중일 때 데미지 주기
+        if (isAttacking && ((1 << collision.gameObject.layer) & playerLayer) != 0 && damageable != null)
+        {
+            Debug.Log("Attack!");
+            damageable.TakePhysicalDamage(attackDamage); // 플레이어에게 데미지 주기
+
+        }
+        StopAttack();
     }
 }
