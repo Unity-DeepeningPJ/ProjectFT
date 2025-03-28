@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a89eb4a24e9a7244aa343ce633392de2, type: 3}
-  m_Name: Coat_1
+  m_Name: Coat_2
   m_EditorClassIdentifier: 
-  id: 6
+  id: 7
   type: 1
-  itemName: "\uCF54\uD2B81"
+  itemName: "\uCF54\uD2B82"
   description: "\uCF54\uD2B8\uC785\uB2C8\uB2E4"
-  value: 10
-  gold: 800
-  Icon: {fileID: 21300000, guid: 3ede41983e5818d4f80ed602a6587f84, type: 3}
+  value: 20
+  gold: 1200
+  Icon: {fileID: 21300000, guid: e06fe033c93dd3243b0207473d63b686, type: 3}
   itemObj: {fileID: 0}

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a89eb4a24e9a7244aa343ce633392de2, type: 3}
-  m_Name: Coat_1
+  m_Name: Glove_3
   m_EditorClassIdentifier: 
-  id: 6
-  type: 1
-  itemName: "\uCF54\uD2B81"
-  description: "\uCF54\uD2B8\uC785\uB2C8\uB2E4"
+  id: 11
+  type: 3
+  itemName: "\uC7A5\uAC113"
+  description: "\uC7A5\uAC11 \uC785\uB2C8\uB2E4."
   value: 10
-  gold: 800
-  Icon: {fileID: 21300000, guid: 3ede41983e5818d4f80ed602a6587f84, type: 3}
+  gold: 1200
+  Icon: {fileID: 21300000, guid: 18b70a9627d26424e9a2f0201dfe61bf, type: 3}
   itemObj: {fileID: 0}
