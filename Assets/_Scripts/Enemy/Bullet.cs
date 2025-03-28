@@ -4,56 +4,72 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float speed = 5f;
-    public float lifeTime = 2f;
-    public LayerMask playerLayer; // ÇÃ·¹ÀÌ¾î ·¹ÀÌ¾î
-    private Vector2 direction = Vector2.right; // ÀÌµ¿ ¹æÇâ (±âº»°ª: ¿À¸¥ÂÊ)
+    public float speed = 5f;    
+    public LayerMask targetLayer; // í”Œë ˆì´ì–´ ë ˆì´ì–´
+    public int damageAmount = 10;
 
-    private Transform playerTransform; // ÇÃ·¹ÀÌ¾î Transform
-    private float currentLifeTime;
+    private Vector2 direction = Vector2.right; // ì´ë™ ë°©í–¥ (ê¸°ë³¸ê°’: ì˜¤ë¥¸ìª½)
+    private Transform playerTransform; // í”Œë ˆì´ì–´ Transform
+    
+
+    private Rigidbody2D rb; // Rigidbody2D ì»´í¬ë„ŒíŠ¸
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        if (rb == null)
+        {
+            Debug.LogError("Rigidbody2D component not found on Bullet!");
+        }
+    }
 
     void OnEnable()
     {
-        currentLifeTime = 0f;
+        
+        rb.velocity = Vector2.zero;
 
-        // ÇÃ·¹ÀÌ¾î Transform Ã£±â
-        GameObject player = FindClosestObjectWithLayer(transform.position, playerLayer); // LayerMask¸¦ »ç¿ëÇÏ¿© ÇÃ·¹ÀÌ¾î Ã£±â
+        // í”Œë ˆì´ì–´ Transform ì°¾ê¸°
+        GameObject player = FindClosestObjectWithLayer(transform.position, targetLayer); // LayerMaskë¥¼ ì‚¬ìš©í•˜ì—¬ í”Œë ˆì´ì–´ ì°¾ê¸°
         if (player != null)
         {
             playerTransform = player.transform;
-            // ±âº» ¹æÇâÀ» ÇÃ·¹ÀÌ¾î ¹æÇâÀ¸·Î ¼³Á¤
             SetDirection((playerTransform.position - transform.position).normalized);
         }
         else
         {
             Debug.LogWarning("Player not found in layer. Projectile will move to the right.");
-            direction = Vector2.right; // ÇÃ·¹ÀÌ¾î¸¦ Ã£Áö ¸øÇÏ¸é ¿À¸¥ÂÊÀ¸·Î ÀÌµ¿
+            direction = Vector2.right; // í”Œë ˆì´ì–´ë¥¼ ì°¾ì§€ ëª»í•˜ë©´ ì˜¤ë¥¸ìª½ìœ¼ë¡œ ì´ë™
         }
     }
 
-    void Update()
-    {
-        transform.Translate(direction * speed * Time.deltaTime);
-        currentLifeTime += Time.deltaTime;
+    
 
-        if (currentLifeTime >= lifeTime)
-        {
-            ObjectPool.Instance.ReturnObjectToPool(gameObject);
-        }
+    void FixedUpdate()
+    {
+        rb.velocity = direction * speed;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        // Ãæµ¹ Ã³¸® ·ÎÁ÷ (¿¹: ÇÃ·¹ÀÌ¾î¿¡°Ô µ¥¹ÌÁö)
-        // µ¥¹ÌÁö ·ÎÁ÷ ±¸Çö ÇÊ¿ä
+        if (targetLayer == (targetLayer | (1 << collision.gameObject.layer)))
+        {
+            ReturnToPool();
+        }
+            // ì¶©ëŒ í›„ ì˜¤ë¸Œì íŠ¸ í’€ë¡œ ë°˜í™˜
+            ReturnToPool();
+    }
 
-        // Ãæµ¹ ÈÄ ¿ÀºêÁ§Æ® Ç®·Î ¹İÈ¯
+    void ReturnToPool()
+    {
+        Debug.Log("ReturnToPool í˜¸ì¶œ");
+        gameObject.SetActive(false);
+        rb.velocity = Vector2.zero;
         ObjectPool.Instance.ReturnObjectToPool(gameObject);
     }
 
     public void SetDirection(Vector2 direction)
     {
-        this.direction = direction.normalized; // ¹æÇâ Á¤±ÔÈ­
+        this.direction = direction.normalized; // ë°©í–¥ ì •ê·œí™”
         Debug.Log("Set Direction: " + direction);
     }
 
