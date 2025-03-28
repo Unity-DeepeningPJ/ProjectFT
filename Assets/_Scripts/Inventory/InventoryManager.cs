@@ -7,7 +7,7 @@ public class InventoryManager : MonoBehaviour
 {
 
     public int MaxSlots = 16;
-    
+
     public List<SlotItemData> slotItemDatas;
     public event Action OnInventoryChanged;
 
@@ -16,15 +16,15 @@ public class InventoryManager : MonoBehaviour
     private void Awake()
     {
         Init();
-        
+
 
     }
     private void Start()
     {
-        var currency=GameManager.Instance.PlayerManager.player.Currency;
-        currency.GoldAdd(CurrenyType.Gold, 10);
-        currency.GoldAdd(CurrenyType.Gold, -20);
-        
+        //var currency=GameManager.Instance.PlayerManager.player.Currency;
+        //currency.GoldAdd(CurrenyType.Gold, 10);
+        //currency.GoldAdd(CurrenyType.Gold, -20);
+
     }
     private void Init()
     {
@@ -44,7 +44,7 @@ public class InventoryManager : MonoBehaviour
         {
             emptySlot.AddItem(itemData);
             //slotItemDatas.Add(emptySlot);
-            OnInventoryChanged?.Invoke();
+            //OnInventoryChanged?.Invoke();
             return true;
         }
         return false;
@@ -63,7 +63,7 @@ public class InventoryManager : MonoBehaviour
         {
             ExistItme.RemoveItem(itemData);
             //slotItemDatas.Remove(ExistItme);
-            OnInventoryChanged?.Invoke();
+            //OnInventoryChanged?.Invoke();
             return true;
         }
         return false;
@@ -84,7 +84,40 @@ public class InventoryManager : MonoBehaviour
         return count;
     }
 
+    public void ArrayInventory()
+    {
+        // 전체 슬롯 복사  참조 복사 문제 
+        //var slots = new List<SlotItemData>(slotItemDatas);
 
+        // 아이템 정보만 복사 (깊은 복사)
+        List<ItemData> validItems = new List<ItemData>();
+        List<int> validAmounts = new List<int>();
+
+        // 유효한 아이템 정보만 따로 저장
+        foreach (var slot in slotItemDatas)
+        {
+            if (!slot.IsEmpty)
+            {
+                validItems.Add(slot.item);  // ItemData 참조 저장
+                validAmounts.Add(slot.amount);
+            }
+        }
+
+
+        // 모든 슬롯 초기화 
+        for (int i = 0; i < slotItemDatas.Count; i++)
+        {
+            slotItemDatas[i].RemoveItem(null);
+        }
+
+        // 저장해둔 아이템을 앞에서부터 채우기
+        for (int i = 0; i < validItems.Count; i++)
+        {
+            slotItemDatas[i].AddItem(validItems[i], validAmounts[i]);
+        }
+
+        OnInventoryChanged?.Invoke();
+    }
 
 
     public void Additem_test()
@@ -93,6 +126,7 @@ public class InventoryManager : MonoBehaviour
         {
             AddInventoryitme(TestItemData[i]);
         }
+        ArrayInventory();
     }
 
     public void Removeitem_test()
@@ -101,9 +135,17 @@ public class InventoryManager : MonoBehaviour
         {
             RemoveInventoryitme(TestItemData[i]);
         }
+        ArrayInventory();
     }
 
 
+    public void Removeitem_one__test()
+    {
+
+        RemoveInventoryitme(TestItemData[1]);
+
+        ArrayInventory();
+    }
 
 
 
