@@ -13,6 +13,7 @@ public class UIStoreSlot : MonoBehaviour
     [SerializeField] TextMeshProUGUI descripTxt;
     [SerializeField] TextMeshProUGUI typeTxt;
     [SerializeField] TextMeshProUGUI goldTxt;
+    [SerializeField] TextMeshProUGUI amountTxt;
 
     public int index;
 

@@ -24,10 +24,10 @@ public class UIStore : MonoBehaviour
         exitBtn.onClick.AddListener(StoreExit);
         completeBtn.onClick.AddListener(OnClickCompleteButton);
 
-        //UpdateGold();
+        UpdateGold();
 
-        buyUI.buy += ToggleComplete;
-        buyUI.buy += () => CompleteTxt("구매 완료");
+        buyUI.buy += (message) => ToggleComplete();
+        buyUI.buy += CompleteTxt;
 
         sellUI.sell += ToggleComplete;
         sellUI.sell += () => CompleteTxt("판매 완료");
@@ -52,7 +52,7 @@ public class UIStore : MonoBehaviour
         else
         {
             completePopup.SetActive(true);
-            //UpdateGold();
+            UpdateGold();
         }
     }
 
@@ -66,8 +66,13 @@ public class UIStore : MonoBehaviour
         completeTxt.text = message;
     }
 
-    private void StoreExit()
+    public void StoreExit()
     {
         gameObject.SetActive(false);
+    }
+
+    public void OpenShop()
+    {
+        gameObject.SetActive(true);
     }
 }

@@ -33,7 +33,7 @@ public class UIItemSell : UIBaseTrade
         UpateSellUI();
     }
 
-    private void UpateSellUI()
+    public void UpateSellUI()
     {
         List<SlotItemData> datas = inven.slotItemDatas;
         tradeBtn.onClick.AddListener(ClearPrevSelect);
@@ -69,15 +69,25 @@ public class UIItemSell : UIBaseTrade
     {
         if (selecetItem == null) return;
 
-        inven.RemoveInventoryitme(selecetItem);
-        //GameManager.Instance.PlayerManager.player.Currency.GoldAdd(CurrenyType.Gold, selecetItem.gold);
-        sell?.Invoke();
-        Debug.Log($"{selecetItem.gold} 골드 증가");
-        // selecetItem.gold 만큼 gold 관리하는 곳에서 증가
-
-        ClearPrevSelect();
-
-        UpateSellUI();
+        if (selecetItem.type != EquipType.Consumealbe)
+        {
+            inven.RemoveInventoryitme(selecetItem);
+            inven.ArrayInventory();
+            BuyTradeComplete(); return;
+        }
+        
+        var data = inven.slotItemDatas.Find(data => data.item.type == EquipType.Consumealbe);
+        if (data.amount == 1)
+        {
+            inven.RemoveInventoryitme(selecetItem);
+            inven.ArrayInventory();
+            BuyTradeComplete();
+        }
+        else
+        {
+            data.amount--;
+            BuyTradeComplete();
+        }
     }
 
     private void ClearPrevSelect()
@@ -87,5 +97,13 @@ public class UIItemSell : UIBaseTrade
         selectSlot.GetComponent<Outline>().enabled = false;
         selecetItem = null;
         selectSlot = null;
+    }
+
+    private void BuyTradeComplete()
+    {
+        GameManager.Instance.PlayerManager.player.Currency.GoldAdd(CurrenyType.Gold, selecetItem.gold);
+        sell?.Invoke();
+        ClearPrevSelect();
+        UpateSellUI();        
     }
 }

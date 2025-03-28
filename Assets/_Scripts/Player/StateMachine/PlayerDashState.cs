@@ -32,14 +32,14 @@ public class PlayerDashState : PlayerBaseState
         _dashTargetPosition = new Vector2(player.transform.position.x + (_dashDirection * player.PlayerState.DashDistance), _fixedYPosition);
 
         //대쉬 중 무적
-        player.isInvincible = true;
+        player.PlayerCondition.IsInvincible = true;
     }
 
     public override void Exit()
     {
         base.Exit();
 
-        player.isInvincible = false;
+        player.PlayerCondition.IsInvincible = false;
 
         //원래 중력 값 복원
         player.Rigidbody.gravityScale = _gravityScale;
@@ -49,7 +49,7 @@ public class PlayerDashState : PlayerBaseState
     {
         base.PhysicsUpdate();
 
-        if (player.isInvincible)
+        if (player.PlayerCondition.IsInvincible)
         {
             //대쉬 이동 처리
             player.transform.position = Vector2.MoveTowards(
@@ -60,7 +60,7 @@ public class PlayerDashState : PlayerBaseState
             //대쉬 종료
             if (Vector2.Distance(player.transform.position, _dashTargetPosition) < 0.1f)
             {
-                player.isInvincible = false;
+                player.PlayerCondition.IsInvincible = false;
 
                 //점프 중이었다면 점프 상태로 돌아감
                 if (!player.isGrounded)

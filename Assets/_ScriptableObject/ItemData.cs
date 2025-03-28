@@ -5,6 +5,7 @@ using UnityEngine;
 
 public enum EquipType
 {
+    Consumealbe,
     Weapon,
     Coat,
     Shield,
