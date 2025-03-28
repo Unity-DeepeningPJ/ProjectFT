@@ -7,9 +7,7 @@ public class InventoryManager : MonoBehaviour
 {
 
     public int MaxSlots = 16;
-
-
-
+    
     public List<SlotItemData> slotItemDatas;
     public event Action OnInventoryChanged;
 
@@ -18,11 +16,12 @@ public class InventoryManager : MonoBehaviour
     private void Awake()
     {
         Init();
-        //Player.
+        
 
     }
     private void Start()
     {
+        var currency=GameManager.Instance.PlayerManager.player.Currency;
     }
     private void Init()
     {
