@@ -14,7 +14,7 @@ public class UIBaseTrade : MonoBehaviour
 
     private void Awake()
     {
-            
+
     }
 
     public virtual void SelectSlot(int index)

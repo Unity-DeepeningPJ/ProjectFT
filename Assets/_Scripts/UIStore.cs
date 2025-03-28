@@ -9,6 +9,8 @@ public class UIStore : MonoBehaviour
     [SerializeField] TextMeshProUGUI goldTxt;
     [SerializeField] GameObject completePopup;
     [SerializeField] Button completeBtn;
+    [SerializeField] TextMeshProUGUI completeTxt;
+    [SerializeField] Button exitBtn;
 
     UIItemSell sellUI;
     UIItemBuy buyUI;
@@ -19,8 +21,11 @@ public class UIStore : MonoBehaviour
         sellUI = GetComponentInChildren<UIItemSell>();
         buyUI = GetComponentInChildren<UIItemBuy>();
 
+        exitBtn.onClick.AddListener(StoreExit);
         completeBtn.onClick.AddListener(OnClickCompleteButton);
         buyUI.buy += ToggleComplete;
+        buyUI.buy += () => CompleteTxt("BuyComplete");
+
     }
 
     private void UpdateGold()
@@ -44,5 +49,15 @@ public class UIStore : MonoBehaviour
     private void OnClickCompleteButton()
     {
         ToggleComplete();
+    }
+
+    private void CompleteTxt(string message)
+    {
+        completeTxt.text = message;
+    }
+
+    private void StoreExit()
+    {
+        gameObject.SetActive(false);
     }
 }

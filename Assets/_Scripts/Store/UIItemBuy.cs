@@ -49,7 +49,7 @@ public class UIItemBuy : UIBaseTrade
     {
         if (selectSlot != null)
         {
-            selectSlot.GetComponent<Outline>().enabled = false; 
+            ClearPrevSelect();
         }
 
         selecetItem = slots[index].item;
@@ -59,8 +59,21 @@ public class UIItemBuy : UIBaseTrade
 
     public void OnClickBuyItem()
     {
+        if (selecetItem == null) return;
+
+        
         buy?.Invoke();
-        // selecetItem.gold 만큼 gold 관리하는 곳에서 차감
+
         Debug.Log($"{selecetItem.gold} 골드 차감");
+        // selecetItem.gold 만큼 gold 관리하는 곳에서 차감
+
+        ClearPrevSelect();
+    }
+
+    private void ClearPrevSelect()
+    {
+        selectSlot.GetComponent<Outline>().enabled = false;
+        selecetItem = null;
+        selectSlot = null;
     }
 }
