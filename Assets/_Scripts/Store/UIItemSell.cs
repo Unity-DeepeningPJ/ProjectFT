@@ -6,68 +6,84 @@ using UnityEngine.UI;
 
 public class UIItemSell : UIBaseTrade
 {
-    List<UIStoreSlot> slots;
-
+    UIStoreSlot[] slots;
     InventoryManager inven;
-    ItemData selecetItem;
-    UIStoreSlot selectSlot;
+    public ItemData selecetItem;
+    public UIStoreSlot selectSlot;
 
     public Action sell;
 
     private void Awake()
     {
-
+        inven = GameManager.Instance.InventoryManager;
         tradeBtn.onClick.AddListener(OnClickSellItem);
 
-        //아이템 수량만큼 슬롯 가져오기
+        slots = new UIStoreSlot[inven.MaxSlots];
 
-        //for (int i = 0; i < inven.inventoryItem.Count; i++)
-        //{
-        //    Instantiate(slotPrefap, slotsTransform);
-        //    slots[i] = slotsTransform.GetChild(i).GetComponent<UIStoreSlot>();
-        //    slots[i].index = i;
-        //}
-
-        //UpateSellUI();
+        for (int i = 0; i < inven.MaxSlots; i++)
+        {
+            Instantiate(slotPrefap, slotsTransform);
+            slots[i] = slotsTransform.GetChild(i).GetComponent<UIStoreSlot>();
+            slots[i].index = i;
+        }
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        inven = GameManager.Instance.InventoryManager;
+        UpateSellUI();
     }
+
     private void UpateSellUI()
     {
-        //for (int i = 0; i < inven.inventoryItem.Count; i++)
-        //{
-        //    if (inven.inventoryItem.TryGetValue(i, out ItemData item))
-        //    {
-        //        slots[i].item = item;
-        //        slots[i].SetSlot(item);
-        //    }
-        //}
+        List<SlotItemData> datas = inven.slotItemDatas;
+        tradeBtn.onClick.AddListener(ClearPrevSelect);
+
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (i < datas.Count && !datas[i].IsEmpty)
+            {
+                slots[i].SetSlot(datas[i].item);
+                slots[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                slots[i].ClearSlot();
+                slots[i].gameObject.SetActive(false);
+            }
+        }
     }
 
-    //public override void SelectSlot(int index)
-    //{
-    //    if (selectSlot != null)
-    //    {
-    //        selectSlot.GetComponent<Outline>().enabled = false;
-    //    }
+    public override void SelectSlot(int index)
+    {
+        if (selectSlot != null)
+        {
+            ClearPrevSelect();
+        }
 
-    //    selecetItem = slots[index].item;
-    //    selectSlot = slots[index];
-    //    selectSlot.GetComponent<Outline>().enabled = true;
-    //}
+        selecetItem = slots[index].item;
+        selectSlot = slots[index];
+        selectSlot.GetComponent<Outline>().enabled = true;
+    }
 
     public void OnClickSellItem()
     {
         if (selecetItem == null) return;
 
-        //sell?.Invoke();
-
+        inven.RemoveInventoryitme(selecetItem);
+        GameManager.Instance.PlayerManager.player.Currency.GoldAdd(CurrenyType.Gold, selecetItem.gold);
+        sell?.Invoke();
         Debug.Log($"{selecetItem.gold} 골드 증가");
         // selecetItem.gold 만큼 gold 관리하는 곳에서 증가
 
+        ClearPrevSelect();
+
+        UpateSellUI();
+    }
+
+    private void ClearPrevSelect()
+    {
+        if (selectSlot == null) return;
+        
         selectSlot.GetComponent<Outline>().enabled = false;
         selecetItem = null;
         selectSlot = null;

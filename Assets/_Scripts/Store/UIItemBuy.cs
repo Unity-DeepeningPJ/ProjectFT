@@ -7,20 +7,21 @@ using UnityEngine.UI;
 public class UIItemBuy : UIBaseTrade
 {
     UIStoreSlot[] slots;
-
+    InventoryManager inven;
     ItemDataList itemDataList;
     ItemData selecetItem;
     UIStoreSlot selectSlot;
-
+    
     public Action buy;
 
     private void Awake()
     {
+        inven = GameManager.Instance.InventoryManager;
         itemDataList = new ItemDataList();
         itemDataList.Init();
         tradeBtn.onClick.AddListener(OnClickBuyItem);
 
-        //¾ÆÀÌÅÛ ¼ö·®¸¸Å­ ½½·Ô °¡Á®¿À±â
+        //ì•„ì´í…œ ìˆ˜ëŸ‰ë§Œí¼ ìŠ¬ë¡¯ ê°€ì ¸ì˜¤ê¸°
         slots = new UIStoreSlot[itemDataList.ItemList.Count];
 
         for (int i = 0; i < itemDataList.ItemList.Count; i++)
@@ -61,11 +62,11 @@ public class UIItemBuy : UIBaseTrade
     {
         if (selecetItem == null) return;
 
-        
-        buy?.Invoke();
-
-        Debug.Log($"{selecetItem.gold} °ñµå Â÷°¨");
-        // selecetItem.gold ¸¸Å­ gold °ü¸®ÇÏ´Â °÷¿¡¼­ Â÷°¨
+        inven.AddInventoryitme(selecetItem);
+        GameManager.Instance.PlayerManager.player.Currency.GoldAdd(CurrenyType.Gold, -selecetItem.gold);
+        buy?.Invoke();        
+        Debug.Log($"{selecetItem.gold} ê³¨ë“œ ì°¨ê°");
+        // selecetItem.gold ë§Œí¼ gold ê´€ë¦¬í•˜ëŠ” ê³³ì—ì„œ ì°¨ê°
 
         ClearPrevSelect();
     }

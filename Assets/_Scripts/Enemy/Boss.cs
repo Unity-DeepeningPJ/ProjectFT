@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Boss : MeleeEnemy
@@ -34,7 +32,7 @@ public class Boss : MeleeEnemy
 
     private float nextSpecialAttackTime;
     private bool isSpecialAttacking = false; // 특수 공격 중인지 여부
-    
+
     public enum SpecialAttackType
     {
         DashAttack,
