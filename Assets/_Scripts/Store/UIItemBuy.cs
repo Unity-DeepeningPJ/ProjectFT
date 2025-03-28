@@ -71,18 +71,33 @@ public class UIItemBuy : UIBaseTrade
             return;
         }
 
-        if (selecetItem.type == EquipType.Consumealbe)
+        if (selecetItem.type != EquipType.Consumealbe)
         {
-            for (int i = 0; i < inven.slotItemDatas.Count; i++)
-            {
-                Debug.Log(inven.slotItemDatas[i].item.type);
-                if (inven.slotItemDatas[i].item.type == EquipType.Consumealbe)
-                    inven.slotItemDatas[i].AddItem(selecetItem);
-            }
+            inven.AddInventoryitme(selecetItem);
+            inven.ArrayInventory();
         }
         else
         {
-            inven.AddInventoryitme(selecetItem);
+            Debug.Log("1");
+            for (int i = 0; i < inven.slotItemDatas.Count; i++)
+            {
+                if (inven.slotItemDatas[i].IsEmpty)
+                {
+                    inven.AddInventoryitme(selecetItem);
+                    inven.ArrayInventory(); return;
+                }
+                else if (inven.slotItemDatas[i].item.type == EquipType.Consumealbe)
+                {
+                    inven.slotItemDatas[i].AddItem(selecetItem);
+                    Debug.Log(inven.slotItemDatas[i].amount);
+                    return;                    
+                }
+                else if (inven.slotItemDatas[i].item.type != EquipType.Consumealbe)
+                {
+                    continue;
+                }
+     
+            }
         }
         
         GameManager.Instance.PlayerManager.player.Currency.GoldAdd(CurrenyType.Gold, -selecetItem.gold);
