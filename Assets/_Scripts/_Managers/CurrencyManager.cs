@@ -21,6 +21,14 @@ public class CurrencyManager : MonoBehaviour
 
     public void GoldAdd(CurrenyType currenyType, int amount)
     {
-        currencies.Add(currenyType, amount);
+        if (currencies.TryGetValue(currenyType, out int currentglod))
+        {
+            currencies[currenyType] = currentglod + amount;
+            Debug.Log($"현재 골드: {currencies[currenyType]}");
+        }
+        else
+        {
+            Debug.Log("골드가 없습니다.");
+        }
     }
 }
