@@ -10,6 +10,9 @@ public class Player : MonoBehaviour
     public bool isGrounded { get; set; } = true;
     public bool isInvincible { get; set; } = false;
 
+    private CurrencyManager currency;
+    public CurrencyManager Currency => currency;
+
     private void Awake()
     {
         PlayerState = new PlayerState(Data);
@@ -17,6 +20,7 @@ public class Player : MonoBehaviour
         Controller = GetComponent<PlayerController>();
         Rigidbody = GetComponent<Rigidbody2D>();
         StateMachine = new PlayerStateMachine(this);
+        currency =GetComponent<CurrencyManager>();
     }
 
     private void Update()
@@ -29,4 +33,6 @@ public class Player : MonoBehaviour
     {
         StateMachine.PhysicsUpdate();
     }
+
+
 }
