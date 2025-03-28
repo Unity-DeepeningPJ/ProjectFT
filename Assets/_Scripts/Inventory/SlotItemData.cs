@@ -20,7 +20,7 @@ public class SlotItemData
     public void AddItem(ItemData newitem, int count = 1)
     {
         item = newitem;
-        amount = count;
+        amount += count;
         //IsEmpty= false;
     }
 
