@@ -18,6 +18,7 @@ public class InventoryManager : MonoBehaviour
     private void Awake()
     {
         Init();
+        //Player.
 
     }
     private void Start()

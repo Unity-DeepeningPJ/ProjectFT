@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "Player", menuName = "Character/Player")]
 public class PlayerData : ScriptableObject
@@ -17,3 +17,5 @@ public class PlayerData : ScriptableObject
     public int startExp;
     public int expToNextLevel;
 }
+
+
