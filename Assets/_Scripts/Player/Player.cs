@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -11,7 +10,6 @@ public class Player : MonoBehaviour
     public Rigidbody2D Rigidbody { get; private set; }
 
     private Collider2D _playerCollider;
-    private Collider2D _enemyCollider;
 
     public bool isGrounded { get; set; } = true;
 
@@ -43,16 +41,48 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        int enemyLayer = LayerMask.NameToLayer("Enemy");
+        int enemyDamage = 0;
+
+        if (collision.gameObject.layer == enemyLayer)
         {
-            _enemyCollider = collision.collider;
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            MeleeEnemy meleeEnemy = collision.gameObject.GetComponent<MeleeEnemy>();
 
-            Vector2 knockbackDirection = (transform.position - collision.transform.position).normalized;
-            float knockbackForce = 3f;
+            if (enemy != null)
+                enemyDamage = 5;
 
-            PlayerCondition.SetCollider(_enemyCollider, _playerCollider);
-            PlayerCondition.TakePhysicalDamage(5);
-            PlayerCondition.ApplyKnockback(knockbackDirection, knockbackForce);
+            if (meleeEnemy != null)
+                enemyDamage = meleeEnemy.attackDamage;
+
+            PlayerTakePhysicalDamage(collision.collider, enemyDamage);
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        int bulletLayer = LayerMask.NameToLayer("Bullet");
+        int enemyDamage = 0;
+        bool isDamage = false;
+
+        if (collision.gameObject.layer == bulletLayer)
+        {
+            Bullet bullet = collision.gameObject.GetComponent<Bullet>();
+
+            if (bullet != null)
+                enemyDamage = bullet.damageAmount;
+
+            PlayerTakePhysicalDamage(collision, enemyDamage);
+        }
+    }
+
+    private void PlayerTakePhysicalDamage(Collider2D collision, int damage)
+    {
+        Vector2 knockbackDirection = (transform.position - collision.transform.position).normalized;
+        float knockbackForce = 3f;
+
+        PlayerCondition.SetCollider(_playerCollider);
+        PlayerCondition.TakePhysicalDamage(damage);
+        PlayerCondition.ApplyKnockback(knockbackDirection, knockbackForce);
     }
 }

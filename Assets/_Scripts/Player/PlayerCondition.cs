@@ -8,7 +8,6 @@ public class PlayerCondition : MonoBehaviour, IDamageable
     public bool IsInvincible { get; set; } = false;
 
     private Collider2D _playerCollider;
-    private Collider2D _enemyCollider;
 
     public PlayerCondition(Player player, float currentHealth)
     {
@@ -29,18 +28,18 @@ public class PlayerCondition : MonoBehaviour, IDamageable
         }
         else
         {
-            _player.StartCoroutine(InvincibilityFrames(_enemyCollider, _playerCollider, 1f));
+            _player.StartCoroutine(InvincibilityFrames(1f));
         }
         Debug.Log("현재 체력 : " + CurrentHealth);
     }
 
-    private IEnumerator InvincibilityFrames(Collider2D enemyCollider, Collider2D playerCollider, float duration)
+    private IEnumerator InvincibilityFrames(float duration)
     {
         IsInvincible = true;
-        Physics2D.IgnoreCollision(enemyCollider, playerCollider, true);
+        IgnoreAllEnemyCollision(true);
         yield return new WaitForSeconds(duration);
         IsInvincible = false;
-        Physics2D.IgnoreCollision(enemyCollider, playerCollider, false);
+        IgnoreAllEnemyCollision(false);
     }
 
     public void ApplyKnockback(Vector2 direction, float force)
@@ -48,10 +47,22 @@ public class PlayerCondition : MonoBehaviour, IDamageable
         _player.Rigidbody.AddForce(direction * force, ForceMode2D.Impulse);
     }
 
-    public void SetCollider(Collider2D enemyCollider, Collider2D playerCollider)
+    public void SetCollider(Collider2D playerCollider)
     {
-        _enemyCollider = enemyCollider;
         _playerCollider = playerCollider;
+    }
+
+    private void IgnoreAllEnemyCollision(bool ignore)
+    {
+        Collider2D[] enemies = FindObjectsOfType<Collider2D>();
+
+        foreach(Collider2D enemy in enemies)
+        {
+            if(enemy.gameObject.layer == LayerMask.NameToLayer("Enemy") || enemy.gameObject.layer == LayerMask.NameToLayer("Bullet"))
+            {
+                Physics2D.IgnoreCollision(enemy, _playerCollider, ignore);
+            }
+        }
     }
 
     private void Die()
