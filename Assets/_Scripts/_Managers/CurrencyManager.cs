@@ -11,8 +11,15 @@ public class CurrencyManager : MonoBehaviour
 {
     public Dictionary<CurrenyType, int> currencies;
 
+    public CurrencyManager()
+    {
+        currencies = new Dictionary<CurrenyType, int>();
 
-    public void GoldAdd(CurrenyType currenyType,int amount)
+        currencies[CurrenyType.Gold] = 0;
+    }
+
+
+    public void GoldAdd(CurrenyType currenyType, int amount)
     {
         currencies.Add(currenyType, amount);
     }
