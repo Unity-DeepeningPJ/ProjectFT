@@ -19,7 +19,7 @@ public class UIItemSell : UIBaseTrade
 
         tradeBtn.onClick.AddListener(OnClickSellItem);
 
-        //¾ÆÀÌÅÛ ¼ö·®¸¸Å­ ½½·Ô °¡Á®¿À±â
+        //ì•„ì´í…œ ìˆ˜ëŸ‰ë§Œí¼ ìŠ¬ë¡¯ ê°€ì ¸ì˜¤ê¸°
 
         //for (int i = 0; i < inven.inventoryItem.Count; i++)
         //{
@@ -37,14 +37,14 @@ public class UIItemSell : UIBaseTrade
     }
     private void UpateSellUI()
     {
-        for (int i = 0; i < inven.inventoryItem.Count; i++)
-        {
-            if (inven.inventoryItem.TryGetValue(i, out ItemData item))
-            {
-                slots[i].item = item;
-                slots[i].SetSlot(item);
-            }
-        }
+        //for (int i = 0; i < inven.inventoryItem.Count; i++)
+        //{
+        //    if (inven.inventoryItem.TryGetValue(i, out ItemData item))
+        //    {
+        //        slots[i].item = item;
+        //        slots[i].SetSlot(item);
+        //    }
+        //}
     }
 
     //public override void SelectSlot(int index)
@@ -65,8 +65,8 @@ public class UIItemSell : UIBaseTrade
 
         //sell?.Invoke();
 
-        Debug.Log($"{selecetItem.gold} °ñµå Áõ°¡");
-        // selecetItem.gold ¸¸Å­ gold °ü¸®ÇÏ´Â °÷¿¡¼­ Áõ°¡
+        Debug.Log($"{selecetItem.gold} ê³¨ë“œ ì¦ê°€");
+        // selecetItem.gold ë§Œí¼ gold ê´€ë¦¬í•˜ëŠ” ê³³ì—ì„œ ì¦ê°€
 
         selectSlot.GetComponent<Outline>().enabled = false;
         selecetItem = null;

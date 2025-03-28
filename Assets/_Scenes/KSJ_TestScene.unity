@@ -329,8 +329,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Store
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 32352a279999e4d4eb08b634caf8f7a0, type: 2}
+  m_sharedMaterial: {fileID: 7192946857947191779, guid: 32352a279999e4d4eb08b634caf8f7a0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1415,7 +1415,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxSlots: 16
-  slots: []
+  slotItemDatas: []
+  TestItemData: []
 --- !u!4 &605649551
 Transform:
   m_ObjectHideFlags: 0
