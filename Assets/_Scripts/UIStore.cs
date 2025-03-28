@@ -24,14 +24,14 @@ public class UIStore : MonoBehaviour
         exitBtn.onClick.AddListener(StoreExit);
         completeBtn.onClick.AddListener(OnClickCompleteButton);
         buyUI.buy += ToggleComplete;
-        buyUI.buy += () => CompleteTxt("BuyComplete");
+        buyUI.buy += () => CompleteTxt("êµ¬ë§¤ ì™„ë£Œ");
 
     }
 
     private void UpdateGold()
     {
-        // ÇÃ·¹ÀÌ¾î °ñµå °¡Á®¿Í¼­ ¾÷µ¥ÀÌÆ® ·ÎÁ÷
-        //goldTxt.text = string.Format("{0:N0}, ÇÃ·¹ÀÌ¾î °ñµå");
+        // í”Œë ˆì´ì–´ ê³¨ë“œ ê°€ì ¸ì™€ì„œ ì—…ë°ì´íŠ¸ ë¡œì§
+        //goldTxt.text = string.Format("{0:N0}, í”Œë ˆì´ì–´ ê³¨ë“œ");
     }
     
     private void ToggleComplete()

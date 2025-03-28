@@ -7,9 +7,9 @@ public class ObjectPool : MonoBehaviour
 {
     public static ObjectPool Instance;
 
-    public GameObject pooledObjectPrefab; // Ç®¿¡ ÀúÀåÇÒ ¿ÀºêÁ§Æ® ÇÁ¸®ÆÕ
-    public int poolSize = 10; // ÃÊ±â Ç® Å©±â
-    public bool canExpand = true; // Ç® Å©±â¸¦ È®ÀåÇÒ ¼ö ÀÖ´ÂÁö ¿©ºÎ
+    public GameObject pooledObjectPrefab; // í’€ì— ì €ì¥í•  ì˜¤ë¸Œì íŠ¸ í”„ë¦¬íŒ¹
+    public int poolSize = 10; // ì´ˆê¸° í’€ í¬ê¸°
+    public bool canExpand = true; // í’€ í¬ê¸°ë¥¼ í™•ì¥í•  ìˆ˜ ìˆëŠ”ì§€ ì—¬ë¶€
 
     private List<GameObject> pooledObjects;
 
@@ -25,11 +25,11 @@ public class ObjectPool : MonoBehaviour
         {
             GameObject obj = Instantiate(pooledObjectPrefab);
             obj.SetActive(false);
-            obj.name = pooledObjectPrefab.name + " (Pooled)"; // ¿ÀºêÁ§Æ® ÀÌ¸§ ÁöÁ¤
+            obj.name = pooledObjectPrefab.name + " (Pooled)"; // ì˜¤ë¸Œì íŠ¸ ì´ë¦„ ì§€ì •
             pooledObjects.Add(obj);
         }
 
-        // ¾À º¯°æ ½Ã ¿ÀºêÁ§Æ® Ç® Á¤¸®
+        // ì”¬ ë³€ê²½ ì‹œ ì˜¤ë¸Œì íŠ¸ í’€ ì •ë¦¬
         SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
@@ -43,17 +43,17 @@ public class ObjectPool : MonoBehaviour
             }
         }
 
-        // Ç®¿¡ »ç¿ë °¡´ÉÇÑ ¿ÀºêÁ§Æ®°¡ ¾øÀ¸¸é »õ·Î »ı¼º (È®Àå °¡´É ¿©ºÎ È®ÀÎ)
+        // í’€ì— ì‚¬ìš© ê°€ëŠ¥í•œ ì˜¤ë¸Œì íŠ¸ê°€ ì—†ìœ¼ë©´ ìƒˆë¡œ ìƒì„± (í™•ì¥ ê°€ëŠ¥ ì—¬ë¶€ í™•ì¸)
         if (canExpand)
         {
             GameObject obj = Instantiate(pooledObjectPrefab);
             obj.SetActive(false);
-            obj.name = pooledObjectPrefab.name + " (Pooled)"; // ¿ÀºêÁ§Æ® ÀÌ¸§ ÁöÁ¤
+            obj.name = pooledObjectPrefab.name + " (Pooled)"; // ì˜¤ë¸Œì íŠ¸ ì´ë¦„ ì§€ì •
             pooledObjects.Add(obj);
             return obj;
         }
 
-        return null; // »ç¿ë °¡´ÉÇÑ ¿ÀºêÁ§Æ®°¡ ¾ø°í, È®Àåµµ ºÒ°¡´ÉÇÑ °æ¿ì null ¹İÈ¯
+        return null; // ì‚¬ìš© ê°€ëŠ¥í•œ ì˜¤ë¸Œì íŠ¸ê°€ ì—†ê³ , í™•ì¥ë„ ë¶ˆê°€ëŠ¥í•œ ê²½ìš° null ë°˜í™˜
     }
 
     public void ReturnObjectToPool(GameObject obj)
@@ -61,7 +61,7 @@ public class ObjectPool : MonoBehaviour
         obj.SetActive(false);
     }
 
-    // ¾À º¯°æ ½Ã ¿ÀºêÁ§Æ® Ç® Á¤¸®
+    // ì”¬ ë³€ê²½ ì‹œ ì˜¤ë¸Œì íŠ¸ í’€ ì •ë¦¬
     void OnSceneUnloaded(Scene scene)
     {
         foreach (GameObject obj in pooledObjects)
