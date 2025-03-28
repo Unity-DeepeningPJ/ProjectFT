@@ -70,4 +70,9 @@ public class UIStore : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+
+    public void OpenShop()
+    {
+        gameObject.SetActive(true);
+    }
 }

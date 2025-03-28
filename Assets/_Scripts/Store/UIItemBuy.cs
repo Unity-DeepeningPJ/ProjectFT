@@ -11,7 +11,9 @@ public class UIItemBuy : UIBaseTrade
     ItemDataList itemDataList;
     ItemData selecetItem;
     UIStoreSlot selectSlot;
-    
+
+    UIItemSell uIItemSell;
+
     public Action<string> buy;
 
     private void Awake()
@@ -30,6 +32,8 @@ public class UIItemBuy : UIBaseTrade
             slots[i] = slotsTransform.GetChild(i).GetComponent<UIStoreSlot>();
             slots[i].index = i;
         }
+
+        uIItemSell = FindAnyObjectByType<UIItemSell>();
 
         UpateBuyUI();
     }
@@ -72,23 +76,27 @@ public class UIItemBuy : UIBaseTrade
         }
 
         if (selecetItem.type != EquipType.Consumealbe)
-        {
+        {            
+            Debug.Log("장비 구입");
             inven.AddInventoryitme(selecetItem);
             inven.ArrayInventory();
+            SellTradeComplete();
         }
         else
         {
-            Debug.Log("1");
             for (int i = 0; i < inven.slotItemDatas.Count; i++)
             {
                 if (inven.slotItemDatas[i].IsEmpty)
                 {
                     inven.AddInventoryitme(selecetItem);
-                    inven.ArrayInventory(); return;
+                    inven.ArrayInventory();
+                    SellTradeComplete();
+                    return;
                 }
                 else if (inven.slotItemDatas[i].item.type == EquipType.Consumealbe)
                 {
                     inven.slotItemDatas[i].AddItem(selecetItem);
+                    SellTradeComplete();
                     Debug.Log(inven.slotItemDatas[i].amount);
                     return;                    
                 }
@@ -96,14 +104,8 @@ public class UIItemBuy : UIBaseTrade
                 {
                     continue;
                 }
-     
             }
         }
-        
-        GameManager.Instance.PlayerManager.player.Currency.GoldAdd(CurrenyType.Gold, -selecetItem.gold);
-        buy?.Invoke("구매 완료");
-
-        ClearPrevSelect();
     }
 
     private void ClearPrevSelect()
@@ -111,5 +113,14 @@ public class UIItemBuy : UIBaseTrade
         selectSlot.GetComponent<Outline>().enabled = false;
         selecetItem = null;
         selectSlot = null;
+    }
+
+    private void SellTradeComplete()
+    {
+        GameManager.Instance.PlayerManager.player.Currency.GoldAdd(CurrenyType.Gold, -selecetItem.gold);
+        buy?.Invoke("구매 완료");
+
+        ClearPrevSelect();
+        uIItemSell.UpateSellUI();
     }
 }
