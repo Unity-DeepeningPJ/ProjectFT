@@ -69,8 +69,9 @@ public class UIItemSell : UIBaseTrade
     {
         if (selecetItem == null) return;
 
-        sell?.Invoke();
+        inven.RemoveInventoryitme(selecetItem);
 
+        sell?.Invoke();
         Debug.Log($"{selecetItem.gold} 골드 증가");
         // selecetItem.gold 만큼 gold 관리하는 곳에서 증가
 
