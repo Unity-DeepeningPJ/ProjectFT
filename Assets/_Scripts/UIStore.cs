@@ -66,7 +66,7 @@ public class UIStore : MonoBehaviour
         completeTxt.text = message;
     }
 
-    private void StoreExit()
+    public void StoreExit()
     {
         gameObject.SetActive(false);
     }
