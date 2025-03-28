@@ -1,16 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float speed = 5f;    
+    public float speed = 5f;
     public LayerMask targetLayer; // 플레이어 레이어
     public int damageAmount = 10;
 
     private Vector2 direction = Vector2.right; // 이동 방향 (기본값: 오른쪽)
     private Transform playerTransform; // 플레이어 Transform
-    
+
 
     private Rigidbody2D rb; // Rigidbody2D 컴포넌트
 
@@ -25,7 +23,7 @@ public class Bullet : MonoBehaviour
 
     void OnEnable()
     {
-        
+
         rb.velocity = Vector2.zero;
 
         // 플레이어 Transform 찾기
@@ -42,7 +40,7 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    
+
 
     void FixedUpdate()
     {
@@ -51,12 +49,14 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (targetLayer == (targetLayer | (1 << collision.gameObject.layer)))
+        LayerMask targetLayers = LayerMask.GetMask("Bullet", "Enemy");
+        if ((targetLayers.value & (1 << collision.gameObject.layer)) != 0)
         {
-            ReturnToPool();
+            // 다른 투사체와 충돌했으므로 무시
+            return;
         }
-            // 충돌 후 오브젝트 풀로 반환
-            ReturnToPool();
+        // 충돌 후 오브젝트 풀로 반환
+        ReturnToPool();
     }
 
     void ReturnToPool()

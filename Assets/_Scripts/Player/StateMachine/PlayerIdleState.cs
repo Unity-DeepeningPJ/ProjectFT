@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class PlayerIdleState : PlayerBaseState
 {
@@ -26,6 +26,10 @@ public class PlayerIdleState : PlayerBaseState
         else if (_stateMachine.Player.Controller.playerActions.Dash.triggered)
         {
             _stateMachine.ChangeState(_stateMachine.DashState);
+        }
+        else if (_stateMachine.Player.Controller.playerActions.Attack.triggered)
+        {
+            _stateMachine.ChangeState(_stateMachine.AttackState);
         }
     }
 
