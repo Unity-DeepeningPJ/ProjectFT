@@ -6,6 +6,7 @@ public class SlotItemData
 {
     public ItemData item;
     public int amount;
+    
 
     public bool IsEmpty => item == null;
     //public bool IsEmpty;

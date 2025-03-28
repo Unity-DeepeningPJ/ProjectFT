@@ -73,17 +73,21 @@ public class UIItemSell : UIBaseTrade
         {
             inven.RemoveInventoryitme(selecetItem);
             inven.ArrayInventory();
-            GameManager.Instance.PlayerManager.player.Currency.GoldAdd(CurrenyType.Gold, selecetItem.gold);
-            sell?.Invoke();
-            ClearPrevSelect();
-
-            UpateSellUI();
+            BuyTradeComplete(); return;
+        }
+        
+        var data = inven.slotItemDatas.Find(data => data.item.type == EquipType.Consumealbe);
+        if (data.amount == 1)
+        {
+            inven.RemoveInventoryitme(selecetItem);
+            inven.ArrayInventory();
+            BuyTradeComplete();
         }
         else
         {
-            
+            data.amount--;
+            BuyTradeComplete();
         }
-
     }
 
     private void ClearPrevSelect()
@@ -93,5 +97,13 @@ public class UIItemSell : UIBaseTrade
         selectSlot.GetComponent<Outline>().enabled = false;
         selecetItem = null;
         selectSlot = null;
+    }
+
+    private void BuyTradeComplete()
+    {
+        GameManager.Instance.PlayerManager.player.Currency.GoldAdd(CurrenyType.Gold, selecetItem.gold);
+        sell?.Invoke();
+        ClearPrevSelect();
+        UpateSellUI();        
     }
 }

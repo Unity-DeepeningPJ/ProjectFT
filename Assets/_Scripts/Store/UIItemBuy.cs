@@ -80,7 +80,7 @@ public class UIItemBuy : UIBaseTrade
             Debug.Log("장비 구입");
             inven.AddInventoryitme(selecetItem);
             inven.ArrayInventory();
-            SellTradeComplete();
+            BuyTradeComplete();
         }
         else
         {
@@ -90,13 +90,13 @@ public class UIItemBuy : UIBaseTrade
                 {
                     inven.AddInventoryitme(selecetItem);
                     inven.ArrayInventory();
-                    SellTradeComplete();
+                    BuyTradeComplete();
                     return;
                 }
                 else if (inven.slotItemDatas[i].item.type == EquipType.Consumealbe)
                 {
                     inven.slotItemDatas[i].AddItem(selecetItem);
-                    SellTradeComplete();
+                    BuyTradeComplete();
                     Debug.Log(inven.slotItemDatas[i].amount);
                     return;                    
                 }
@@ -115,7 +115,7 @@ public class UIItemBuy : UIBaseTrade
         selectSlot = null;
     }
 
-    private void SellTradeComplete()
+    private void BuyTradeComplete()
     {
         GameManager.Instance.PlayerManager.player.Currency.GoldAdd(CurrenyType.Gold, -selecetItem.gold);
         buy?.Invoke("구매 완료");
