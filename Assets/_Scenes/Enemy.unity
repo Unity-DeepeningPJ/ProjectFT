@@ -446,11 +446,16 @@ MonoBehaviour:
   idleTime: 1
   maxHealth: 200
   specialAttackInterval: 3
-  specialAttackDashSpeed: 7
-  specialAttackDashDistance: 3
-  projectileCount: 5
-  projectileSpreadAngle: 180
+  dashAttackDashSpeed: 7
+  dashAttackDashDistance: 3
+  spreadShotProjectileCount: 4
+  spreadShotProjectileSpreadAngle: 180
+  roundShotProjectileCount: 12
+  roundShotDelay: 0.2
+  offsetRoundShotProjectileCount: 6
+  offsetRoundShotSideOffset: 1
   projectilePrefab: {fileID: 8451655365352330938, guid: 934319ec0c6e17d4d938dfef8b178760, type: 3}
+  projectileSpeed: 2
   firePoint: {fileID: 938931577}
 --- !u!212 &938931576
 SpriteRenderer:
@@ -513,7 +518,7 @@ Transform:
   m_GameObject: {fileID: 938931574}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.41, z: 0}
+  m_LocalPosition: {x: 0, y: -3.33, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -5,23 +5,41 @@ using UnityEngine;
 public class Boss : MeleeEnemy
 {
     [Header("Health")]
-    public int maxHealth = 200; // ÃÖ´ë Ã¼·Â
-    private int currentHealth; // ÇöÀç Ã¼·Â
+    public int maxHealth = 200; // ìµœëŒ€ ì²´ë ¥
+    private int currentHealth; // í˜„ì¬ ì²´ë ¥
 
     [Header("Special Attack")]
-    public float specialAttackInterval = 10f; // Æ¯¼ö °ø°İ °£°İ
-    public float specialAttackDashSpeed = 7f; // Æ¯¼ö °ø°İ µ¹Áø ¼Óµµ
-    public float specialAttackDashDistance = 3f; // Æ¯¼ö °ø°İ µ¹Áø °Å¸®
-    public int projectileCount = 5; // Åõ»çÃ¼ ¹ß»ç °³¼ö
-    public float projectileSpreadAngle = 30f; // Åõ»çÃ¼ È®»ê °¢µµ
-    public GameObject projectilePrefab; // Åõ»çÃ¼ ÇÁ¸®ÆÕ
+    public float specialAttackInterval = 10f; // íŠ¹ìˆ˜ ê³µê²© ê°„ê²©
+
+    [Header("Dash Attack")]
+    public float dashAttackDashSpeed = 7f; // ëŒì§„ ê³µê²© ì†ë„
+    public float dashAttackDashDistance = 3f; // ëŒì§„ ê³µê²© ê±°ë¦¬
+
+    [Header("Spread Shot")]
+    public int spreadShotProjectileCount = 5; // í™•ì‚° íˆ¬ì‚¬ì²´ ë°œì‚¬ ê°œìˆ˜
+    public float spreadShotProjectileSpreadAngle = 30f; // í™•ì‚° íˆ¬ì‚¬ì²´ í™•ì‚° ê°ë„
+
+    [Header("Offset Round Shot")]
+    public int roundShotProjectileCount = 12; // ì „ë°©ìœ„ íˆ¬ì‚¬ì²´ ë°œì‚¬ ê°œìˆ˜
+    public float roundShotDelay = 0.2f; // íˆ¬ì‚¬ì²´ ë°œì‚¬ ê°„ê²©
+    public int offsetRoundShotProjectileCount = 6; // í•œìª½ ë©´ì—ì„œ ë°œì‚¬í•  íˆ¬ì‚¬ì²´ ê°œìˆ˜
+    public float offsetRoundShotSideOffset = 2f; // ë³´ìŠ¤ ì¤‘ì‹¬ìœ¼ë¡œë¶€í„°ì˜ ê±°ë¦¬
+
+    [Header("Projectile")]
+    public GameObject projectilePrefab; // íˆ¬ì‚¬ì²´ í”„ë¦¬íŒ¹
+    public float projectileSpeed = 5f; // íˆ¬ì‚¬ì²´ ì†ë„
 
     [Header("References")]
-    public Transform firePoint; // Åõ»çÃ¼ ¹ß»ç À§Ä¡
+    public Transform firePoint; // íˆ¬ì‚¬ì²´ ë°œì‚¬ ìœ„ì¹˜
 
-    
     private float nextSpecialAttackTime;
-    private bool isSpecialAttacking = false; // Æ¯¼ö °ø°İ ÁßÀÎÁö ¿©ºÎ
+    private bool isSpecialAttacking = false; // íŠ¹ìˆ˜ ê³µê²© ì¤‘ì¸ì§€ ì—¬ë¶€
+    
+    public enum SpecialAttackType
+    {
+        DashAttack,
+        JumpRoundShot
+    }
 
     public Boss(int Power, int Defense, int health, float speed, float jumpPower) : base(Power, Defense, health, speed, jumpPower)
     {
@@ -34,17 +52,16 @@ public class Boss : MeleeEnemy
         startPosition = transform.position;
         nextAttackTime = Time.time;
 
-        rb = GetComponent<Rigidbody2D>(); // Rigidbody2D ÄÄÆ÷³ÍÆ® °¡Á®¿À±â
+        rb = GetComponent<Rigidbody2D>(); // Rigidbody2D ì»´í¬ë„ŒíŠ¸ ê°€ì ¸ì˜¤ê¸°
         if (rb == null)
         {
             Debug.LogError("Rigidbody2D component not found!");
         }
-        //Move(); // ÃÊ±â ÀÌµ¿ ½ÃÀÛ (Á¦°Å)
-        transform.localScale = new Vector3(1, 1, 1); // º¸½º Å©±â Å°¿ì±â
-        moveSpeed = 0f; // º¸½º ÀÌµ¿ ¼Óµµ 0À¸·Î ¼³Á¤
-        chaseSpeed = 0f; // º¸½º Ãß°İ ¼Óµµ 0À¸·Î ¼³Á¤
+        transform.localScale = new Vector3(1, 1, 1); // ë³´ìŠ¤ í¬ê¸° í‚¤ìš°ê¸°
+        moveSpeed = 0f; // ë³´ìŠ¤ ì´ë™ ì†ë„ 0ìœ¼ë¡œ ì„¤ì •
+        chaseSpeed = 0f; // ë³´ìŠ¤ ì¶”ê²© ì†ë„ 0ìœ¼ë¡œ ì„¤ì •
 
-        // ÇÃ·¹ÀÌ¾î Transform Ã£±â
+        // í”Œë ˆì´ì–´ Transform ì°¾ê¸°
         GameObject player = FindClosestObjectWithLayer(transform.position, playerLayer);
         if (player != null)
         {
@@ -58,16 +75,10 @@ public class Boss : MeleeEnemy
 
     void Update()
     {
-        Debug.Log("³²Àº Ã¼·Â" + currentHealth);
         if (currentHealth <= 0)
         {
             Die();
         }
-
-        //FindPlayer(); // ÇÃ·¹ÀÌ¾î Ã£±â Á¦°Å (Ç×»ó ÇÃ·¹ÀÌ¾î À§Ä¡¿¡ °ø°İ)
-
-        Debug.Log("Is Attacking: " + isAttacking); // isAttacking °ª È®ÀÎ
-        Debug.Log("Is Special Attacking: " + isSpecialAttacking); // isSpecialAttacking °ª È®ÀÎ
 
         HandleState();
     }
@@ -76,7 +87,7 @@ public class Boss : MeleeEnemy
     {
         if (isSpecialAttacking)
         {
-            // Æ¯¼ö °ø°İ Áß
+            // íŠ¹ìˆ˜ ê³µê²© ì¤‘
             return;
         }
 
@@ -90,29 +101,24 @@ public class Boss : MeleeEnemy
         }
         else
         {
-            Dash(); // µ¹Áø
+            Dash(); // ëŒì§„
         }
 
-        // Æ¯¼ö °ø°İ ÄğÅ¸ÀÓ È®ÀÎ ¹× ½ÇÇà
-        if (Time.time >= nextSpecialAttackTime && !isSpecialAttacking && playerTransform != null) // ÇÃ·¹ÀÌ¾î°¡ ÀÖ¾î¾ßÇÔ
+        // íŠ¹ìˆ˜ ê³µê²© ì¿¨íƒ€ì„ í™•ì¸ ë° ì‹¤í–‰
+        if (Time.time >= nextSpecialAttackTime && !isSpecialAttacking && playerTransform != null) // í”Œë ˆì´ì–´ê°€ ìˆì–´ì•¼í•¨
         {
-            SpecialAttack();
+            ChooseSpecialAttack();
             nextSpecialAttackTime = Time.time + specialAttackInterval;
         }
     }
 
     void HandleIdleState()
     {
-        Debug.Log("idleTime : " + idleTime);
-
         if (Time.time >= stopTime)
         {
             isIdle = false;
             StopAttack();
-            Debug.Log("¾ÆÀÌµé ³¡");
         }
-
-
     }
 
     void HandleMovementState()
@@ -123,26 +129,20 @@ public class Boss : MeleeEnemy
         }
     }
 
-    void Move()
-    {
-        // ÁÂ¿ì ÀÌµ¿ ·ÎÁ÷ (´õ ÀÌ»ó »ç¿ëÇÏÁö ¾ÊÀ½)
-    }
-
     void ChasePlayer()
     {
         isChasing = true;
-        // ÇÃ·¹ÀÌ¾î ¹æÇâÀ¸·Î ÀÌµ¿
-        if (playerTransform != null) // playerTransformÀÌ nullÀÌ ¾Æ´ÑÁö È®ÀÎ
+        // í”Œë ˆì´ì–´ ë°©í–¥ìœ¼ë¡œ ì´ë™
+        if (playerTransform != null) // playerTransformì´ nullì´ ì•„ë‹Œì§€ í™•ì¸
         {
             Vector2 direction = new Vector2(playerTransform.position.x - transform.position.x, 0).normalized;
-            rb.velocity = new Vector2(direction.x * chaseSpeed, rb.velocity.y); // Rigidbody2D¸¦ »ç¿ëÇÏ¿© ÀÌµ¿
-            Debug.Log("Chasing Velocity: " + rb.velocity); // Ãß°İ ¼Óµµ È®ÀÎ
+            rb.velocity = new Vector2(direction.x * chaseSpeed, rb.velocity.y); // Rigidbody2Dë¥¼ ì‚¬ìš©í•˜ì—¬ ì´ë™
         }
         else
         {
             Debug.LogError("playerTransform is null in ChasePlayer()!");
             rb.velocity = Vector2.zero;
-            isChasing = false; // playerTransformÀÌ nullÀÌ¸é Ãß°İ Áß´Ü
+            isChasing = false; // playerTransformì´ nullì´ë©´ ì¶”ê²© ì¤‘ë‹¨
         }
     }
 
@@ -152,15 +152,14 @@ public class Boss : MeleeEnemy
         {
             isAttacking = true;
             isChasing = true;
-            Debug.Log("Start Attack!");
 
-            // µ¹Áø ¸ñÇ¥ À§Ä¡ ¼³Á¤
+            // ëŒì§„ ëª©í‘œ ìœ„ì¹˜ ì„¤ì •
             dashTarget = playerTransform.position;
             dashStartTime = Time.time;
 
             Vector2 direction = new Vector2(dashTarget.x - transform.position.x, 0).normalized;
             rb.velocity = direction * chaseSpeed;
-            nextAttackTime = Time.time + 1f / attackRate; // °ø°İ ÈÄ ÄğÅ¸ÀÓ Àû¿ë
+            nextAttackTime = Time.time + 1f / attackRate; // ê³µê²© í›„ ì¿¨íƒ€ì„ ì ìš©
         }
     }
 
@@ -175,7 +174,6 @@ public class Boss : MeleeEnemy
             {
                 StopAttack();
             }
-
         }
     }
 
@@ -185,28 +183,33 @@ public class Boss : MeleeEnemy
         isChasing = false;
         isIdle = true;
         stopTime = Time.time + idleTime;
-        rb.velocity = Vector2.zero; // ¸ØÃã
-        Debug.Log("Stop Attack!");
+        rb.velocity = Vector2.zero; // ë©ˆì¶¤
     }
 
-    void SpecialAttack()
+    void ChooseSpecialAttack()
     {
-        // Æ¯¼ö °ø°İ ·ÎÁ÷ ±¸Çö
-        Debug.Log("Boss Special Attack!");
+        SpecialAttackType attackType = (SpecialAttackType)Random.Range(0, System.Enum.GetValues(typeof(SpecialAttackType)).Length);
 
-        isSpecialAttacking = true; // Æ¯¼ö °ø°İ Áß »óÅÂ·Î º¯°æ
-
-        // 1. ÇÃ·¹ÀÌ¾î ¹æÇâÀ¸·Î Âª°Ô µ¹Áø
-        StartCoroutine(SpecialAttackDash());
+        switch (attackType)
+        {
+            case SpecialAttackType.DashAttack:
+                StartCoroutine(DashAttack());
+                break;
+            case SpecialAttackType.JumpRoundShot:
+                StartCoroutine(JumpRoundShot());
+                break;
+        }
     }
 
-    System.Collections.IEnumerator SpecialAttackDash()
+    System.Collections.IEnumerator DashAttack()
     {
-        // µ¹Áø
+        isSpecialAttacking = true; // íŠ¹ìˆ˜ ê³µê²© ì¤‘ ìƒíƒœë¡œ ë³€ê²½
+
+        // ëŒì§„
         if (playerTransform != null)
         {
             Vector2 direction = new Vector2(playerTransform.position.x - transform.position.x, 0).normalized;
-            rb.velocity = direction * specialAttackDashSpeed;
+            rb.velocity = direction * dashAttackDashSpeed;
 
             float timer = 0;
             while (timer < dashDuration)
@@ -217,24 +220,22 @@ public class Boss : MeleeEnemy
 
             rb.velocity = Vector2.zero;
 
-            // Åõ»çÃ¼ ¿©·¯ ¹ß ¹ß»ç
-            StartCoroutine(SpecialAttackShoot());
+            // íˆ¬ì‚¬ì²´ ì—¬ëŸ¬ ë°œ ë°œì‚¬
+            StartCoroutine(SpreadShot());
         }
         isSpecialAttacking = false;
     }
 
-    System.Collections.IEnumerator SpecialAttackShoot()
+    System.Collections.IEnumerator SpreadShot()
     {
-        // Åõ»çÃ¼ ¿©·¯ ¹ß ¹ß»ç
-
-        // ÇÃ·¹ÀÌ¾î¿Í º¸½º »çÀÌÀÇ °¢µµ °è»ê
+        // í”Œë ˆì´ì–´ì™€ ë³´ìŠ¤ ì‚¬ì´ì˜ ê°ë„ ê³„ì‚°
         Vector2 directionToPlayer = (playerTransform.position - transform.position).normalized;
         float angleToPlayer = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
 
-        float startAngle = angleToPlayer - projectileSpreadAngle / 2f;
-        float angleStep = projectileSpreadAngle / (projectileCount - 1);
+        float startAngle = angleToPlayer - spreadShotProjectileSpreadAngle / 2f;
+        float angleStep = spreadShotProjectileSpreadAngle / (spreadShotProjectileCount - 1);
 
-        for (int i = 0; i < projectileCount; i++)
+        for (int i = 0; i < spreadShotProjectileCount; i++)
         {
             float angle = startAngle + angleStep * i;
             Vector2 direction = Quaternion.AngleAxis(angle, Vector3.forward) * Vector2.right;
@@ -243,8 +244,8 @@ public class Boss : MeleeEnemy
 
             if (projectile != null)
             {
-                // Åõ»çÃ¼ »ı¼º À§Ä¡ Á¶Á¤
-                Vector3 spawnPosition = firePoint.position + (Vector3)direction * 1f; // firePoint¿¡¼­ Á¶±İ ´õ ¹Ù±ùÂÊÀ¸·Î »ı¼º
+                // íˆ¬ì‚¬ì²´ ìƒì„± ìœ„ì¹˜ ì¡°ì •
+                Vector3 spawnPosition = firePoint.position + (Vector3)direction * 1f; // firePointì—ì„œ ì¡°ê¸ˆ ë” ë°”ê¹¥ìª½ìœ¼ë¡œ ìƒì„±
                 projectile.transform.position = spawnPosition;
                 projectile.transform.rotation = Quaternion.identity;
 
@@ -252,32 +253,77 @@ public class Boss : MeleeEnemy
 
                 if (projectileRb != null)
                 {
-                    projectileRb.velocity = direction * 5f; // Åõ»çÃ¼ ¼Óµµ ¼³Á¤
+                    projectileRb.velocity = direction * projectileSpeed; // íˆ¬ì‚¬ì²´ ì†ë„ ì„¤ì •
                     projectile.SetActive(true);
                 }
                 else
-                    Debug.LogError("Åõ»çÃ¼¿¡ rigidbody°¡ ¾ø½À´Ï´Ù");
+                    Debug.LogError("íˆ¬ì‚¬ì²´ì— rigidbodyê°€ ì—†ìŠµë‹ˆë‹¤");
             }
             else
-                Debug.LogError("ObjectPool¿¡ Åõ»çÃ¼°¡ ¾ø½À´Ï´Ù");
+                Debug.LogError("ObjectPoolì— íˆ¬ì‚¬ì²´ê°€ ì—†ìŠµë‹ˆë‹¤");
 
-            Debug.Log("Projectile ¹ß»ç!");
-            yield return null; // Åõ»çÃ¼ ¹ß»ç °£°İ
+            yield return null; // íˆ¬ì‚¬ì²´ ë°œì‚¬ ê°„ê²©
         }
 
-        isSpecialAttacking = false; // Æ¯¼ö °ø°İ Á¾·á
+        isSpecialAttacking = false; // íŠ¹ìˆ˜ ê³µê²© ì¢…ë£Œ
+    }
+
+    System.Collections.IEnumerator JumpRoundShot()
+    {
+        isSpecialAttacking = true; // íŠ¹ìˆ˜ ê³µê²© ì¤‘ ìƒíƒœë¡œ ë³€ê²½
+
+        // í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ë³´ìŠ¤ì˜ ì™¼ìª½ ë˜ëŠ” ì˜¤ë¥¸ìª½ ì„ íƒ
+        float side = playerTransform.position.x > transform.position.x ? 1f : -1f; // í”Œë ˆì´ì–´ê°€ ì˜¤ë¥¸ìª½ì— ìˆìœ¼ë©´ 1, ì™¼ìª½ì— ìˆìœ¼ë©´ -1
+
+        // í”Œë ˆì´ì–´ ë°©í–¥ê³¼ ë°˜ëŒ€ ë°©í–¥ìœ¼ë¡œ offset ì„¤ì •
+        Vector3 offset = new Vector3(side * offsetRoundShotSideOffset, 0, 0); // ì¢Œìš° offset
+
+        float angleStep = 180f / (offsetRoundShotProjectileCount - 1); // 180ë„ ë°˜ì›
+
+        for (int i = 0; i < offsetRoundShotProjectileCount; i++)
+        {
+            float angle = i * angleStep; // 0ë„ì—ì„œ 180ë„ê¹Œì§€
+
+            // í”Œë ˆì´ì–´ ë°˜ëŒ€ë°©í–¥ìœ¼ë¡œ íšŒì „
+            Vector2 direction = Quaternion.AngleAxis(angle - 90, Vector3.forward) * (side * Vector2.right); // right = (1,0)
+
+            GameObject projectile = ObjectPool.Instance.GetPooledObject();
+
+            if (projectile != null)
+            {
+                // íˆ¬ì‚¬ì²´ ìƒì„± ìœ„ì¹˜ ì¡°ì •
+                Vector3 spawnPosition = firePoint.position + offset;
+                projectile.transform.position = spawnPosition;
+                projectile.transform.rotation = Quaternion.identity;
+
+                Rigidbody2D projectileRb = projectile.GetComponent<Rigidbody2D>();
+
+                if (projectileRb != null)
+                {
+                    projectileRb.velocity = direction * projectileSpeed; // íˆ¬ì‚¬ì²´ ì†ë„ ì„¤ì •
+                    projectile.SetActive(true);
+                }
+                else
+                    Debug.LogError("íˆ¬ì‚¬ì²´ì— rigidbodyê°€ ì—†ìŠµë‹ˆë‹¤");
+            }
+            else
+                Debug.LogError("ObjectPoolì— íˆ¬ì‚¬ì²´ê°€ ì—†ìŠµë‹ˆë‹¤");
+
+            yield return new WaitForSeconds(roundShotDelay); // íˆ¬ì‚¬ì²´ ë°œì‚¬ ê°„ê²©
+        }
+        isSpecialAttacking = false;
     }
 
     void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        Debug.Log("Boss µ¥¹ÌÁö ¹ŞÀ½! ³²Àº Ã¼·Â: " + currentHealth);
+        Debug.Log("Boss ë°ë¯¸ì§€ ë°›ìŒ! ë‚¨ì€ ì²´ë ¥: " + currentHealth);
     }
 
     void Die()
     {
         Debug.Log("Boss Die!");
-        Destroy(gameObject); // ¶Ç´Â ¿ÀºêÁ§Æ® Ç®¿¡ ¹İÈ¯
+        Destroy(gameObject); // ë˜ëŠ” ì˜¤ë¸Œì íŠ¸ í’€ì— ë°˜í™˜
     }
 
     GameObject FindClosestObjectWithLayer(Vector3 position, LayerMask layer)
