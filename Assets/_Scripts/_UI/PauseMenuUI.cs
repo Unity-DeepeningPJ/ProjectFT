@@ -141,6 +141,6 @@ public class PauseMenuUI : MonoBehaviour
         
         // 상태 변경 및 씬 로드 요청
         gameManager.SetGameState(GameManager.GameState.MainMenu);
-        SceneManager.LoadScene("MainMenu"); // 메인 메뉴 씬 이름에 맞게 수정 필요
+        SceneManager.LoadScene("Title"); // 메인 메뉴 씬 이름에 맞게 수정 필요
     }
 }
