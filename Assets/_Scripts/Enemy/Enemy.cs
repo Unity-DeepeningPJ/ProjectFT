@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class Enemy : BaseState
 {
-    public float moveDistance = 2f; // ÀÌµ¿ °Å¸®
-    public float moveSpeed = 2f; // ÀÌµ¿ ¼Óµµ
-    public float fireRate = 2f; // ¹ß»ç °£°İ
-    public Transform firePoint; // Åõ»çÃ¼ ¹ß»ç À§Ä¡
-    public LayerMask playerLayer; // ÇÃ·¹ÀÌ¾î ·¹ÀÌ¾î
-    public float detectionRange = 5f; // ÇÃ·¹ÀÌ¾î ÀÎ½Ä ¹üÀ§
+    public float moveDistance = 2f; // ì´ë™ ê±°ë¦¬
+    public float moveSpeed = 2f; // ì´ë™ ì†ë„
+    public float fireRate = 2f; // ë°œì‚¬ ê°„ê²©
+    public Transform firePoint; // íˆ¬ì‚¬ì²´ ë°œì‚¬ ìœ„ì¹˜
+    public LayerMask playerLayer; // í”Œë ˆì´ì–´ ë ˆì´ì–´
+    public float detectionRange = 5f; // í”Œë ˆì´ì–´ ì¸ì‹ ë²”ìœ„
 
+    //private int 
     private Vector2 startPosition;
     private bool movingRight = true;
     private float nextFireTime;
 
-    private Transform playerTransform; // ÇÃ·¹ÀÌ¾îÀÇ Transform
-    private bool playerInRange = false; // ÇÃ·¹ÀÌ¾î°¡ ¹üÀ§ ³»¿¡ ÀÖ´ÂÁö ¿©ºÎ
+    private Transform playerTransform; // í”Œë ˆì´ì–´ì˜ Transform
+    private bool playerInRange = false; // í”Œë ˆì´ì–´ê°€ ë²”ìœ„ ë‚´ì— ìˆëŠ”ì§€ ì—¬ë¶€
 
     public Enemy(int Power, int Defense, int health, float speed, float jumpPower) : base(Power, Defense, health, speed, jumpPower)
     {
@@ -32,9 +33,9 @@ public class Enemy : BaseState
     void Update()
     {
         Move();
-        FindPlayer(); // ¸Å ÇÁ·¹ÀÓ¸¶´Ù ÇÃ·¹ÀÌ¾î °¨Áö
+        FindPlayer(); // ë§¤ í”„ë ˆì„ë§ˆë‹¤ í”Œë ˆì´ì–´ ê°ì§€
                
-        if (playerInRange && Time.time >= nextFireTime) // ÇÃ·¹ÀÌ¾î°¡ ¹üÀ§ ³»¿¡ ÀÖ°í ¹ß»ç ½Ã°£ÀÌ µÇ¾úÀ» ¶§¸¸ ¹ß»ç
+        if (playerInRange && Time.time >= nextFireTime) // í”Œë ˆì´ì–´ê°€ ë²”ìœ„ ë‚´ì— ìˆê³  ë°œì‚¬ ì‹œê°„ì´ ë˜ì—ˆì„ ë•Œë§Œ ë°œì‚¬
         {
             Shoot();
             nextFireTime = Time.time + 1f / fireRate;           
@@ -67,12 +68,12 @@ public class Enemy : BaseState
         if (projectile != null)
         {
             projectile.transform.position = firePoint.position;
-            // Åõ»çÃ¼ ¹ß»ç ¹æÇâ ¼³Á¤ (ÇÃ·¹ÀÌ¾î À§Ä¡·Î)
+            // íˆ¬ì‚¬ì²´ ë°œì‚¬ ë°©í–¥ ì„¤ì • (í”Œë ˆì´ì–´ ìœ„ì¹˜ë¡œ)
             Vector2 direction = (playerTransform.position - firePoint.position).normalized;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             projectile.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-            // Åõ»çÃ¼ ¹ß»ç (ÇÃ·¹ÀÌ¾î ¹æÇâÀ¸·Î)
+            // íˆ¬ì‚¬ì²´ ë°œì‚¬ (í”Œë ˆì´ì–´ ë°©í–¥ìœ¼ë¡œ)
             Bullet projectileScript = projectile.GetComponent<Bullet>();
             if (projectileScript != null)
             {
@@ -84,7 +85,7 @@ public class Enemy : BaseState
         }
         else
         {
-            Debug.LogWarning("Projectile is null from Object Pool!"); // ¿ÀºêÁ§Æ® Ç®¿¡¼­ Åõ»çÃ¼¸¦ °¡Á®¿ÀÁö ¸øÇÔ
+            Debug.LogWarning("Projectile is null from Object Pool!"); // ì˜¤ë¸Œì íŠ¸ í’€ì—ì„œ íˆ¬ì‚¬ì²´ë¥¼ ê°€ì ¸ì˜¤ì§€ ëª»í•¨
         }
     }
 
@@ -114,14 +115,14 @@ public class Enemy : BaseState
         Vector3 pos = position;
         foreach (var go in goArray)
         {
-            // 3. ¿ÀºêÁ§Æ® ·¹ÀÌ¾î¿Í ÇÃ·¹ÀÌ¾î ·¹ÀÌ¾î ¸¶½ºÅ© ºñ±³
+            // 3. ì˜¤ë¸Œì íŠ¸ ë ˆì´ì–´ì™€ í”Œë ˆì´ì–´ ë ˆì´ì–´ ë§ˆìŠ¤í¬ ë¹„êµ
             if ((layer.value & (1 << go.layer)) != 0)
             {
                 Vector3 diff = go.transform.position - pos;
                 float curDistance = diff.sqrMagnitude;
 
-                // 4. °Å¸®¿Í ¹üÀ§ È®ÀÎ
-                if (curDistance < distance && curDistance <= range * range) // ¹üÀ§ ³»¿¡ ÀÖ´ÂÁö È®ÀÎ
+                // 4. ê±°ë¦¬ì™€ ë²”ìœ„ í™•ì¸
+                if (curDistance < distance && curDistance <= range * range) // ë²”ìœ„ ë‚´ì— ìˆëŠ”ì§€ í™•ì¸
                 {
                     closest = go;
                     distance = curDistance;
