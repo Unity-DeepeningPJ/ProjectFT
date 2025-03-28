@@ -1,4 +1,4 @@
-﻿public class PlayerState : BaseState
+public class PlayerState : BaseState
 {
     public string Name { get; private set; }
     public int Level { get; private set; }
@@ -6,6 +6,7 @@
     public int ExpToNextLevel { get; private set; }
 
     public float CriticalChance { get; private set; }
+
     public float DashDistance { get; private set; }
     public float DashSpeed { get; private set; }
 
@@ -27,7 +28,9 @@
         Level = data.startLevel;
         CurrentExp = data.startExp;
         ExpToNextLevel = data.expToNextLevel;
+
         CriticalChance = data.baseCriticalChance;
+
         DashDistance = data.baseDashDistance;
         DashSpeed = data.baseDashSpeed;
 
@@ -52,16 +55,5 @@
         Level++;
         CurrentExp = 0;
         ExpToNextLevel = (int)(ExpToNextLevel * 1.2f);
-    }
-
-    //장비 장착, 해제
-    public void Equip()
-    {
-
-    }
-
-    public void UnEquip()
-    {
-
     }
 }
