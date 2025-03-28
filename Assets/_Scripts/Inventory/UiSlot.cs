@@ -44,7 +44,7 @@ public class UiSlot : MonoBehaviour
             clickCoroutine = null;
 
             // 더블 클릭 처리
-            Debug.Log($"더블 클릭: {currentItemData.item.itemName}");
+            //Debug.Log($"더블 클릭: {currentItemData.item.itemName}");
             OnItemDoubleClicked?.Invoke(currentItemData);
         }
         else
@@ -61,7 +61,7 @@ public class UiSlot : MonoBehaviour
         yield return new WaitForSeconds(doubleClickTimeThreshold);
 
         // 시간이 지나면 싱글클릭으로 처리
-        Debug.Log($"클릭: {currentItemData.item.itemName}");
+        //Debug.Log($"클릭: {currentItemData.item.itemName}");
         OnItemClicked?.Invoke(currentItemData);
 
         clickCoroutine = null;

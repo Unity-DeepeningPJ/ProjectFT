@@ -21,21 +21,29 @@ public class UiInventory : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.InventoryManager.OnInventoryChanged += UpdateUI;
+        
         Init();
 
         foreach (var slot in slots)
         {
-            slot.OnItemClicked += HandleItemClicked;
+            slot.OnItemClicked += HandleItemOneClicked;
+            slot.OnItemDoubleClicked += HandleItemDubleClickd;
         }
     }
 
-    private void HandleItemClicked(SlotItemData slotItemData)
+    private void HandleItemOneClicked(SlotItemData slotItemData)
     {
-        //Debug.Log($"인벤토리 UI에서 처리 :{slotItemData.item.itemName}");
+        Debug.Log($"원클릭 :{slotItemData.item.itemName}");
 
 
 
     }
+    private void HandleItemDubleClickd(SlotItemData slotItemData)
+    {
+        //더블클릭 이벤트처리 
+        Debug.Log($"더블클릭 :{slotItemData.item.itemName}");
+    }
+
     private void Init()
     {
         //슬롯 생성만  > UI도 그려주기 
