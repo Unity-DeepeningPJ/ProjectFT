@@ -23,6 +23,7 @@ public class InventoryManager : MonoBehaviour
     {
         var currency=GameManager.Instance.PlayerManager.player.Currency;
         currency.GoldAdd(CurrenyType.Gold, 10);
+        currency.GoldAdd(CurrenyType.Gold, -20);
         
     }
     private void Init()
