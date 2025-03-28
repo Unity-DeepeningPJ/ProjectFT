@@ -31,6 +31,9 @@ public class GameManager : MonoBehaviour
     
     // 게임 상태 관련
     public enum GameState { Playing, Paused, GameOver, MainMenu }
+    private GameState currentState = GameState.Playing;
+    // 상태 변경 이벤트 추가
+    public event Action<GameState> OnGameStateChanged;
 
     private void Awake()
     {
@@ -56,6 +59,32 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         LoadGameData();
+    }
+
+    private void Update()
+    {
+        // ESC 키 감지 및 처리
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            HandleEscapeKey();
+        }
+    }
+
+    private void HandleEscapeKey()
+    {
+        // 현재 상태에 따라 다른 처리
+        switch (currentState)
+        {
+            case GameState.Playing:
+                // 플레이 중에 ESC를 누르면 일시정지
+                SetGameState(GameState.Paused);
+                break;
+            case GameState.Paused:
+                // 일시정지 상태에서 ESC를 누르면 게임으로 복귀
+                SetGameState(GameState.Playing);
+                break;
+            // 다른 상태에서는 별도 처리 없음
+        }
     }
 
     // 게임 데이터를 언제 저장할지 생각해 봐야함
@@ -128,9 +157,77 @@ public class GameManager : MonoBehaviour
 
     #region 게임 상태 관리
 
+    public GameState GetCurrentState()
+    {
+        return currentState;
+    }
+
     public void SetGameState(GameState newState)
     {
+        // 동일한 상태로 변경하는 경우 무시
+        if (currentState == newState) return;
+        
+        // 상태 전환 전 후처리
+        ExitState(currentState);
+        
+        // 상태 변경
+        GameState oldState = currentState;
+        currentState = newState;
+        
+        // 새 상태에 대한 처리
+        EnterState(newState);
+        
+        // 이벤트 발생
+        OnGameStateChanged?.Invoke(newState);
+        
+        Debug.Log($"게임 상태 변경: {oldState} -> {newState}");
+    }
 
+    private void ExitState(GameState state)
+    {
+        switch (state)
+        {
+            case GameState.Playing:
+                // 플레이 상태 종료 시 처리
+                break;
+            case GameState.Paused:
+                // 일시정지 상태 종료 시 처리
+                Time.timeScale = 1f; // 게임 속도 복원
+                break;
+            case GameState.GameOver:
+                // 게임오버 상태 종료 시 처리
+                break;
+            case GameState.MainMenu:
+                // 메인 메뉴 상태 종료 시 처리
+                break;
+        }
+    }
+
+    private void EnterState(GameState state)
+    {
+        switch (state)
+        {
+            case GameState.Playing:
+                // 플레이 상태 진입 시 처리
+                Time.timeScale = 1f; // 게임 속도 정상화
+                // UI 숨기기 등
+                break;
+            case GameState.Paused:
+                // 일시정지 상태 진입 시 처리
+                Time.timeScale = 0f; // 게임 일시정지
+                // 일시정지 메뉴 표시
+                break;
+            case GameState.GameOver:
+                // 게임오버 상태 진입 시 처리
+                Time.timeScale = 0f; // 게임 일시정지
+                // 게임오버 UI 표시
+                break;
+            case GameState.MainMenu:
+                // 메인 메뉴 상태 진입 시 처리
+                Time.timeScale = 1f; // 게임 속도 정상화 (메뉴 애니메이션 등을 위해)
+                // 메인 메뉴 UI 표시
+                break;
+        }
     }
 
     #endregion

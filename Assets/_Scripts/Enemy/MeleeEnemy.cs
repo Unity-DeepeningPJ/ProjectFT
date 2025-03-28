@@ -6,31 +6,38 @@ using UnityEngine;
 
 public class MeleeEnemy : BaseState
 {
-    public float moveDistance = 2f; // ÀÌµ¿ °Å¸®
-    public float moveSpeed = 2f; // ÀÌµ¿ ¼Óµµ
-    public float chaseSpeed = 5f; // Ãß°İ ¼Óµµ
-    public float attackDamage = 10f; // °ø°İ µ¥¹ÌÁö
-    public float attackRate = 1f; // °ø°İ ¼Óµµ (ÃÊ´ç °ø°İ È½¼ö)
-    public LayerMask playerLayer; // ÇÃ·¹ÀÌ¾î ·¹ÀÌ¾î
-    public float detectionRange = 5f; // ÇÃ·¹ÀÌ¾î ÀÎ½Ä ¹üÀ§
-    public float attackRange = 1f; // °ø°İ ¹üÀ§
-    public float dashDistance = 3f; // µ¹Áø °Å¸®
-    public float idleTime = 1f; // ¸ØÃçÀÖ´Â ½Ã°£
+    [Header("Movement")]
+    public float moveDistance = 2f; // ì´ë™ ê±°ë¦¬
+    public float moveSpeed = 2f; // ì´ë™ ì†ë„
+    public float chaseSpeed = 5f; // ì¶”ê²© ì†ë„
 
-    private Vector2 startPosition;
-    private bool movingRight = true;
-    private float nextAttackTime;
-    private Transform playerTransform; // ÇÃ·¹ÀÌ¾îÀÇ Transform
-    private bool playerInRange = false; // ÇÃ·¹ÀÌ¾î°¡ ¹üÀ§ ³»¿¡ ÀÖ´ÂÁö ¿©ºÎ
-    private bool isChasing = false; // Ãß°İ ÁßÀÎÁö ¿©ºÎ
-    private bool isAttacking = false; // °ø°İ ÁßÀÎÁö ¿©ºÎ
-    private Vector2 dashTarget; // µ¹Áø ¸ñÇ¥ À§Ä¡
-    private float dashStartTime; // µ¹Áø ½ÃÀÛ ½Ã°£
-    private float stopTime; // ¸ØÃá ½Ã°£
-    public float dashDuration = 0.5f; // µ¹Áø Áö¼Ó ½Ã°£
-    private bool isIdle = false; // ¸ØÃçÀÖ´ÂÁö ¿©ºÎ
+    [Header("Attack")]
+    public float attackDamage = 10f; // ê³µê²© ë°ë¯¸ì§€
+    public float attackRate = 1f; // ê³µê²© ì†ë„ (ì´ˆë‹¹ ê³µê²© íšŸìˆ˜)
+    public float dashDistance = 3f; // ëŒì§„ ê±°ë¦¬
+    public float dashDuration = 0.5f; // ëŒì§„ ì§€ì† ì‹œê°„
 
-    private Rigidbody2D rb; // Rigidbody2D ÄÄÆ÷³ÍÆ®
+    [Header("Detection")]
+    public LayerMask playerLayer; // í”Œë ˆì´ì–´ ë ˆì´ì–´
+    public float detectionRange = 5f; // í”Œë ˆì´ì–´ ì¸ì‹ ë²”ìœ„
+    public float attackRange = 1f; // ê³µê²© ë²”ìœ„
+
+    [Header("Idle")]
+    public float idleTime = 1f; // ë©ˆì¶°ìˆëŠ” ì‹œê°„
+
+    protected Vector2 startPosition;
+    protected bool movingRight = true;
+    protected float nextAttackTime;
+    protected Transform playerTransform; // í”Œë ˆì´ì–´ì˜ Transform
+    protected bool playerInRange = false; // í”Œë ˆì´ì–´ê°€ ë²”ìœ„ ë‚´ì— ìˆëŠ”ì§€ ì—¬ë¶€
+    protected bool isChasing = false; // ì¶”ê²© ì¤‘ì¸ì§€ ì—¬ë¶€
+    protected bool isAttacking = false; // ê³µê²© ì¤‘ì¸ì§€ ì—¬ë¶€
+    protected Vector2 dashTarget; // ëŒì§„ ëª©í‘œ ìœ„ì¹˜
+    protected float dashStartTime; // ëŒì§„ ì‹œì‘ ì‹œê°„
+    protected float stopTime; // ë©ˆì¶˜ ì‹œê°„
+    protected bool isIdle = false; // ë©ˆì¶°ìˆëŠ”ì§€ ì—¬ë¶€
+
+    protected Rigidbody2D rb; // Rigidbody2D ì»´í¬ë„ŒíŠ¸
 
     public MeleeEnemy(int Power, int Defense, int health, float speed, float jumpPower) : base(Power, Defense, health, speed, jumpPower)
     {
@@ -41,29 +48,26 @@ public class MeleeEnemy : BaseState
         startPosition = transform.position;
         nextAttackTime = Time.time;
 
-        rb = GetComponent<Rigidbody2D>(); // Rigidbody2D ÄÄÆ÷³ÍÆ® °¡Á®¿À±â
+        rb = GetComponent<Rigidbody2D>(); // Rigidbody2D ì»´í¬ë„ŒíŠ¸ ê°€ì ¸ì˜¤ê¸°
         if (rb == null)
         {
             Debug.LogError("Rigidbody2D component not found!");
         }
-        Move(); // ÃÊ±â ÀÌµ¿ ½ÃÀÛ
+        Move(); // ì´ˆê¸° ì´ë™ ì‹œì‘
     }
 
     void Update()
     {
         FindPlayer();
 
-        Debug.Log("Player In Range: " + playerInRange); // playerInRange °ª È®ÀÎ
-        Debug.Log("Is Attacking: " + isAttacking); // isAttacking °ª È®ÀÎ
-        Debug.Log("Is Idle: " + isIdle); // isIdle °ª È®ÀÎ
+        
 
         if (isIdle)
         {
-            Debug.Log("Idle Time: " + (Time.time - stopTime)); // ¸ØÃçÀÖ´Â ½Ã°£ È®ÀÎ
+            
             if (Time.time - stopTime >= idleTime)
             {
-                isIdle = false;
-                Debug.Log("Moving after Idle"); // Move È£Ãâ È®ÀÎ
+                isIdle = false;                
 
                 FindPlayer();
                 if (playerInRange && playerTransform != null)
@@ -78,25 +82,25 @@ public class MeleeEnemy : BaseState
         }
         else if (!isAttacking)
         {
-            if (playerInRange && playerTransform != null) // ÇÃ·¹ÀÌ¾î°¡ ¹üÀ§ ³»¿¡ ÀÖ°í playerTransformÀÌ nullÀÌ ¾Æ´Ò ¶§¸¸ Ãß°İ
+            if (playerInRange && playerTransform != null) // í”Œë ˆì´ì–´ê°€ ë²”ìœ„ ë‚´ì— ìˆê³  playerTransformì´ nullì´ ì•„ë‹ ë•Œë§Œ ì¶”ê²©
             {
-                StartAttack(); // °ø°İ ½ÃÀÛ
+                StartAttack(); // ê³µê²© ì‹œì‘
             }
             else
             {
-                Move(); // ±âº» ÀÌµ¿
-                Debug.Log("Moving"); // Move ÇÔ¼ö È£Ãâ È®ÀÎ
+                Move(); // ê¸°ë³¸ ì´ë™
+                
             }
         }
         else
         {
-            Dash(); // µ¹Áø
+            Dash(); // ëŒì§„
         }
     }
 
-    void Move()
+    public void Move()
     {
-        // ÁÂ¿ì ÀÌµ¿ ·ÎÁ÷ (±âÁ¸ ÄÚµå¿Í µ¿ÀÏ)
+        // ì¢Œìš° ì´ë™ ë¡œì§ (ê¸°ì¡´ ì½”ë“œì™€ ë™ì¼)
         if (movingRight)
         {
             rb.velocity = new Vector2(moveSpeed, rb.velocity.y);
@@ -113,46 +117,46 @@ public class MeleeEnemy : BaseState
                 movingRight = true;
             }
         }
-        Debug.Log("Current Velocity: " + rb.velocity); // ÇöÀç ¼Óµµ È®ÀÎ
+        
     }
 
     void ChasePlayer()
     {
         isChasing = true;
-        // ÇÃ·¹ÀÌ¾î ¹æÇâÀ¸·Î ÀÌµ¿
-        if (playerTransform != null) // playerTransformÀÌ nullÀÌ ¾Æ´ÑÁö È®ÀÎ
+        // í”Œë ˆì´ì–´ ë°©í–¥ìœ¼ë¡œ ì´ë™
+        if (playerTransform != null) // playerTransformì´ nullì´ ì•„ë‹Œì§€ í™•ì¸
         {
             Vector2 direction = new Vector2(playerTransform.position.x - transform.position.x, 0).normalized;
-            rb.velocity = new Vector2(direction.x * chaseSpeed, rb.velocity.y); // Rigidbody2D¸¦ »ç¿ëÇÏ¿© ÀÌµ¿
-            Debug.Log("Chasing Velocity: " + rb.velocity); // Ãß°İ ¼Óµµ È®ÀÎ
+            rb.velocity = new Vector2(direction.x * chaseSpeed, rb.velocity.y); // Rigidbody2Dë¥¼ ì‚¬ìš©í•˜ì—¬ ì´ë™
+            Debug.Log("Chasing Velocity: " + rb.velocity); // ì¶”ê²© ì†ë„ í™•ì¸
         }
         else
         {
             Debug.LogError("playerTransform is null in ChasePlayer()!");
             rb.velocity = Vector2.zero;
-            isChasing = false; // playerTransformÀÌ nullÀÌ¸é Ãß°İ Áß´Ü
+            isChasing = false; // playerTransformì´ nullì´ë©´ ì¶”ê²© ì¤‘ë‹¨
         }
     }
 
-    void StartAttack()
+    public void StartAttack()
     {
         if (Time.time >= nextAttackTime)
         {
             isAttacking = true;
             isChasing = true;
-            Debug.Log("Start Attack!");
+            
 
-            // µ¹Áø ¸ñÇ¥ À§Ä¡ ¼³Á¤
+            // ëŒì§„ ëª©í‘œ ìœ„ì¹˜ ì„¤ì •
             dashTarget = playerTransform.position;
             dashStartTime = Time.time;
 
             Vector2 direction = new Vector2(dashTarget.x - transform.position.x, 0).normalized;
             rb.velocity = direction * chaseSpeed;
-            nextAttackTime = Time.time + 1f / attackRate; // °ø°İ ÈÄ ÄğÅ¸ÀÓ Àû¿ë
+            nextAttackTime = Time.time + 1f / attackRate; // ê³µê²© í›„ ì¿¨íƒ€ì„ ì ìš©
         }
     }
 
-    void Dash()
+    public void Dash()
     {
         if (isChasing)
         {
@@ -167,47 +171,46 @@ public class MeleeEnemy : BaseState
         }
     }
 
-    void StopAttack()
+    public void StopAttack()
     {
         isAttacking = false;
         isChasing = false;
         isIdle = true;
         stopTime = Time.time;
-        rb.velocity = Vector2.zero; // ¸ØÃã
-        Debug.Log("Stop Attack!");
+        rb.velocity = Vector2.zero; // ë©ˆì¶¤
+        
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // ÇÃ·¹ÀÌ¾î¿Í Ãæµ¹ ½Ã µ¥¹ÌÁö ÁÖ±â
+        // í”Œë ˆì´ì–´ì™€ ì¶©ëŒ ì‹œ ë°ë¯¸ì§€ ì£¼ê¸°
         if (isAttacking && ((1 << collision.gameObject.layer) & playerLayer) != 0)
         {
             Debug.Log("Attack!");
-            // µ¥¹ÌÁö¸¦ ÁÖ´Â ·ÎÁ÷ ±¸Çö
-            // ¿¹: collision.gameObject.GetComponent<PlayerHealth>().TakeDamage(attackDamage);
+            // ë°ë¯¸ì§€ë¥¼ ì£¼ëŠ” ë¡œì§ êµ¬í˜„
+            
         }
 
         StopAttack();
     }
 
-    void FindPlayer()
+    public void FindPlayer()
     {
         GameObject player = FindClosestObjectWithLayerInRange(transform.position, playerLayer, detectionRange);
 
         if (player != null)
         {
             playerTransform = player.transform;
-            playerInRange = true; // ÇÃ·¹ÀÌ¾î°¡ ¹üÀ§ ³»¿¡ ÀÖÀ½
-            Debug.Log("Player Found: " + player.name); // ÇÃ·¹ÀÌ¾î Ã£À½ È®ÀÎ
-            Debug.Log("Player Transform: " + playerTransform); // ÇÃ·¹ÀÌ¾î Transform È®ÀÎ
+            playerInRange = true; // í”Œë ˆì´ì–´ê°€ ë²”ìœ„ ë‚´ì— ìˆìŒ
+            
         }
         else
         {
             playerTransform = null;
-            playerInRange = false; // ÇÃ·¹ÀÌ¾î°¡ ¹üÀ§ ¹Û¿¡ ÀÖÀ½
+            playerInRange = false; // í”Œë ˆì´ì–´ê°€ ë²”ìœ„ ë°–ì— ìˆìŒ
             isChasing = false;
-            //rb.velocity = Vector2.zero; // ÇÃ·¹ÀÌ¾î¸¦ Ã£Áö ¸øÇÏ¸é ¼Óµµ ÃÊ±âÈ­ (ÀÌ ºÎºĞÀ» Á¦°Å)
-            Debug.Log("Player Not Found"); // ÇÃ·¹ÀÌ¾î Ã£Áö ¸øÇÔ È®ÀÎ
+            
+            
         }
     }
 
@@ -224,11 +227,11 @@ public class MeleeEnemy : BaseState
                 Vector3 diff = go.transform.position - pos;
                 float curDistance = diff.sqrMagnitude;
 
-                if (curDistance < distance && curDistance <= range * range) // ¹üÀ§ ³»¿¡ ÀÖ´ÂÁö È®ÀÎ
+                if (curDistance < distance && curDistance <= range * range) // ë²”ìœ„ ë‚´ì— ìˆëŠ”ì§€ í™•ì¸
                 {
                     closest = go;
                     distance = curDistance;
-                    Debug.Log("Found object in layer: " + go.name + ", distance: " + curDistance); // ·¹ÀÌ¾î¿¡ ¼ÓÇÑ ¿ÀºêÁ§Æ® Ã£À½ È®ÀÎ
+                    
                 }
             }
         }
