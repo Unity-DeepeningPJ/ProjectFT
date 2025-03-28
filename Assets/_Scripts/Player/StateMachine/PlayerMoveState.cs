@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class PlayerMoveState : PlayerBaseState
 {
@@ -31,6 +31,7 @@ public class PlayerMoveState : PlayerBaseState
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+
         Move();
     }
 

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class Player : MonoBehaviour
 {
@@ -7,8 +7,8 @@ public class Player : MonoBehaviour
     public PlayerController Controller { get; private set; }
     public PlayerStateMachine StateMachine { get; private set; }
     public Rigidbody2D Rigidbody { get; private set; }
-    public bool isGrounded { get; set; }
-    public bool isInvincible { get; set; }
+    public bool isGrounded { get; set; } = true;
+    public bool isInvincible { get; set; } = false;
 
     private void Awake()
     {

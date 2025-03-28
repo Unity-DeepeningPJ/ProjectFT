@@ -17,8 +17,9 @@ MonoBehaviour:
   baseDefense: 10
   baseHealth: 100
   baseSpeed: 5
-  baseJumpPower: 5
+  baseJumpPower: 6
   baseDashDistance: 3
+  baseDashSpeed: 10
   baseCriticalChance: 5
   startLevel: 1
   startExp: 0
