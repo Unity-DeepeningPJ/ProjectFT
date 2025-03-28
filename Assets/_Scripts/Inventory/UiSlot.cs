@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,31 +9,71 @@ public class UiSlot : MonoBehaviour
     [SerializeField] private Image iconImage;
     [SerializeField] private Button slotButton;
 
+    //슬롯별로 데이터를 가지고 있어야하네 
+
+    private SlotItemData currentItemData;
+
+    //아이템 클릭 이벤트(외부에서 구독 가능)
+    public Action<SlotItemData> OnItemClicked;
+    public Action<SlotItemData> OnItemDoubleClicked;
+
+    // 더블 클릭 관련 변수
+    private float lastClickTime = 0f;
+    private float doubleClickTimeThreshold = 0.3f; // 더블 클릭 인식 간격 (초)
+
+
     private void Start()
     {
         slotButton.onClick.AddListener(onSlotClick);
+        
     }
 
     private void onSlotClick()
     {
-        // ���� Ŭ�� �̺�Ʈ
+        if (currentItemData ==null && currentItemData.IsEmpty)
+        {
+            Debug.Log("빈 슬롯 클릭");
+            return;
+        }
+
+        //더블 클릭 체크 
+        float timeSinceLastClick = Time.timeScale - lastClickTime;
+
+        if (timeSinceLastClick <doubleClickTimeThreshold)
+        {
+            Debug.Log($"더블 클릭 : {currentItemData.item.itemName}");
+            OnItemDoubleClicked?.Invoke(currentItemData);
+        }
+        else //원클릭
+        {
+            Debug.Log($"원 클릭 : {currentItemData.item.itemName}");
+            OnItemClicked.Invoke(currentItemData);
+        }
+
+        lastClickTime =Time.time;
     }
 
     public void UpdateSlot(SlotItemData slot)
     {
-        //����ִٸ� Image�� ��������� 
+        //슬롯에 데이터를 저장
+        currentItemData= slot;
+
+        //비어있다면 Image를 없애줘야지 
         if (!slot.IsEmpty)
         {
-            //�����ϸ� �̹��� update���ֱ� 
+            //존재하면 이미지 update해주기 
             iconImage.sprite = slot.item.Icon;
-            //iconImage.enabled = true;
+            iconImage.enabled = true;
         }
         else
         {
-            //�⺻ base�̹����� ����;��ϳ�?
-            // null �� �ɱ�?
+            //이미지 비활성화
             iconImage.sprite = null;
+            // 컴포넌트 자체를 비활성화 렌더링 비용 절약 가능
+            iconImage.enabled = false;
         }
+
+
         
     }
 
