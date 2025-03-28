@@ -24,17 +24,23 @@ public class UIStore : MonoBehaviour
         exitBtn.onClick.AddListener(StoreExit);
         completeBtn.onClick.AddListener(OnClickCompleteButton);
 
+        UpdateGold();
+
         buyUI.buy += ToggleComplete;
         buyUI.buy += () => CompleteTxt("구매 완료");
 
         sellUI.sell += ToggleComplete;
         sellUI.sell += () => CompleteTxt("판매 완료");
+        
     }
 
     private void UpdateGold()
     {
-        // 플레이어 골드 가져와서 업데이트 로직
-        //goldTxt.text = string.Format("{0:N0}, 플레이어 골드");
+        if (GameManager.Instance.PlayerManager.player.Currency.currencies.TryGetValue(CurrenyType.Gold, out int gold))
+        {
+            int curGold = gold;
+            goldTxt.text = string.Format("{0:N0}", curGold);
+        }        
     }
     
     private void ToggleComplete()
@@ -46,6 +52,7 @@ public class UIStore : MonoBehaviour
         else
         {
             completePopup.SetActive(true);
+            UpdateGold();
         }
     }
 

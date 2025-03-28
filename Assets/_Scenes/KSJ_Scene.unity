@@ -3938,6 +3938,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityManager: {fileID: 0}
   inventoryManager: {fileID: 321023669}
+  playerManager: {fileID: 0}
 --- !u!4 &1944010485
 Transform:
   m_ObjectHideFlags: 0

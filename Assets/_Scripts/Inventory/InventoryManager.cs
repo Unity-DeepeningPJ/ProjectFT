@@ -21,7 +21,7 @@ public class InventoryManager : MonoBehaviour
     }
     private void Start()
     {
-        var currency=GameManager.Instance.PlayerManager.player.Currency;
+        //var currency=GameManager.Instance.PlayerManager.player.Currency;
     }
     private void Init()
     {
