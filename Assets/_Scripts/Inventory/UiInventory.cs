@@ -12,30 +12,43 @@ public class UiInventory : MonoBehaviour
 
     private void Awake()
     {
-        //ΩΩ∑‘ µ•¿Ã≈Õ 
+        //Ïä¨Î°Ø Îç∞Ïù¥ÌÑ∞ 
         slots = new List<UiSlot>();
 
-
+        
     }
 
     private void Start()
     {
         GameManager.Instance.InventoryManager.OnInventoryChanged += UpdateUI;
         Init();
+
+        foreach (var slot in slots)
+        {
+            slot.OnItemClicked += HandleItemClicked;
+        }
+    }
+
+    private void HandleItemClicked(SlotItemData slotItemData)
+    {
+        //Debug.Log($"Ïù∏Î≤§ÌÜ†Î¶¨ UIÏóêÏÑú Ï≤òÎ¶¨ :{slotItemData.item.itemName}");
+
+
+
     }
     private void Init()
     {
-        //ΩΩ∑‘ ª˝º∫∏∏  > UIµµ ±◊∑¡¡÷±‚ 
+        //Ïä¨Î°Ø ÏÉùÏÑ±Îßå  > UIÎèÑ Í∑∏Î†§Ï£ºÍ∏∞ 
         for (int i = 0; i < GameManager.Instance.InventoryManager.MaxSlots; i++)
         {
             UiSlot slotobj = Instantiate(uiSlotPrefab, slotsparent);
             slots.Add(slotobj);
         }
 
-        // ª˝º∫«ÿ¡÷±‚? 
+        // ÏÉùÏÑ±Ìï¥Ï£ºÍ∏∞? 
     }
 
-    // ΩΩ∑‘ø° itemdata ≥÷æÓ¡÷±‚ 
+    // Ïä¨Î°ØÏóê itemdata ÎÑ£Ïñ¥Ï£ºÍ∏∞ 
     private void UpdateUI()
     {
         for (int i = 0; i < slots.Count; i++)
