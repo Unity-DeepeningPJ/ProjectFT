@@ -12,7 +12,7 @@ public class UIItemBuy : UIBaseTrade
     ItemData selecetItem;
     UIStoreSlot selectSlot;
     
-    public Action buy;
+    public Action<string> buy;
 
     private void Awake()
     {
@@ -62,11 +62,18 @@ public class UIItemBuy : UIBaseTrade
     {
         if (selecetItem == null) return;
 
+        int gold = GameManager.Instance.PlayerManager.player.Currency.currencies[CurrenyType.Gold];
+
+        if (selecetItem.gold > gold)
+        {
+            buy.Invoke("골드 부족");
+            ClearPrevSelect();
+            return;
+        }
+
         inven.AddInventoryitme(selecetItem);
-        //GameManager.Instance.PlayerManager.player.Currency.GoldAdd(CurrenyType.Gold, -selecetItem.gold);
-        buy?.Invoke();        
-        Debug.Log($"{selecetItem.gold} 골드 차감");
-        // selecetItem.gold 만큼 gold 관리하는 곳에서 차감
+        GameManager.Instance.PlayerManager.player.Currency.GoldAdd(CurrenyType.Gold, -selecetItem.gold);
+        buy?.Invoke("판매 완료");
 
         ClearPrevSelect();
     }
