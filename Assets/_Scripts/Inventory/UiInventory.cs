@@ -15,27 +15,49 @@ public class UiInventory : MonoBehaviour
         //슬롯 데이터 
         slots = new List<UiSlot>();
 
-        
+
     }
 
     private void Start()
     {
         GameManager.Instance.InventoryManager.OnInventoryChanged += UpdateUI;
+
         Init();
 
         foreach (var slot in slots)
         {
-            slot.OnItemClicked += HandleItemClicked;
+            slot.OnItemClicked += HandleItemOneClicked;
+            slot.OnItemDoubleClicked += HandleItemDubleClickd;
         }
     }
 
-    private void HandleItemClicked(SlotItemData slotItemData)
+    private void HandleItemOneClicked(SlotItemData slotItemData)
     {
-        //Debug.Log($"인벤토리 UI에서 처리 :{slotItemData.item.itemName}");
+        Debug.Log($"원클릭 :{slotItemData.item.itemName}");
 
 
 
     }
+    private void HandleItemDubleClickd(SlotItemData slotItemData)
+    {
+        //더블클릭 이벤트처리 
+        Debug.Log($"더블클릭 :{slotItemData.item.itemName}");
+        //eqipmanager 에 있는 list에 더해주기 
+        GameManager.Instance.EquipManager.EqipDictionaryAddItem(slotItemData.item);
+
+
+        if (GameManager.Instance.EquipManager.EqipDictionary.TryGetValue(slotItemData.item.type, out ItemData item))
+        {
+            //장착되어있는 아이템이라면 > 장착 해제 
+            GameManager.Instance.EquipManager.UnequipItem(item.type);
+        }
+        else
+        {
+            //비장착 아이템 > 장착 
+            GameManager.Instance.EquipManager.EqipDictionaryAddItem(slotItemData.item);
+        }
+    }
+
     private void Init()
     {
         //슬롯 생성만  > UI도 그려주기 

@@ -18,23 +18,65 @@ public class PauseMenuUI : MonoBehaviour
 
     private void Awake()
     {
+        // GameManager 인스턴스 가져오기
         gameManager = GameManager.Instance;
+        Debug.Log($"PauseMenuUI Awake: GameManager 참조 {(gameManager != null ? "성공" : "실패")}");
         
         // 처음에 메뉴 비활성화
-        pauseMenuPanel.SetActive(false);
-        settingsPanel.SetActive(false);
+        if (pauseMenuPanel != null) 
+        {
+            pauseMenuPanel.SetActive(false);
+            Debug.Log("PauseMenuUI: 일시정지 메뉴 패널 비활성화");
+        }
+        else
+        {
+            Debug.LogError("PauseMenuUI: pauseMenuPanel이 할당되지 않았습니다!");
+        }
+        
+        if (settingsPanel != null)
+        {
+            settingsPanel.SetActive(false);
+            Debug.Log("PauseMenuUI: 설정 패널 비활성화");
+        }
+        else
+        {
+            Debug.LogError("PauseMenuUI: settingsPanel이 할당되지 않았습니다!");
+        }
         
         // 버튼에 이벤트 연결
-        continueButton.onClick.AddListener(ContinueGame);
-        settingsButton.onClick.AddListener(OpenSettings);
-        mainMenuButton.onClick.AddListener(BackToMainMenu);
-        backButton.onClick.AddListener(CloseSettings);
+        if (continueButton != null)
+            continueButton.onClick.AddListener(ContinueGame);
+        else
+            Debug.LogError("PauseMenuUI: continueButton이 할당되지 않았습니다!");
+            
+        if (settingsButton != null)
+            settingsButton.onClick.AddListener(OpenSettings);
+        else
+            Debug.LogError("PauseMenuUI: settingsButton이 할당되지 않았습니다!");
+            
+        if (mainMenuButton != null)
+            mainMenuButton.onClick.AddListener(BackToMainMenu);
+        else
+            Debug.LogError("PauseMenuUI: mainMenuButton이 할당되지 않았습니다!");
+            
+        if (backButton != null)
+            backButton.onClick.AddListener(CloseSettings);
+        else
+            Debug.LogError("PauseMenuUI: backButton이 할당되지 않았습니다!");
     }
 
     private void OnEnable()
     {
         // 게임 상태 변경 이벤트 구독
-        gameManager.OnGameStateChanged += HandleGameStateChanged;
+        if (gameManager != null)
+        {
+            gameManager.OnGameStateChanged += HandleGameStateChanged;
+            Debug.Log("PauseMenuUI: 게임 상태 변경 이벤트 구독");
+        }
+        else
+        {
+            Debug.LogError("PauseMenuUI OnEnable: GameManager 참조가 null입니다!");
+        }
     }
 
     private void OnDisable()
@@ -49,16 +91,20 @@ public class PauseMenuUI : MonoBehaviour
     // 게임 상태 변경 처리
     private void HandleGameStateChanged(GameManager.GameState newState)
     {
+        Debug.Log($"PauseMenuUI: 게임 상태 변경 감지 - {newState}");
+        
         switch (newState)
         {
             case GameManager.GameState.Playing:
                 pauseMenuPanel.SetActive(false);
                 settingsPanel.SetActive(false);
+                Debug.Log("PauseMenuUI: 게임 플레이 모드 - UI 숨김");
                 break;
                 
             case GameManager.GameState.Paused:
                 pauseMenuPanel.SetActive(true);
                 settingsPanel.SetActive(false);
+                Debug.Log("PauseMenuUI: 일시정지 모드 - 메뉴 패널 표시");
                 break;
                 
             case GameManager.GameState.MainMenu:
@@ -95,6 +141,6 @@ public class PauseMenuUI : MonoBehaviour
         
         // 상태 변경 및 씬 로드 요청
         gameManager.SetGameState(GameManager.GameState.MainMenu);
-        SceneManager.LoadScene("MainMenu"); // 메인 메뉴 씬 이름에 맞게 수정 필요
+        SceneManager.LoadScene("Title"); // 메인 메뉴 씬 이름에 맞게 수정 필요
     }
 }
