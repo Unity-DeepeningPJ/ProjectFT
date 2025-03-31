@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //몬스터 충돌 시 데미지 받는 로직
         int enemyLayer = LayerMask.NameToLayer("Enemy");
         int enemyDamage = 0;
 
@@ -61,6 +62,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //몬스터 공격에 맞았을 때 데미지 받는 로직
         int bulletLayer = LayerMask.NameToLayer("Bullet");
         int enemyDamage = 0;
 

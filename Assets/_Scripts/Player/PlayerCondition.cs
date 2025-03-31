@@ -16,6 +16,7 @@ public class PlayerCondition : MonoBehaviour, IDamageable
         _playerCollider = GetComponent<Collider2D>();
     }
 
+    //데미지 계산
     public void TakePhysicalDamage(int damage)
     {
         if (IsInvincible) return;
@@ -34,6 +35,7 @@ public class PlayerCondition : MonoBehaviour, IDamageable
         Debug.Log("현재 체력 : " + CurrentHealth);
     }
 
+    //데미지 받은 후 잠시 무적상태
     public IEnumerator InvincibilityFrames(float duration)
     {
         Debug.Log("무적시작");
