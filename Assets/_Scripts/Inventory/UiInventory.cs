@@ -10,6 +10,7 @@ public class UiInventory : MonoBehaviour
     [SerializeField] private Transform slotsparent;
 
 
+
     private void Awake()
     {
         //슬롯 데이터 
@@ -78,7 +79,7 @@ public class UiInventory : MonoBehaviour
         // 생성해주기? 
     }
 
-    // 슬롯에 itemdata 넣어주기 
+    // 슬롯에 itemdata 넣어주기  + Equip 표시 넣어주기 (장착한 아이템만)
     private void UpdateUI()
     {
         for (int i = 0; i < slots.Count; i++)
