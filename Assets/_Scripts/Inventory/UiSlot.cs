@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,10 +9,11 @@ public class UiSlot : MonoBehaviour
 {
     [SerializeField] private Image iconImage;
     [SerializeField] private Button slotButton;
+    public TextMeshProUGUI text_equip;
 
     //슬롯별로 데이터를 가지고 있어야하네 
 
-    private SlotItemData currentItemData;
+    public SlotItemData currentItemData;
 
     //아이템 클릭 이벤트(외부에서 구독 가능)
     public Action<SlotItemData> OnItemClicked;
@@ -25,13 +27,14 @@ public class UiSlot : MonoBehaviour
     private void Start()
     {
         slotButton.onClick.AddListener(onSlotClick);
-        
+        text_equip = GetComponentInChildren<TextMeshProUGUI>();
+        text_equip.gameObject.SetActive(false);
     }
 
     private void onSlotClick()
     {
         //빈슬롯 
-        if (currentItemData ==null || currentItemData.IsEmpty)
+        if (currentItemData == null || currentItemData.IsEmpty)
         {
             Debug.Log("빈 슬롯 클릭");
             return;
@@ -46,6 +49,7 @@ public class UiSlot : MonoBehaviour
             // 더블 클릭 처리
             //Debug.Log($"더블 클릭: {currentItemData.item.itemName}");
             OnItemDoubleClicked?.Invoke(currentItemData);
+            UpdateEquip();
         }
         else
         {
@@ -70,7 +74,7 @@ public class UiSlot : MonoBehaviour
     public void UpdateSlot(SlotItemData slot)
     {
         //슬롯에 데이터를 저장
-        currentItemData= slot;
+        currentItemData = slot;
 
         //비어있다면 Image를 없애줘야지 
         if (!slot.IsEmpty)
@@ -78,6 +82,7 @@ public class UiSlot : MonoBehaviour
             //존재하면 이미지 update해주기 
             iconImage.sprite = slot.item.Icon;
             iconImage.enabled = true;
+            UpdateEquip();
         }
         else
         {
@@ -88,7 +93,27 @@ public class UiSlot : MonoBehaviour
         }
 
 
-        
     }
+
+    public void UpdateEquip()
+    {
+        // 현재 장착된 아이템인지 정확히 체크
+        bool isEquipped = false;
+        if (GameManager.Instance.EquipManager.EqipDictionary.TryGetValue(currentItemData.item.type, out ItemData equippedItem))
+        {
+            // ID로 비교
+            isEquipped = (equippedItem.id == currentItemData.item.id);
+            // 또는 reference로 비교
+            // isEquipped = (equippedItem == slot.item);
+        }
+        text_equip.gameObject.SetActive(isEquipped);
+
+    }
+
+    public void UpdateRemoveEquip()
+    {
+        text_equip.gameObject.SetActive(false);
+    }
+    //remove 됬을때 본인의 E를 삭제 시켜주는 이벤트를 연결 해 줘야됨 
 
 }

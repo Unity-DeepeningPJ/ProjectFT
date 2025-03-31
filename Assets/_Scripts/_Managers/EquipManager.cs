@@ -35,6 +35,9 @@ public class EquipManager : MonoBehaviour
         {
             ItemData unequippedItem = EqipDictionary[type];
             //기존 장비 해제 
+           
+           
+
             EqipDictionary.Remove(type);
             Debug.Log("장착 아이템 삭제 완료 ");
             //해제시 이벤트 처리 
