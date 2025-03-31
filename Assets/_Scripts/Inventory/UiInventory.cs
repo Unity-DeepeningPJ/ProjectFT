@@ -42,14 +42,22 @@ public class UiInventory : MonoBehaviour
     {
         //더블클릭 이벤트처리 
         Debug.Log($"더블클릭 :{slotItemData.item.itemName}");
-        //eqipmanager 에 있는 list에 더해주기 
-        GameManager.Instance.EquipManager.EqipDictionaryAddItem(slotItemData.item);
-
-
+        
+        // 그 부위에 아이템이 장착 되어있나 없나 
         if (GameManager.Instance.EquipManager.EqipDictionary.TryGetValue(slotItemData.item.type, out ItemData item))
         {
-            //장착되어있는 아이템이라면 > 장착 해제 
-            GameManager.Instance.EquipManager.UnequipItem(item.type);
+            // 그게 장착된 아이템인가? 아닌가 ?
+            if (item.id == slotItemData.item.id)
+            {
+                //장착되어있다면 >해제 
+                GameManager.Instance.EquipManager.UnequipItem(item.type);
+            }
+            else
+            {
+                // 그게 아니라면 > 보유아이템 해제 > 슬롯아이템 더해줘
+                GameManager.Instance.EquipManager.UnequipItem(item.type);
+                GameManager.Instance.EquipManager.EqipDictionaryAddItem(slotItemData.item);
+            }
         }
         else
         {
