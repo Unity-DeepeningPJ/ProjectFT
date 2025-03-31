@@ -332,6 +332,8 @@ MonoBehaviour:
   Slot_Equip_Glove: {fileID: 2638965243954809257}
   Slot_Equip_Shield: {fileID: 8326352202243925959}
   Slot_Equip_Weapon: {fileID: 7331045841568966702}
+  Name: {fileID: 6231298762735255128}
+  Gold: {fileID: 3929988348664327334}
 --- !u!1 &2049704316622915497
 GameObject:
   m_ObjectHideFlags: 0
@@ -1374,6 +1376,7 @@ GameObject:
   - component: {fileID: 2143858702328682686}
   - component: {fileID: 9077512743010990686}
   - component: {fileID: 6504898704291859437}
+  - component: {fileID: 4640065072536352302}
   m_Layer: 5
   m_Name: Stats_backGround
   m_TagString: Untagged
@@ -1443,6 +1446,22 @@ MonoBehaviour:
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!114 &6504898704291859437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8054002566301852763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45b206145d494ce4392d396200de6290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerStatePower: {fileID: 2812399015765094768}
+  playerStateDefense: {fileID: 3691802902010863664}
+  playerStatehealth: {fileID: 7595607271168209487}
+  playerStateCritical: {fileID: 1342611787070586595}
+--- !u!114 &4640065072536352302
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
