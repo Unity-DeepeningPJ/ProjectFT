@@ -33,7 +33,7 @@ public class PlayerDashState : PlayerBaseState
         if (_stateMachine.MoveInput.x != 0)
             _dashDirection = _stateMachine.MoveInput.x;
         else
-            _dashDirection = player.transform.localScale.x;
+            _dashDirection = -player.transform.localScale.x;
 
         //현재 y 값 고정
         _fixedYPosition = player.Rigidbody.position.y;
