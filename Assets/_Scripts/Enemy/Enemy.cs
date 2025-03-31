@@ -157,5 +157,18 @@ public class Enemy : BaseState, IDamageable
     {
         Debug.Log("Enemy Die!");
         Destroy(gameObject);
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        if (player != null)
+        {
+            // PlayerState 컴포넌트 가져오기
+            PlayerState playerState = player.GetComponent<PlayerState>();
+
+            if (playerState != null)
+            {
+                // 레벨업 로직 실행
+                playerState.LevelUp();
+            }
+        }
     }
 }

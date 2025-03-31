@@ -336,37 +336,52 @@ public class Boss : MeleeEnemy, IDamageable
     {
         Debug.Log("Boss Die!");
         Destroy(gameObject); // 또는 오브젝트 풀에 반환
-    }
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
 
-    GameObject FindClosestObjectWithLayer(Vector3 position, LayerMask playerLayer, float maxDistance)
-    {
-        GameObject closest = null;
-        float closestDistanceSqr = Mathf.Infinity;
-        Vector3 pos = position;
-
-        // 지정된 레이어 마스크에 해당하는 모든 GameObject 찾기
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(position, maxDistance, playerLayer);
-
-        foreach (Collider2D collider in colliders)
+        if (player != null)
         {
-            GameObject go = collider.gameObject;
-            Vector3 diff = go.transform.position - pos;
-            float distanceSqr = diff.sqrMagnitude;
+            // PlayerState 컴포넌트 가져오기
+            PlayerState playerState = player.GetComponent<PlayerState>();
 
-            if (distanceSqr < closestDistanceSqr)
+            if (playerState != null)
             {
-                closest = go;
-                closestDistanceSqr = distanceSqr;
+                // 레벨업 로직 실행
+                playerState.LevelUp();
             }
         }
+    }
 
-        // 만약 플레이어가 maxDistance 내에 없다면 closest는 null을 반환
-        if (closestDistanceSqr == Mathf.Infinity) // 거리가 초기값과 같다면, 플레이어를 찾지 못했다는 의미
+        GameObject FindClosestObjectWithLayer(Vector3 position, LayerMask playerLayer, float maxDistance)
         {
-            return null; // 플레이어를 찾지 못했으면 null 반환
+            GameObject closest = null;
+            float closestDistanceSqr = Mathf.Infinity;
+            Vector3 pos = position;
+
+            // 지정된 레이어 마스크에 해당하는 모든 GameObject 찾기
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(position, maxDistance, playerLayer);
+
+            foreach (Collider2D collider in colliders)
+            {
+                GameObject go = collider.gameObject;
+                Vector3 diff = go.transform.position - pos;
+                float distanceSqr = diff.sqrMagnitude;
+
+                if (distanceSqr < closestDistanceSqr)
+                {
+                    closest = go;
+                    closestDistanceSqr = distanceSqr;
+                }
+            }
+
+            // 만약 플레이어가 maxDistance 내에 없다면 closest는 null을 반환
+            if (closestDistanceSqr == Mathf.Infinity) // 거리가 초기값과 같다면, 플레이어를 찾지 못했다는 의미
+            {
+                return null; // 플레이어를 찾지 못했으면 null 반환
+            }
+
+
+            return closest;
         }
 
-
-        return closest;
-    }
+    
 }
