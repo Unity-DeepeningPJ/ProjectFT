@@ -2,15 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIIventoryScrean : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI inventoryVlume;
-
+    [SerializeField]private Image Slot_Equip_Coat;
+    [SerializeField]private Image Slot_Equip_Glove;
+    [SerializeField] private Image Slot_Equip_Shield;
+    [SerializeField] private Image Slot_Equip_Weapon;
 
     private void Start()
     {
         GameManager.Instance.InventoryManager.OnInventoryChanged += OnChangeSpace;
+        GameManager.Instance.EquipManager.OnEquipmentAdd += OnChangeAddEquipItems;
+        GameManager.Instance.EquipManager.OnEquipmentRemoved += OnChangeRemoveEquipItems;
+
+        
         init();
     }
 
@@ -22,11 +30,11 @@ public class UIIventoryScrean : MonoBehaviour
 
     private void OnChangeSpace()
     {
-        // °ø°£ °³¼ö º¯°æ½Ã  TEXT º¯°æ
+        // ê³µê°„ ê°œìˆ˜ ë³€ê²½ì‹œ  TEXT ë³€ê²½
 
 
-        //max °ø°£À¸·Î Á¸Àç : ¾È¿¡ item Á¸ÀçÀ¯¹«¸¦ È®ÀÎÇØ¼­ countingÇØ¾ßµÈ´Ù.
-        //°ü·Ã ¸Ş¼Òµå¸¦ ¸¸µé¾î¾ß°ÚÁö ? inventorymanager¿¡¼­ 
+        //max ê³µê°„ìœ¼ë¡œ ì¡´ì¬ : ì•ˆì— item ì¡´ì¬ìœ ë¬´ë¥¼ í™•ì¸í•´ì„œ countingí•´ì•¼ëœë‹¤.
+        //ê´€ë ¨ ë©”ì†Œë“œë¥¼ ë§Œë“¤ì–´ì•¼ê² ì§€ ? inventorymanagerì—ì„œ 
 
         int ExistItemCount = GameManager.Instance.InventoryManager.CountingSlotItemData();
 
@@ -36,4 +44,55 @@ public class UIIventoryScrean : MonoBehaviour
 
     }
 
+    private void OnChangeAddEquipItems(ItemData itemData)
+    {
+        if(GameManager.Instance.EquipManager.EqipDictionary.TryGetValue(itemData.type,out ItemData item))
+        {
+            // ë³´ìœ ì•„ì´í…œ
+            switch (item.type)
+            {
+                case EquipType.Weapon:
+                    Slot_Equip_Weapon.sprite = item.Icon;
+                    break;
+                case EquipType.Coat:
+                    Slot_Equip_Coat.sprite = item.Icon;
+                    break;
+                case EquipType.Shield:
+                    Slot_Equip_Shield.sprite = item.Icon;
+                    break;
+                case EquipType.Glove:
+                    Slot_Equip_Glove.sprite = item.Icon;
+                    break;
+                default:
+                    break;
+            }
+        }
+ 
+    }
+
+    private void OnChangeRemoveEquipItems(ItemData itemData)
+    {
+        if (!GameManager.Instance.EquipManager.EqipDictionary.TryGetValue(itemData.type, out ItemData item))
+        {
+            //ë³´ìœ í•˜ì§€ ì•Šì€ ì•„ì´í…œ 
+            // ë³´ìœ ì•„ì´í…œ
+            switch (itemData.type)
+            {
+                case EquipType.Weapon:
+                    Slot_Equip_Weapon.sprite = null;
+                    break;
+                case EquipType.Coat:
+                    Slot_Equip_Coat.sprite = null;
+                    break;
+                case EquipType.Shield:
+                    Slot_Equip_Shield.sprite = null;
+                    break;
+                case EquipType.Glove:
+                    Slot_Equip_Glove.sprite = null;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
