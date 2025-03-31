@@ -62,7 +62,7 @@ public class PlayerAttackState : PlayerBaseState
 
     private void CheckForHit()
     {
-        Vector2 attackDirection = player.transform.localScale.x > 0 ? Vector2.right : Vector2.left;
+        Vector2 attackDirection = player.transform.localScale.x > 0 ? Vector2.left : Vector2.right;
         RaycastHit2D[] hits = Physics2D.RaycastAll(player.transform.position, attackDirection, _attackRange);
 
         foreach (RaycastHit2D hit in hits)
