@@ -8,6 +8,8 @@ public class PlayerJumpState : PlayerBaseState
     {
         base.Enter();
 
+        Debug.Log("Jump State");
+
         //점프
         if (player.isGrounded)
         {

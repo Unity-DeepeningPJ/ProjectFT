@@ -7,7 +7,8 @@ public class PlayerIdleState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
-        player.Rigidbody.velocity = Vector2.zero;
+
+        Debug.Log("Idle State");
     }
 
     public override void HandleInput()

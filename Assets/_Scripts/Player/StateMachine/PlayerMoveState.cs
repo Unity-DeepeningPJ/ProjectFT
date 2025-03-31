@@ -7,6 +7,16 @@ public class PlayerMoveState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
+
+        Debug.Log("Move State");
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+
+        if (player.Controller.canMove && player.isGrounded)
+            player.Rigidbody.velocity = Vector2.zero;
     }
 
     public override void HandleInput()

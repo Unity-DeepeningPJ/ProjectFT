@@ -13,6 +13,8 @@ public class PlayerAttackState : PlayerBaseState
     {
         base.Enter();
 
+        Debug.Log("Attack State");
+
         _attackRange = 3f;
         _attackDuration = 0.5f;
         _attackTimer = 0f;
@@ -58,8 +60,6 @@ public class PlayerAttackState : PlayerBaseState
 
     private void CheckForHit()
     {
-        Debug.Log("공격");
-
         Vector2 attackDirection = player.transform.localScale.x > 0 ? Vector2.right : Vector2.left;
         RaycastHit2D[] hits = Physics2D.RaycastAll(player.transform.position, attackDirection, _attackRange);
 

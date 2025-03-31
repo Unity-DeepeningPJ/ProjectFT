@@ -17,6 +17,8 @@ public class PlayerDashState : PlayerBaseState
     {
         base.Enter();
 
+        Debug.Log("Dash State");
+
         _dashDistance = player.PlayerState.DashDistance;
         _dashSpeed = player.PlayerState.DashSpeed;
         _dashTime = _dashDistance / _dashSpeed;
@@ -53,6 +55,7 @@ public class PlayerDashState : PlayerBaseState
 
         //원래 중력 값 복원
         player.Rigidbody.gravityScale = _gravityScale;
+        player.Rigidbody.velocity = Vector2.zero;
     }
 
     public override void PhysicsUpdate()

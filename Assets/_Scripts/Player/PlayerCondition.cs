@@ -38,18 +38,26 @@ public class PlayerCondition : MonoBehaviour, IDamageable
     //데미지 받은 후 잠시 무적상태
     public IEnumerator InvincibilityFrames(float duration)
     {
-        Debug.Log("무적시작");
         IsInvincible = true;
         IgnoreAllEnemyCollision(true);
         yield return new WaitForSeconds(duration);
-        Debug.Log("무적끝");
         IsInvincible = false;
         IgnoreAllEnemyCollision(false);
     }
 
     public void ApplyKnockback(Vector2 direction, float force)
     {
+        _player.StartCoroutine(ApplyKnockbackCoroutine(direction, force, 0.3f));
+    }
+
+    public IEnumerator ApplyKnockbackCoroutine(Vector2 direction, float force, float duration)
+    {
+        _player.Rigidbody.velocity = Vector2.zero;
         _player.Rigidbody.AddForce(direction * force, ForceMode2D.Impulse);
+
+        _player.Controller.canMove = false;
+        yield return new WaitForSeconds(duration);
+        _player.Controller.canMove = true;
     }
 
     private void IgnoreAllEnemyCollision(bool ignore)

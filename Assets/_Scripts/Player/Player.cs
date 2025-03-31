@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -79,8 +78,9 @@ public class Player : MonoBehaviour
 
     private void PlayerTakePhysicalDamage(Collider2D collision, int damage)
     {
+        float knockbackForce = 7f;
+
         Vector2 knockbackDirection = (transform.position - collision.transform.position).normalized;
-        float knockbackForce = 3f;
 
         PlayerCondition.TakePhysicalDamage(damage);
         PlayerCondition.ApplyKnockback(knockbackDirection, knockbackForce);

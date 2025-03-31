@@ -1,10 +1,11 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     public PlayerInput playerInput { get; private set; }
     public PlayerInput.PlayerActions playerActions { get; private set; }
+
+    public bool canMove = true;
 
     private void Awake()
     {
