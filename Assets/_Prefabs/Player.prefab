@@ -263,6 +263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canMove: 1
+  inventory: {fileID: 1125591270097529689, guid: c725ac0419fe57448ba844183870443a, type: 3}
 --- !u!114 &6721820620174649864
 MonoBehaviour:
   m_ObjectHideFlags: 0
