@@ -27,11 +27,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerManager playerManager;
     // 나중에 추가할 매니저들: StageManager, EnemyManager 등등
     [SerializeField] private EquipManager equipManager;
+    [SerializeField] private CurrencyManager currencyManager;
     // 다른 컴포넌트가 접근할 수 있도록 프로퍼티로 노출
     public AbilityManager AbilityManager => abilityManager;
     public InventoryManager InventoryManager => inventoryManager;    
     public PlayerManager PlayerManager => playerManager;
     public EquipManager EquipManager => equipManager;
+    public CurrencyManager CurrencyManager => currencyManager;
 
     // 게임 상태 관련
     public enum GameState { Playing, Paused, GameOver, MainMenu }

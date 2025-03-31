@@ -16,7 +16,6 @@ public class UiInventory : MonoBehaviour
         //슬롯 데이터 
         slots = new List<UiSlot>();
 
-
     }
 
     private void Start()
@@ -82,6 +81,7 @@ public class UiInventory : MonoBehaviour
             slots.Add(slotobj);
         }
 
+        UpdateUI();
         // 생성해주기? 
     }
 
