@@ -1,3 +1,5 @@
+using System;
+
 public class PlayerState : BaseState
 {
     public string Name { get; private set; }
@@ -22,6 +24,9 @@ public class PlayerState : BaseState
     public int TotalHealth => health + _equipHealth;
     public float TotalCriticalChance => CriticalChance + _equipCriticalChance;
 
+
+    public event Action<PlayerState> OnStatsChanged;
+
     public PlayerState(PlayerData data) : base(data.basePower, data.baseDefense, data.baseHealth, data.baseSpeed, data.baseJumpPower)
     {
         Name = data.playerName;
@@ -38,6 +43,17 @@ public class PlayerState : BaseState
         _equipDefense = 0;
         _equipHealth = 0;
         _equipCriticalChance = 0;
+    }
+
+    //장비 스텟 변경 메서드
+    public void UpdateEquipStats(int power,int defense,int health,float critical)
+    {
+        _equipPower = power;
+        _equipDefense = defense;
+        _equipHealth = health;
+        _equipCriticalChance = critical;
+
+        OnStatsChanged?.Invoke(this);
     }
 
     //경험치 추가 및 레벨업
