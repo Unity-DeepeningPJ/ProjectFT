@@ -34,7 +34,7 @@ public class UiInventory : MonoBehaviour
 
     private void HandleItemOneClicked(SlotItemData slotItemData)
     {
-        Debug.Log($"원클릭 :{slotItemData.item.itemName}");
+        //Debug.Log($"원클릭 :{slotItemData.item.itemName}");
 
 
 
@@ -42,8 +42,8 @@ public class UiInventory : MonoBehaviour
     private void HandleItemDubleClickd(SlotItemData slotItemData)
     {
         //더블클릭 이벤트처리 
-        Debug.Log($"더블클릭 :{slotItemData.item.itemName}");
-        
+        //Debug.Log($"더블클릭 :{slotItemData.item.itemName}");
+
         // 그 부위에 아이템이 장착 되어있나 없나 
         if (GameManager.Instance.EquipManager.EqipDictionary.TryGetValue(slotItemData.item.type, out ItemData item))
         {
@@ -53,8 +53,14 @@ public class UiInventory : MonoBehaviour
                 //장착되어있다면 >해제 
                 GameManager.Instance.EquipManager.UnequipItem(item.type);
             }
-            else
+            else // 미리 장착된 아이템이 있고 지금 장착할 아이템은 다른 아이템 
             {
+                //해제 전에 기존 장비의 E를 없애 줘야됨 
+                var oldItem = slots.Find(slot => slot.currentItemData.item.id == item.id);
+                if (oldItem != null)
+                {
+                    oldItem.UpdateRemoveEquip();
+                }
                 // 그게 아니라면 > 보유아이템 해제 > 슬롯아이템 더해줘
                 GameManager.Instance.EquipManager.UnequipItem(item.type);
                 GameManager.Instance.EquipManager.EqipDictionaryAddItem(slotItemData.item);

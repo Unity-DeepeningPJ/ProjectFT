@@ -13,7 +13,7 @@ public class UiSlot : MonoBehaviour
 
     //슬롯별로 데이터를 가지고 있어야하네 
 
-    private SlotItemData currentItemData;
+    public SlotItemData currentItemData;
 
     //아이템 클릭 이벤트(외부에서 구독 가능)
     public Action<SlotItemData> OnItemClicked;
@@ -109,5 +109,11 @@ public class UiSlot : MonoBehaviour
         text_equip.gameObject.SetActive(isEquipped);
 
     }
+
+    public void UpdateRemoveEquip()
+    {
+        text_equip.gameObject.SetActive(false);
+    }
+    //remove 됬을때 본인의 E를 삭제 시켜주는 이벤트를 연결 해 줘야됨 
 
 }
