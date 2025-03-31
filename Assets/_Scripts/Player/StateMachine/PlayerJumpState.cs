@@ -11,7 +11,7 @@ public class PlayerJumpState : PlayerBaseState
         //점프
         if (player.isGrounded)
         {
-            player.Rigidbody.velocity = new Vector2(player.Rigidbody.velocity.x, player.PlayerState.jumpPower);
+            player.Rigidbody.AddForce(Vector2.up * player.PlayerState.jumpPower, ForceMode2D.Impulse);
             player.isGrounded = false;
         }
     }
@@ -30,8 +30,10 @@ public class PlayerJumpState : PlayerBaseState
     {
         base.PhysicsUpdate();
 
+        Move();
+
         //점프가 끝나면 상태 변경
-        if (!player.isGrounded && _stateMachine.Player.Rigidbody.velocity.y <= 0)
+        if (!player.isGrounded && Mathf.Abs(player.Rigidbody.velocity.y) <= 0.1f)
         {
             player.isGrounded = true;
 

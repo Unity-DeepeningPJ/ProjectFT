@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   playerName: Player
-  basePower: 10
-  baseDefense: 10
-  baseHealth: 100
-  baseSpeed: 5
-  baseJumpPower: 6
-  baseDashDistance: 3
-  baseDashSpeed: 10
-  baseCriticalChance: 5
   startLevel: 1
   startExp: 0
   expToNextLevel: 100
+  basePower: 10
+  baseDefense: 10
+  baseHealth: 100
+  baseCriticalChance: 5
+  baseSpeed: 10
+  baseJumpPower: 10
+  baseDashDistance: 4
+  baseDashSpeed: 7

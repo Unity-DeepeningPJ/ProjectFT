@@ -19,7 +19,7 @@ public class PlayerIdleState : PlayerBaseState
         {
             _stateMachine.ChangeState(_stateMachine.MoveState);
         }
-        else if(_stateMachine.Player.Controller.playerActions.Jump.triggered)
+        else if (_stateMachine.Player.Controller.playerActions.Jump.triggered)
         {
             _stateMachine.ChangeState(_stateMachine.JumpState);
         }
@@ -27,14 +27,9 @@ public class PlayerIdleState : PlayerBaseState
         {
             _stateMachine.ChangeState(_stateMachine.DashState);
         }
-        else if (_stateMachine.Player.Controller.playerActions.Attack.triggered)
-        {
-            _stateMachine.ChangeState(_stateMachine.AttackState);
-        }
-    }
-
-    public override void Update()
-    {
-        base.Update();
+        //else if (_stateMachine.Player.Controller.playerActions.Attack.triggered)
+        //{
+        //    _stateMachine.ChangeState(_stateMachine.AttackState);
+        //}
     }
 }

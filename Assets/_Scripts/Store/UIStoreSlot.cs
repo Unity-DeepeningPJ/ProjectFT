@@ -31,7 +31,7 @@ public class UIStoreSlot : MonoBehaviour
         nameTxt.text = item.itemName.ToString();
         descripTxt.text = item.description.ToString();
         goldTxt.text = item.gold.ToString();
-        typeTxt.text = $"{item.type} + {item.value}";
+        //typeTxt.text = $"{item.type} + {item.value}";
     }
 
     public void ClearSlot()

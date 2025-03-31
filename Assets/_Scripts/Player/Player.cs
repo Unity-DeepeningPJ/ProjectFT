@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -9,8 +10,6 @@ public class Player : MonoBehaviour
     public PlayerStateMachine StateMachine { get; private set; }
     public Rigidbody2D Rigidbody { get; private set; }
 
-    private Collider2D _playerCollider;
-
     public bool isGrounded { get; set; } = true;
 
     private CurrencyManager currency;
@@ -20,12 +19,13 @@ public class Player : MonoBehaviour
     {
         PlayerState = new PlayerState(Data);
 
-        PlayerCondition = new PlayerCondition(this, PlayerState.TotalHealth);
+        PlayerCondition = gameObject.AddComponent<PlayerCondition>();
+        PlayerCondition.Initizlize(this, PlayerState.TotalHealth);
+
         Controller = GetComponent<PlayerController>();
         Rigidbody = GetComponent<Rigidbody2D>();
         StateMachine = new PlayerStateMachine(this);
-        currency =GetComponent<CurrencyManager>();
-        _playerCollider = GetComponent<Collider2D>();
+        currency = GetComponent<CurrencyManager>();
     }
 
     private void Update()
@@ -63,7 +63,6 @@ public class Player : MonoBehaviour
     {
         int bulletLayer = LayerMask.NameToLayer("Bullet");
         int enemyDamage = 0;
-        bool isDamage = false;
 
         if (collision.gameObject.layer == bulletLayer)
         {
@@ -81,7 +80,6 @@ public class Player : MonoBehaviour
         Vector2 knockbackDirection = (transform.position - collision.transform.position).normalized;
         float knockbackForce = 3f;
 
-        PlayerCondition.SetCollider(_playerCollider);
         PlayerCondition.TakePhysicalDamage(damage);
         PlayerCondition.ApplyKnockback(knockbackDirection, knockbackForce);
     }

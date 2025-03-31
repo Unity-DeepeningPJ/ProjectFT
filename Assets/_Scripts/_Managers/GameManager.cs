@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -62,6 +63,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         LoadGameData();
+        StartPlayTimeTracking();
     }
 
     private void Update()
@@ -96,64 +98,186 @@ public class GameManager : MonoBehaviour
 
     public void SaveGameData()
     {
-        // 게임 데이터 객체 생성
-        GameData data = new GameData();
+        // 저장할 데이터 생성
+        SaveData data = new SaveData();
         
-        // 각종 데이터 설정
-        // 능력 데이터 저장
-        data.unlockedAbilities = abilityManager.GetSaveData();
+        // 플레이어 정보 저장
+        if (playerManager != null && playerManager.player != null)
+        {
+            var player = playerManager.player;
+            // data.playerName = player.Name; // Player 클래스에 Name 프로퍼티가 아직 구현되지 않음
+            // data.playerLevel = player.Level; // Player 클래스에 Level 프로퍼티가 아직 구현되지 않음
+            // 추가 플레이어 정보...            
+            // 위치 정보 저장
+            data.currentSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+            data.playerPosX = player.transform.position.x;
+            data.playerPosY = player.transform.position.y;
+        }
         
-        // 플레이어 위치 저장 (예시)
-        // GameObject player = GameObject.FindGameObjectWithTag("Player");
-        // if (player != null)
-        // {
-        //     data.lastPositionX = player.transform.position.x;
-        //     data.lastPositionY = player.transform.position.y;
-        // }
+        // 인벤토리 정보 저장
+        if (inventoryManager != null)
+        {
+            // 인벤토리 아이템들을 InventoryItemData 리스트로 변환
+            // data.inventoryItems = ...
+        }
         
-        // 현재 시간 저장
-        data.lastSaveTime = DateTime.Now.ToString();
+        // 장비 정보 저장
+        if (equipManager != null)
+        {
+            // 현재 장착된 장비 정보 저장
+            // data.equippedWeapon = ...
+        }
         
-        // 데이터를 JSON으로 변환
-        string jsonData = JsonUtility.ToJson(data, true);
+        // 시간 정보 저장
+        data.playTimeSeconds = GetTotalPlayTime(); // 플레이 시간 계산 메서드 필요
+        data.lastSaveTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         
-        // 파일로 저장 (PlayerPrefs 대신 파일 시스템 사용)
-        string savePath = Application.persistentDataPath + "/gamesave.json";
-        System.IO.File.WriteAllText(savePath, jsonData);
+        // 현재 슬롯에 저장
+        string json = JsonUtility.ToJson(data, true); // true는 pretty print를 의미
+        string path = $"{Application.persistentDataPath}/savedata_{currentSlot}.json";
+        System.IO.File.WriteAllText(path, json);
         
-        Debug.Log("게임 데이터가 저장되었습니다: " + savePath);
+        Debug.Log($"슬롯 {currentSlot+1}에 게임 데이터 저장 완료");
     }
 
     public void LoadGameData()
     {
-        string savePath = Application.persistentDataPath + "/gamesave.json";
+        string path = $"{Application.persistentDataPath}/savedata_{currentSlot}.json";
         
-        // 저장 파일이 존재하는지 확인
-        if (System.IO.File.Exists(savePath))
+        if (System.IO.File.Exists(path))
         {
-            // 파일에서 JSON 데이터 로드
-            string jsonData = System.IO.File.ReadAllText(savePath);
+            string json = System.IO.File.ReadAllText(path);
+            SaveData data = JsonUtility.FromJson<SaveData>(json);
             
-            // JSON을 GameData 객체로 변환
-            GameData data = JsonUtility.FromJson<GameData>(jsonData);
+            // 플레이어 정보 적용
+            if (playerManager != null && playerManager.player != null)
+            {
+                var player = playerManager.player;
+                // 플레이어 데이터 설정
+                // player.SetName(data.playerName);
+                // player.SetLevel(data.playerLevel);
+                // 추가 플레이어 정보...
+            }
             
-            // 데이터 적용
-            abilityManager.LoadSaveData(data.unlockedAbilities);
+            // 인벤토리 정보 적용
+            if (inventoryManager != null)
+            {
+                // 인벤토리 초기화 후 저장된 아이템 추가
+                // inventoryManager.ClearInventory();
+                // foreach (var itemData in data.inventoryItems) { ... }
+            }
             
-            // 플레이어 위치 설정 (예시)
-            // GameObject player = GameObject.FindGameObjectWithTag("Player");
-            // if (player != null)
-            // {
-            //     player.transform.position = new Vector3(data.lastPositionX, data.lastPositionY, 0);
-            // }
+            // 장비 정보 적용
+            if (equipManager != null)
+            {
+                // 저장된 장비 장착
+                // equipManager.EquipItem(data.equippedWeapon);
+                // ...
+            }
             
-            Debug.Log("게임 데이터를 로드했습니다. 마지막 저장: " + data.lastSaveTime);
+            // 시간 정보 적용
+            // SetTotalPlayTime(data.playTimeSeconds);
+            
+            Debug.Log($"슬롯 {currentSlot+1}에서 게임 데이터 로드 완료");
         }
         else
         {
-            Debug.Log("저장된 게임 데이터가 없습니다. 새 게임을 시작합니다.");
-            // 필요하다면 초기 게임 데이터 생성
+            Debug.LogWarning($"슬롯 {currentSlot+1}에 저장 데이터가 없습니다.");
         }
+    }
+
+    public bool HasSaveDataForSlot(int slotIndex)
+    {
+        string path = $"{Application.persistentDataPath}/savedata_{slotIndex}.json";
+        return System.IO.File.Exists(path);
+    }
+
+    public bool HasSaveData()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (HasSaveDataForSlot(i))
+                return true;
+        }
+        return false;
+    }
+
+    public SaveSlotData GetSaveSlotInfo(int slotIndex)
+    {
+        SaveSlotData data = new SaveSlotData();
+        
+        // 파일이 존재하는지 확인
+        string path = $"{Application.persistentDataPath}/savedata_{slotIndex}.json";
+        if (System.IO.File.Exists(path))
+        {
+            try
+            {
+                // 파일에서 기본 정보만 읽기 (전체 데이터를 읽지 않고 필요한 정보만)
+                string json = System.IO.File.ReadAllText(path);
+                SaveData fullData = JsonUtility.FromJson<SaveData>(json);
+                
+                // 메타데이터만 추출
+                data.playerLevel = fullData.playerLevel;
+                data.playerName = fullData.playerName;
+                data.playTime = FormatPlayTime(fullData.playTimeSeconds);
+                data.lastSaveTime = fullData.lastSaveTime;
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"슬롯 {slotIndex} 데이터 읽기 오류: {e.Message}");
+            }
+        }
+        
+        return data;
+    }
+
+    public void LoadGameDataFromSlot(int slotIndex)
+    {
+        currentSlot = slotIndex;
+        LoadGameData();
+    }
+
+    private int currentSlot = 0;
+    public void SetCurrentSlot(int slotIndex)
+    {
+        currentSlot = slotIndex;
+    }
+
+    private string FormatPlayTime(int seconds)
+    {
+        TimeSpan time = TimeSpan.FromSeconds(seconds);
+        return string.Format("{0:D2}:{1:D2}:{2:D2}", time.Hours, time.Minutes, time.Seconds);
+    }
+
+    public void ResetGameData()
+    {
+        // 게임 데이터 초기화 로직
+        Debug.Log("게임 데이터 초기화");
+        
+        // 플레이어 스탯 초기화
+        // 게임 진행 초기화
+        // 등등...
+    }
+
+    private int totalPlayTime = 0;
+    private float sessionStartTime;
+
+    public void StartPlayTimeTracking()
+    {
+        sessionStartTime = Time.time;
+    }
+
+    private int GetTotalPlayTime()
+    {
+        // 현재 세션 플레이 시간 계산
+        float currentSessionTime = Time.time - sessionStartTime;
+        return totalPlayTime + Mathf.FloorToInt(currentSessionTime);
+    }
+
+    private void SetTotalPlayTime(int seconds)
+    {
+        totalPlayTime = seconds;
+        sessionStartTime = Time.time; // 새 세션 시작
     }
 
     #endregion
@@ -256,4 +380,68 @@ public class GameManager : MonoBehaviour
 
     }
     #endregion
+}
+
+[System.Serializable]
+public class SaveSlotData
+{
+    public string playerName = "";
+    public int playerLevel = 1;
+    public string playTime = "00:00:00";
+    public string lastSaveTime = "";
+}
+
+[System.Serializable]
+public class SaveData
+{
+    // 플레이어 정보
+    public string playerName = "Player";
+    public int playerLevel = 1;
+    public int playerCurrentExp = 0;
+    public int playerExpToNextLevel = 100;
+    public float playerMaxHealth = 100f;
+    public float playerCurrentHealth = 100f;
+    public int playerPower = 10;
+    public int playerDefense = 5;
+    
+    // 위치 정보
+    public string currentSceneName = ""; 
+    public float playerPosX = 0f;
+    public float playerPosY = 0f;
+    
+    // 게임 진행 정보
+    public int gold = 0;
+    public List<string> unlockedAbilities = new List<string>();
+    public List<string> completedQuests = new List<string>();
+    public List<string> unlockedMaps = new List<string>();
+    public List<string> unlockedAchievements = new List<string>();
+    
+    // 인벤토리 정보
+    public List<InventoryItemData> inventoryItems = new List<InventoryItemData>();
+    
+    // 장비 정보
+    public string equippedWeapon = "";
+    public string equippedArmor = "";
+    public string equippedAccessory = "";
+    
+    // 시간 정보
+    public int playTimeSeconds = 0;
+    public string lastSaveTime = "";
+    
+    // 추가적인 필드...
+}
+
+[System.Serializable]
+public class InventoryItemData
+{
+    public string itemId;
+    public int amount;
+    public int slotIndex;
+    
+    public InventoryItemData(string id, int count, int slot)
+    {
+        itemId = id;
+        amount = count;
+        slotIndex = slot;
+    }
 }

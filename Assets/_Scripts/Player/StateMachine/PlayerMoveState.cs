@@ -26,10 +26,10 @@ public class PlayerMoveState : PlayerBaseState
         {
             _stateMachine.ChangeState(_stateMachine.DashState);
         }
-        else if (_stateMachine.Player.Controller.playerActions.Attack.triggered)
-        {
-            _stateMachine.ChangeState(_stateMachine.AttackState);
-        }
+        //else if (_stateMachine.Player.Controller.playerActions.Attack.triggered)
+        //{
+        //    _stateMachine.ChangeState(_stateMachine.AttackState);
+        //}
     }
 
     public override void PhysicsUpdate()
@@ -37,18 +37,5 @@ public class PlayerMoveState : PlayerBaseState
         base.PhysicsUpdate();
 
         Move();
-    }
-
-    private void Move()
-    {
-        Vector2 moveDirection = new Vector2(_stateMachine.MoveInput.x, 0);
-        float moveSpeed = player.PlayerState.speed;
-        player.Rigidbody.velocity = new Vector2(moveDirection.x * moveSpeed, player.Rigidbody.velocity.y);
-
-        //플레이어 방향 전환
-        if(moveDirection.x != 0)
-        {
-            player.transform.localScale = new Vector3(moveDirection.x, 1, 1);
-        }
     }
 }
