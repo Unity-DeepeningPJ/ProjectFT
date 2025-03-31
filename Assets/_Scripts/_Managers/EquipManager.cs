@@ -25,6 +25,7 @@ public class EquipManager : MonoBehaviour
         Debug.Log("장착 아이템 더하기 완료 ");
         // 장비 장착 이벤트 발생 
         // 여기서 능력치를 더해주기 
+        //GameManager.Instance.PlayerManager.player.PlayerState.UpdateEquipStats(itemData.)
         OnEquipmentAdd?.Invoke(itemData);
     }
 
@@ -35,8 +36,8 @@ public class EquipManager : MonoBehaviour
         {
             ItemData unequippedItem = EqipDictionary[type];
             //기존 장비 해제 
-           
-           
+
+
 
             EqipDictionary.Remove(type);
             Debug.Log("장착 아이템 삭제 완료 ");
@@ -48,5 +49,8 @@ public class EquipManager : MonoBehaviour
 
         }
 
+
     }
+
+
 }
