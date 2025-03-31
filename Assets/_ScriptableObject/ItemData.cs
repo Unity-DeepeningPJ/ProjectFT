@@ -36,7 +36,7 @@ public class ItemData : ScriptableObject
     public string itemName;
     public string description;
 
-    public EquipCondition[] equipCondition;
+    public EquipCondition equipCondition;
 
     public int gold;
 

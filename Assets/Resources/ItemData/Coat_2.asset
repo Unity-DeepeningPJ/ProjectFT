@@ -17,7 +17,7 @@ MonoBehaviour:
   itemName: "\uCF54\uD2B82"
   description: "\uCF54\uD2B8\uC785\uB2C8\uB2E4"
   equipCondition:
-  - type: 2
+    type: 2
     value: 30
   gold: 1200
   Icon: {fileID: 21300000, guid: e06fe033c93dd3243b0207473d63b686, type: 3}
