@@ -622,7 +622,7 @@ GameObject:
   - component: {fileID: 500629572}
   - component: {fileID: 500629571}
   - component: {fileID: 500629573}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6353,7 +6353,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1024
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 715f6244a8cac8c408b4a5a7c5261397, type: 2}
   m_TargetDisplay: 0
@@ -6374,7 +6374,7 @@ Transform:
   m_GameObject: {fileID: 1328315190}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 20, z: -50}
+  m_LocalPosition: {x: 0, y: 20, z: -100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7300,7 +7300,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1854328416}
   - component: {fileID: 1854328417}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7316,7 +7316,7 @@ Transform:
   m_GameObject: {fileID: 1854328415}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -40}
+  m_LocalPosition: {x: 0, y: 0, z: -80}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7384,7 +7384,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2097176561}
   - component: {fileID: 2097176562}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Map
   m_TagString: Untagged
   m_Icon: {fileID: 0}

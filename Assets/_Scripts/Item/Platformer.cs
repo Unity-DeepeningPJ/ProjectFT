@@ -16,10 +16,7 @@ public class Platformer : MonoBehaviour
     private void Awake()
     {
         prevPos = transform.position;
-        desiredPos = prevPos + movePos;
-
-        Debug.Log(prevPos);
-        
+        desiredPos = prevPos + movePos;        
     }
 
     private void FixedUpdate()
