@@ -71,5 +71,8 @@ public class PlayerState : BaseState
         Level++;
         CurrentExp = 0;
         ExpToNextLevel = (int)(ExpToNextLevel * 1.2f);
+        health += 10;
+        Power += 1;
+        Defense += 1;
     }
 }
