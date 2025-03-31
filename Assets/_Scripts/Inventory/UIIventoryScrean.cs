@@ -7,10 +7,13 @@ using UnityEngine.UI;
 public class UIIventoryScrean : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI inventoryVlume;
-    [SerializeField]private Image Slot_Equip_Coat;
-    [SerializeField]private Image Slot_Equip_Glove;
+    [SerializeField] private Image Slot_Equip_Coat;
+    [SerializeField] private Image Slot_Equip_Glove;
     [SerializeField] private Image Slot_Equip_Shield;
     [SerializeField] private Image Slot_Equip_Weapon;
+    [SerializeField] private TextMeshProUGUI Name;
+    [SerializeField] private TextMeshProUGUI Gold;
+
 
     private void Start()
     {
@@ -18,11 +21,9 @@ public class UIIventoryScrean : MonoBehaviour
         GameManager.Instance.EquipManager.OnEquipmentAdd += OnChangeAddEquipItems;
         GameManager.Instance.EquipManager.OnEquipmentRemoved += OnChangeRemoveEquipItems;
 
-        
+
         init();
     }
-
-
     private void init()
     {
         OnChangeSpace();
@@ -46,7 +47,7 @@ public class UIIventoryScrean : MonoBehaviour
 
     private void OnChangeAddEquipItems(ItemData itemData)
     {
-        if(GameManager.Instance.EquipManager.EqipDictionary.TryGetValue(itemData.type,out ItemData item))
+        if (GameManager.Instance.EquipManager.EqipDictionary.TryGetValue(itemData.type, out ItemData item))
         {
             // 보유아이템
             switch (item.type)
@@ -67,7 +68,7 @@ public class UIIventoryScrean : MonoBehaviour
                     break;
             }
         }
- 
+
     }
 
     private void OnChangeRemoveEquipItems(ItemData itemData)

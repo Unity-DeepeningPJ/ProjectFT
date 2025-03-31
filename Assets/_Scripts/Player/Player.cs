@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -41,6 +40,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //몬스터 충돌 시 데미지 받는 로직
         int enemyLayer = LayerMask.NameToLayer("Enemy");
         int enemyDamage = 0;
 
@@ -61,6 +61,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //몬스터 공격에 맞았을 때 데미지 받는 로직
         int bulletLayer = LayerMask.NameToLayer("Bullet");
         int enemyDamage = 0;
 
@@ -77,8 +78,9 @@ public class Player : MonoBehaviour
 
     private void PlayerTakePhysicalDamage(Collider2D collision, int damage)
     {
+        float knockbackForce = 7f;
+
         Vector2 knockbackDirection = (transform.position - collision.transform.position).normalized;
-        float knockbackForce = 3f;
 
         PlayerCondition.TakePhysicalDamage(damage);
         PlayerCondition.ApplyKnockback(knockbackDirection, knockbackForce);

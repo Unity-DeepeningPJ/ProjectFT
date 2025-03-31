@@ -28,6 +28,8 @@ public class PlayerBaseState : IState
 
     public void Move()
     {
+        if (player.Controller.canMove == false) return;
+
         Vector2 moveDirection = new Vector2(_stateMachine.MoveInput.x, 0);
         float moveSpeed = player.PlayerState.speed;
 

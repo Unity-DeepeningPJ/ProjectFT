@@ -13,11 +13,15 @@ public class PlayerAttackState : PlayerBaseState
     {
         base.Enter();
 
+        Debug.Log("Attack State");
+
         _attackRange = 3f;
         _attackDuration = 0.5f;
         _attackTimer = 0f;
 
         _attackFinished = false;
+
+        CheckForHit();
     }
 
     public override void Exit()
@@ -28,34 +32,50 @@ public class PlayerAttackState : PlayerBaseState
     public override void HandleInput()
     {
         base.HandleInput();
+
+        if (_stateMachine.Player.Controller.playerActions.Jump.triggered)
+        {
+            _stateMachine.ChangeState(_stateMachine.JumpState);
+        }
     }
 
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
 
-        if (!_attackFinished)
+        Move();
+
+        _attackTimer += Time.fixedDeltaTime;
+
+        if (_attackTimer > _attackDuration)
         {
-            _attackTimer += Time.fixedDeltaTime;
-
-            if (_attackTimer > _attackDuration)
-            {
-                _attackFinished = true;
+            if (!player.isGrounded)
+                _stateMachine.ChangeState(_stateMachine.JumpState);
+            else if (_stateMachine.MoveInput.x != 0)
+                _stateMachine.ChangeState(_stateMachine.MoveState);
+            else if (_stateMachine.MoveInput.x == 0)
                 _stateMachine.ChangeState(_stateMachine.IdleState);
-            }
         }
-
-        CheckForHit();
     }
 
     private void CheckForHit()
     {
-        Vector2 attackDirection = _stateMachine.MoveInput;
-        RaycastHit2D hit = Physics2D.Raycast(player.transform.position, attackDirection, _attackRange);
+        Vector2 attackDirection = player.transform.localScale.x > 0 ? Vector2.right : Vector2.left;
+        RaycastHit2D[] hits = Physics2D.RaycastAll(player.transform.position, attackDirection, _attackRange);
 
-        //TODO:hit.collider.CompareTag("") 확인 및 데미지 로직
-        //if(hit.collider != null && hit.collider.CompareTag(""))
-        //{
-        //}
+        foreach (RaycastHit2D hit in hits)
+        {
+            if (hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            {
+                Debug.Log("공격확인");
+                var enemy = hit.collider.GetComponent<IDamageable>();
+
+                if (enemy != null)
+                {
+                    Debug.Log("공격처리");
+                    enemy.TakePhysicalDamage(player.PlayerState.TotalPower);
+                }
+            }
+        }
     }
 }

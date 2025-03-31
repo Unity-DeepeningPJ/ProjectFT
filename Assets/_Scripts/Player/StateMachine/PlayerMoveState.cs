@@ -7,6 +7,16 @@ public class PlayerMoveState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
+
+        Debug.Log("Move State");
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+
+        if (player.Controller.canMove && player.isGrounded)
+            player.Rigidbody.velocity = Vector2.zero;
     }
 
     public override void HandleInput()
@@ -26,10 +36,10 @@ public class PlayerMoveState : PlayerBaseState
         {
             _stateMachine.ChangeState(_stateMachine.DashState);
         }
-        //else if (_stateMachine.Player.Controller.playerActions.Attack.triggered)
-        //{
-        //    _stateMachine.ChangeState(_stateMachine.AttackState);
-        //}
+        else if (_stateMachine.Player.Controller.playerActions.Attack.triggered)
+        {
+            _stateMachine.ChangeState(_stateMachine.AttackState);
+        }
     }
 
     public override void PhysicsUpdate()

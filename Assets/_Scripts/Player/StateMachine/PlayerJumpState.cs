@@ -8,6 +8,8 @@ public class PlayerJumpState : PlayerBaseState
     {
         base.Enter();
 
+        Debug.Log("Jump State");
+
         //점프
         if (player.isGrounded)
         {
@@ -23,6 +25,10 @@ public class PlayerJumpState : PlayerBaseState
         if (_stateMachine.Player.Controller.playerActions.Dash.triggered)
         {
             _stateMachine.ChangeState(_stateMachine.DashState);
+        }
+        else if (_stateMachine.Player.Controller.playerActions.Attack.triggered)
+        {
+            _stateMachine.ChangeState(_stateMachine.AttackState);
         }
     }
 
