@@ -248,6 +248,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1002117722 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1342611787070586595, guid: c725ac0419fe57448ba844183870443a, type: 3}
+  m_PrefabInstance: {fileID: 5424911756909815164}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1033447690 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2812399015765094768, guid: c725ac0419fe57448ba844183870443a, type: 3}
+  m_PrefabInstance: {fileID: 5424911756909815164}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1097725508
 GameObject:
   m_ObjectHideFlags: 0
@@ -442,6 +464,49 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1586729306 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3691802902010863664, guid: c725ac0419fe57448ba844183870443a, type: 3}
+  m_PrefabInstance: {fileID: 5424911756909815164}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1682669107 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8054002566301852763, guid: c725ac0419fe57448ba844183870443a, type: 3}
+  m_PrefabInstance: {fileID: 5424911756909815164}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1682669111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682669107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45b206145d494ce4392d396200de6290, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerStatePower: {fileID: 1033447690}
+  playerStateDefense: {fileID: 1586729306}
+  playerStatehealth: {fileID: 1868056348}
+  playerStateCritical: {fileID: 1002117722}
+--- !u!114 &1868056348 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7595607271168209487, guid: c725ac0419fe57448ba844183870443a, type: 3}
+  m_PrefabInstance: {fileID: 5424911756909815164}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1944010488 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4698742366203595333, guid: 939270886279167489fa0b3f48e6902b, type: 3}
@@ -521,6 +586,10 @@ PrefabInstance:
     - target: {fileID: 1125591270097529689, guid: c725ac0419fe57448ba844183870443a, type: 3}
       propertyPath: m_Name
       value: Cvs_Inventory
+      objectReference: {fileID: 0}
+    - target: {fileID: 1125591270097529689, guid: c725ac0419fe57448ba844183870443a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1215281570833633192, guid: c725ac0419fe57448ba844183870443a, type: 3}
       propertyPath: m_Pivot.x
@@ -611,9 +680,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1944010488}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1137135836968901722, guid: c725ac0419fe57448ba844183870443a, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8054002566301852763, guid: c725ac0419fe57448ba844183870443a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1682669111}
   m_SourcePrefab: {fileID: 100100000, guid: c725ac0419fe57448ba844183870443a, type: 3}
 --- !u!224 &5424911756909815165 stripped
 RectTransform:
