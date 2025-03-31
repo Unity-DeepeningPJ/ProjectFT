@@ -1,11 +1,8 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Boss : MeleeEnemy, IDamageable
 {
-    [Header("Health")]
-    public int maxHealth = 200; // 최대 체력
-    private int currentHealth; // 현재 체력
-
     [Header("Special Attack")]
     public float specialAttackInterval = 10f; // 특수 공격 간격
 
@@ -26,6 +23,7 @@ public class Boss : MeleeEnemy, IDamageable
     [Header("Projectile")]
     public GameObject projectilePrefab; // 투사체 프리팹
     public float projectileSpeed = 5f; // 투사체 속도
+    public float maxDetectionDistance = 10f; // 최대 감지 거리
 
     [Header("References")]
     public Transform firePoint; // 투사체 발사 위치
@@ -39,25 +37,25 @@ public class Boss : MeleeEnemy, IDamageable
         JumpRoundShot
     }
 
-    
-    
+
+
 
     public Boss(int Power, int Defense, int health, float speed, float jumpPower) : base(Power, Defense, health, speed, jumpPower)
     {
     }
 
-    
+
 
     void Start()
     {
-        
+
 
         currentHealth = maxHealth;
         nextSpecialAttackTime = Time.time + specialAttackInterval;
         startPosition = transform.position;
         nextAttackTime = Time.time;
 
-        rb = GetComponent<Rigidbody2D>(); 
+        rb = GetComponent<Rigidbody2D>();
         if (rb == null)
         {
             Debug.LogError("Rigidbody2D component not found!");
@@ -67,7 +65,7 @@ public class Boss : MeleeEnemy, IDamageable
         chaseSpeed = 0f; // 보스 추격 속도 0으로 설정
 
         // 플레이어 Transform 찾기
-        GameObject player = FindClosestObjectWithLayer(transform.position, playerLayer);
+        GameObject player = FindClosestObjectWithLayer(transform.position, playerLayer, maxDetectionDistance);
         if (player != null)
         {
             playerTransform = player.transform;
@@ -80,6 +78,17 @@ public class Boss : MeleeEnemy, IDamageable
 
     void Update()
     {
+        GameObject player = FindClosestObjectWithLayer(transform.position, playerLayer, maxDetectionDistance);
+        if (player != null)
+        {
+            playerTransform = player.transform;
+            Debug.Log("플레이어 찾음");
+        }
+        else
+        {
+            playerTransform = null;
+            Debug.Log("플레이어 감지 실패");
+        }
         if (currentHealth <= 0)
         {
             Die();
@@ -329,26 +338,35 @@ public class Boss : MeleeEnemy, IDamageable
         Destroy(gameObject); // 또는 오브젝트 풀에 반환
     }
 
-    GameObject FindClosestObjectWithLayer(Vector3 position, LayerMask layer)
+    GameObject FindClosestObjectWithLayer(Vector3 position, LayerMask playerLayer, float maxDistance)
     {
-        var goArray = FindObjectsOfType(typeof(GameObject)) as GameObject[];
         GameObject closest = null;
-        var distance = Mathf.Infinity;
+        float closestDistanceSqr = Mathf.Infinity;
         Vector3 pos = position;
-        foreach (var go in goArray)
+
+        // 지정된 레이어 마스크에 해당하는 모든 GameObject 찾기
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(position, maxDistance, playerLayer);
+
+        foreach (Collider2D collider in colliders)
         {
-            if ((layer.value & (1 << go.layer)) != 0)
+            GameObject go = collider.gameObject;
+            Vector3 diff = go.transform.position - pos;
+            float distanceSqr = diff.sqrMagnitude;
+
+            if (distanceSqr < closestDistanceSqr)
             {
-                Vector3 diff = go.transform.position - pos;
-                float curDistance = diff.sqrMagnitude;
-                if (curDistance < distance)
-                {
-                    closest = go;
-                    distance = curDistance;
-                }
+                closest = go;
+                closestDistanceSqr = distanceSqr;
             }
         }
+
+        // 만약 플레이어가 maxDistance 내에 없다면 closest는 null을 반환
+        if (closestDistanceSqr == Mathf.Infinity) // 거리가 초기값과 같다면, 플레이어를 찾지 못했다는 의미
+        {
+            return null; // 플레이어를 찾지 못했으면 null 반환
+        }
+
+
         return closest;
     }
-
 }

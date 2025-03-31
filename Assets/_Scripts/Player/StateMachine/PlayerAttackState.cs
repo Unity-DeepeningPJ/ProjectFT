@@ -13,6 +13,7 @@ public class PlayerAttackState : PlayerBaseState
     {
         base.Enter();
 
+        player.animi.OnAttack(true);
         Debug.Log("Attack State");
 
         _attackRange = 3f;
@@ -26,6 +27,7 @@ public class PlayerAttackState : PlayerBaseState
 
     public override void Exit()
     {
+        player.animi.OnAttack(false);
         base.Exit();
     }
 
@@ -60,7 +62,7 @@ public class PlayerAttackState : PlayerBaseState
 
     private void CheckForHit()
     {
-        Vector2 attackDirection = player.transform.localScale.x > 0 ? Vector2.right : Vector2.left;
+        Vector2 attackDirection = player.transform.localScale.x > 0 ? Vector2.left : Vector2.right;
         RaycastHit2D[] hits = Physics2D.RaycastAll(player.transform.position, attackDirection, _attackRange);
 
         foreach (RaycastHit2D hit in hits)

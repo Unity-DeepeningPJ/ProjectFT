@@ -7,7 +7,7 @@ public class PlayerJumpState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
-
+        player.animi.OnJump(true);
         Debug.Log("Jump State");
 
         //점프
@@ -16,6 +16,12 @@ public class PlayerJumpState : PlayerBaseState
             player.Rigidbody.AddForce(Vector2.up * player.PlayerState.jumpPower, ForceMode2D.Impulse);
             player.isGrounded = false;
         }
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        player.animi.OnJump(false);
     }
 
     public override void HandleInput()

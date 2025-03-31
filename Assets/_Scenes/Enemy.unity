@@ -234,7 +234,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!50 &905192975
 Rigidbody2D:
   serializedVersion: 4
@@ -447,19 +447,21 @@ MonoBehaviour:
   attackRange: 5
   idleTime: 1
   maxHealth: 200
-  currentHealth: 0
+  currentHealth: 200
   maxHealth: 200
   specialAttackInterval: 3
   dashAttackDashSpeed: 7
   dashAttackDashDistance: 3
   spreadShotProjectileCount: 4
   spreadShotProjectileSpreadAngle: 180
-  roundShotProjectileCount: 12
-  roundShotDelay: 0.2
-  offsetRoundShotProjectileCount: 6
-  offsetRoundShotSideOffset: 1
+  roundShotProjectileCount: 20
+  roundShotDelay: 0.4
+  offsetRoundShotProjectileCount: 20
+  offsetRoundShotSideOffset: 0
+  yOffset: 2
   projectilePrefab: {fileID: 8451655365352330938, guid: 934319ec0c6e17d4d938dfef8b178760, type: 3}
   projectileSpeed: 2
+  maxDetectionDistance: 3
   firePoint: {fileID: 938931577}
 --- !u!212 &938931576
 SpriteRenderer:
@@ -666,7 +668,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1532566921
 BoxCollider2D:
   m_ObjectHideFlags: 0

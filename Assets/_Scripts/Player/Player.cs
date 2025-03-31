@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     private CurrencyManager currency;
     public CurrencyManager Currency => currency;
 
+    public PlayerAnimation animi { get; private set; }
+
     private void Awake()
     {
         PlayerState = new PlayerState(Data);
@@ -25,6 +27,7 @@ public class Player : MonoBehaviour
         Rigidbody = GetComponent<Rigidbody2D>();
         StateMachine = new PlayerStateMachine(this);
         currency = GetComponent<CurrencyManager>();
+        animi = GetComponent<PlayerAnimation>();
     }
 
     private void Update()
