@@ -27,10 +27,12 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        LayerMask targetLayers = LayerMask.GetMask("Bullet", "Enemy");
+        Debug.Log("충돌 감지: " + collision.gameObject.name);
+        LayerMask targetLayers = LayerMask.GetMask("Bullet", "Enemy", "Camera");
         if ((targetLayers.value & (1 << collision.gameObject.layer)) != 0)
         {
             // 다른 투사체와 충돌했으므로 무시
+
             return;
         }
         // 충돌 후 오브젝트 풀로 반환
