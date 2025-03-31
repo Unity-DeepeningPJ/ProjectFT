@@ -135,9 +135,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
   damageAmount: 10
 --- !u!50 &667654958006439302
 Rigidbody2D:
@@ -154,7 +151,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2

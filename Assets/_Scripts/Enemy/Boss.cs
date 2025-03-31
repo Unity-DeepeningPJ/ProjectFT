@@ -22,7 +22,7 @@ public class Boss : MeleeEnemy, IDamageable
     public float roundShotDelay = 0.2f; // 투사체 발사 간격
     public int offsetRoundShotProjectileCount = 6; // 한쪽 면에서 발사할 투사체 개수
     public float offsetRoundShotSideOffset = 2f; // 보스 중심으로부터의 거리
-
+    public float yOffset = 0.5f;
     [Header("Projectile")]
     public GameObject projectilePrefab; // 투사체 프리팹
     public float projectileSpeed = 5f; // 투사체 속도
@@ -39,18 +39,25 @@ public class Boss : MeleeEnemy, IDamageable
         JumpRoundShot
     }
 
+    
+    
+
     public Boss(int Power, int Defense, int health, float speed, float jumpPower) : base(Power, Defense, health, speed, jumpPower)
     {
     }
 
+    
+
     void Start()
     {
+        
+
         currentHealth = maxHealth;
         nextSpecialAttackTime = Time.time + specialAttackInterval;
         startPosition = transform.position;
         nextAttackTime = Time.time;
 
-        rb = GetComponent<Rigidbody2D>(); // Rigidbody2D 컴포넌트 가져오기
+        rb = GetComponent<Rigidbody2D>(); 
         if (rb == null)
         {
             Debug.LogError("Rigidbody2D component not found!");
@@ -127,7 +134,7 @@ public class Boss : MeleeEnemy, IDamageable
         }
     }
 
-    
+
 
     void StartAttack()
     {
@@ -211,33 +218,40 @@ public class Boss : MeleeEnemy, IDamageable
 
     System.Collections.IEnumerator SpreadShot()
     {
-        // 플레이어와 보스 사이의 각도 계산
+        Debug.Log("SpreadShot");
         Vector2 directionToPlayer = (playerTransform.position - transform.position).normalized;
-        float angleToPlayer = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
-
-        float startAngle = angleToPlayer - spreadShotProjectileSpreadAngle / 2f;
-        float angleStep = spreadShotProjectileSpreadAngle / (spreadShotProjectileCount - 1);
+        Debug.Log("directionToPlayer: " + directionToPlayer); // 방향 벡터 확인
 
         for (int i = 0; i < spreadShotProjectileCount; i++)
         {
-            float angle = startAngle + angleStep * i;
-            Vector2 direction = Quaternion.AngleAxis(angle, Vector3.forward) * Vector2.right;
-
             GameObject projectile = ObjectPool.Instance.GetPooledObject();
 
             if (projectile != null)
             {
                 // 투사체 생성 위치 조정
-                Vector3 spawnPosition = firePoint.position + (Vector3)direction * 1f; // firePoint에서 조금 더 바깥쪽으로 생성
+                Vector3 spawnPosition = firePoint.position;
                 projectile.transform.position = spawnPosition;
                 projectile.transform.rotation = Quaternion.identity;
+
+                // 투사체 초기화 (OnEnable()에서 처리하는 것이 더 좋음)
+                Bullet bulletScript = projectile.GetComponent<Bullet>();
+                if (bulletScript != null)
+                {
+                    bulletScript.SetDirection(directionToPlayer); // 플레이어 방향으로 설정
+                }
+                else
+                {
+                    Debug.LogError("Bullet script not found on projectile!");
+                }
 
                 Rigidbody2D projectileRb = projectile.GetComponent<Rigidbody2D>();
 
                 if (projectileRb != null)
                 {
-                    projectileRb.velocity = direction * projectileSpeed; // 투사체 속도 설정
+                    projectileRb.velocity = directionToPlayer * projectileSpeed; // 투사체 속도 설정
+                    Debug.Log("Projectile " + i + " velocity: " + projectileRb.velocity); // 속도 확인
                     projectile.SetActive(true);
+                    Debug.Log("Projectile " + i + " activated"); // 활성화 확인
                 }
                 else
                     Debug.LogError("투사체에 rigidbody가 없습니다");
@@ -245,17 +259,19 @@ public class Boss : MeleeEnemy, IDamageable
             else
                 Debug.LogError("ObjectPool에 투사체가 없습니다");
 
-            yield return null; // 투사체 발사 간격
+            yield return new WaitForSeconds(0.05f);
         }
 
-        isSpecialAttacking = false; // 특수 공격 종료
+        isSpecialAttacking = false;
     }
 
     System.Collections.IEnumerator JumpRoundShot()
     {
+        Debug.Log("JumpRoundShot");
         isSpecialAttacking = true; // 특수 공격 중 상태로 변경
 
         // 플레이어의 위치를 기준으로 보스의 왼쪽 또는 오른쪽 선택
+        Debug.Log("playerTransform: " + playerTransform);
         float side = playerTransform.position.x > transform.position.x ? 1f : -1f; // 플레이어가 오른쪽에 있으면 1, 왼쪽에 있으면 -1
 
         // 플레이어 방향과 반대 방향으로 offset 설정
@@ -275,7 +291,8 @@ public class Boss : MeleeEnemy, IDamageable
             if (projectile != null)
             {
                 // 투사체 생성 위치 조정
-                Vector3 spawnPosition = firePoint.position + offset;
+                Vector3 spawnPosition = firePoint.position + offset + Vector3.up * yOffset;
+                Debug.Log("spawnPosition: " + spawnPosition);
                 projectile.transform.position = spawnPosition;
                 projectile.transform.rotation = Quaternion.identity;
 
@@ -284,6 +301,14 @@ public class Boss : MeleeEnemy, IDamageable
                 if (projectileRb != null)
                 {
                     projectileRb.velocity = direction * projectileSpeed; // 투사체 속도 설정
+                                                                         // Bullet 스크립트에 방향 전달
+                    Bullet bulletScript = projectile.GetComponent<Bullet>();
+                    if (bulletScript != null)
+                    {
+                        bulletScript.SetDirection(direction);
+                    }
+
+                    Debug.Log("projectileRb.velocity: " + projectileRb.velocity);
                     projectile.SetActive(true);
                 }
                 else
@@ -297,7 +322,7 @@ public class Boss : MeleeEnemy, IDamageable
         isSpecialAttacking = false;
     }
 
-    
+
     void Die()
     {
         Debug.Log("Boss Die!");
@@ -325,5 +350,5 @@ public class Boss : MeleeEnemy, IDamageable
         }
         return closest;
     }
-    
+
 }
