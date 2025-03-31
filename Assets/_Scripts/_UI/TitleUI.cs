@@ -275,6 +275,12 @@ public class TitleUI : MonoBehaviour
     {
         // 게임 씬 로드
         SceneManager.LoadScene("Main"); // 실제 게임 씬 이름으로 변경
+        // 게임상태를 Playing으로 설정
+        if (gameManager != null)
+        {
+            gameManager.SetGameState(GameManager.GameState.Playing);
+        }
+        Debug.Log("게임 씬 로드");
     }
     
     // 타이틀 음악 재생
