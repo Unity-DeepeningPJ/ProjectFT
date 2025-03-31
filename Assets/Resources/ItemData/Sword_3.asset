@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 3
   type: 1
-  itemName: "\uBB34\uAE303"
-  description: "\uBB34\uAE30\uC785\uB2C8\uB2E4."
+  itemName: "\uC5D1\uC2A4\uCE7C\uB9AC\uBC84"
+  description: "\uAC1C\uC318 \uAC80\uC785\uB2C8\uB2E4."
   equipCondition:
     type: 0
     value: 40
