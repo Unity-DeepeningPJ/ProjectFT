@@ -24,6 +24,10 @@ public class PlayerJumpState : PlayerBaseState
         {
             _stateMachine.ChangeState(_stateMachine.DashState);
         }
+        else if (_stateMachine.Player.Controller.playerActions.Attack.triggered)
+        {
+            _stateMachine.ChangeState(_stateMachine.AttackState);
+        }
     }
 
     public override void PhysicsUpdate()

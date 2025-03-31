@@ -27,9 +27,9 @@ public class PlayerIdleState : PlayerBaseState
         {
             _stateMachine.ChangeState(_stateMachine.DashState);
         }
-        //else if (_stateMachine.Player.Controller.playerActions.Attack.triggered)
-        //{
-        //    _stateMachine.ChangeState(_stateMachine.AttackState);
-        //}
+        else if (_stateMachine.Player.Controller.playerActions.Attack.triggered)
+        {
+            _stateMachine.ChangeState(_stateMachine.AttackState);
+        }
     }
 }
