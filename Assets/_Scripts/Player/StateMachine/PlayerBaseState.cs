@@ -40,7 +40,7 @@ public class PlayerBaseState : IState
             //플레이어 방향 전환
             if (moveDirection.x != 0)
             {
-                player.transform.localScale = new Vector3(moveDirection.x, 1, 1);
+                player.transform.localScale = new Vector3(-moveDirection.x, 1, 1);
             }
         }
     }

@@ -13,6 +13,7 @@ public class PlayerAttackState : PlayerBaseState
     {
         base.Enter();
 
+        player.animi.OnAttack(true);
         Debug.Log("Attack State");
 
         _attackRange = 3f;
@@ -26,6 +27,7 @@ public class PlayerAttackState : PlayerBaseState
 
     public override void Exit()
     {
+        player.animi.OnAttack(false);
         base.Exit();
     }
 
