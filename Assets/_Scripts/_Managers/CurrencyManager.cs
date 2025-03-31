@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,14 +11,19 @@ public enum CurrenyType
 public class CurrencyManager : MonoBehaviour
 {
     public Dictionary<CurrenyType, int> currencies;
+    public event Action<int> OnGoldChange;
 
     public CurrencyManager()
     {
         currencies = new Dictionary<CurrenyType, int>();
 
+        //초기화 
         currencies[CurrenyType.Gold] = 0;
+        
     }
 
+    //골드를 set해주는 메소드 +이벤트 
+    
 
     public bool GoldAdd(CurrenyType currenyType, int amount)
     {
@@ -33,6 +39,8 @@ public class CurrencyManager : MonoBehaviour
             {
                 currencies[currenyType] = addglod;
                 Debug.Log($"현재 골드: {currencies[currenyType]}");
+                //여기서 골드 변환 이벤트 발생 
+                OnGoldChange?.Invoke(currencies[currenyType]);
                 return true;
             }
         }
@@ -41,5 +49,10 @@ public class CurrencyManager : MonoBehaviour
             Debug.Log("골드가 없습니다.");
             return false;
         }
+    }
+
+    public void init_OngoldChange()
+    {
+        OnGoldChange?.Invoke(0);
     }
 }
