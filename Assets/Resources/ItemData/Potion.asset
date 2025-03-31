@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   type: 0
-  itemName: "\uD3EC\uC158"
-  description: "\uD3EC\uC158\uC785\uB2C8\uB2E4"
-  value: 50
+  itemName: "HP\uD3EC\uC158"
+  description: "\uCCB4\uB825\uC744 \uD68C\uBCF5\uC2DC\uCF1C\uC90D\uB2C8\uB2E4."
+  equipCondition:
+    type: 2
+    value: 50
   gold: 100
   Icon: {fileID: 21300000, guid: e52ea25af699fd445b7046374f81a5b9, type: 3}
   itemObj: {fileID: 0}
