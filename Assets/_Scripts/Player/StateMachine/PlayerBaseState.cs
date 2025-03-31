@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerBaseState : IState
 {
     public PlayerStateMachine _stateMachine { get; private set; }
     protected Player player;
+    protected bool isDash = false;
 
     public PlayerBaseState(PlayerStateMachine stateMachine)
     {
@@ -23,4 +25,21 @@ public class PlayerBaseState : IState
     public virtual void PhysicsUpdate() { }
 
     public virtual void Update() { }
+
+    public void Move()
+    {
+        Vector2 moveDirection = new Vector2(_stateMachine.MoveInput.x, 0);
+        float moveSpeed = player.PlayerState.speed;
+
+        if (!isDash)
+        {
+            player.Rigidbody.velocity = new Vector2(moveDirection.x * moveSpeed, player.Rigidbody.velocity.y);
+
+            //플레이어 방향 전환
+            if (moveDirection.x != 0)
+            {
+                player.transform.localScale = new Vector3(moveDirection.x, 1, 1);
+            }
+        }
+    }
 }

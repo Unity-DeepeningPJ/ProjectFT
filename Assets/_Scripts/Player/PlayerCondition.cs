@@ -9,10 +9,11 @@ public class PlayerCondition : MonoBehaviour, IDamageable
 
     private Collider2D _playerCollider;
 
-    public PlayerCondition(Player player, float currentHealth)
+    public void Initizlize(Player player, float currentHealth)
     {
         _player = player;
         CurrentHealth = currentHealth;
+        _playerCollider = GetComponent<Collider2D>();
     }
 
     public void TakePhysicalDamage(int damage)
@@ -33,11 +34,13 @@ public class PlayerCondition : MonoBehaviour, IDamageable
         Debug.Log("현재 체력 : " + CurrentHealth);
     }
 
-    private IEnumerator InvincibilityFrames(float duration)
+    public IEnumerator InvincibilityFrames(float duration)
     {
+        Debug.Log("무적시작");
         IsInvincible = true;
         IgnoreAllEnemyCollision(true);
         yield return new WaitForSeconds(duration);
+        Debug.Log("무적끝");
         IsInvincible = false;
         IgnoreAllEnemyCollision(false);
     }
@@ -45,11 +48,6 @@ public class PlayerCondition : MonoBehaviour, IDamageable
     public void ApplyKnockback(Vector2 direction, float force)
     {
         _player.Rigidbody.AddForce(direction * force, ForceMode2D.Impulse);
-    }
-
-    public void SetCollider(Collider2D playerCollider)
-    {
-        _playerCollider = playerCollider;
     }
 
     private void IgnoreAllEnemyCollision(bool ignore)

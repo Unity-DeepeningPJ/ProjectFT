@@ -7,11 +7,19 @@ public class PlayerDashState : PlayerBaseState
     private float _gravityScale;
     private float _fixedYPosition;
 
+    private float _dashDistance;
+    private float _dashSpeed;
+    private float _dashTime;
+
     public PlayerDashState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
     public override void Enter()
     {
         base.Enter();
+
+        _dashDistance = player.PlayerState.DashDistance;
+        _dashSpeed = player.PlayerState.DashSpeed;
+        _dashTime = _dashDistance / _dashSpeed;
 
         //대쉬 중 중력, 점프 영향 받지 않도록 함
         _gravityScale = player.Rigidbody.gravityScale;
@@ -31,8 +39,10 @@ public class PlayerDashState : PlayerBaseState
         //대쉬 위치 계산
         _dashTargetPosition = new Vector2(player.transform.position.x + (_dashDirection * player.PlayerState.DashDistance), _fixedYPosition);
 
+        isDash = true;
+
         //대쉬 중 무적
-        player.PlayerCondition.IsInvincible = true;
+        player.StartCoroutine(player.PlayerCondition.InvincibilityFrames(_dashTime));
     }
 
     public override void Exit()
@@ -49,8 +59,10 @@ public class PlayerDashState : PlayerBaseState
     {
         base.PhysicsUpdate();
 
-        if (player.PlayerCondition.IsInvincible)
+        if (isDash)
         {
+            player.Rigidbody.velocity = new Vector2(_dashDirection * _dashSpeed, player.Rigidbody.velocity.y);
+
             //대쉬 이동 처리
             player.transform.position = Vector2.MoveTowards(
                 player.transform.position,
@@ -58,9 +70,9 @@ public class PlayerDashState : PlayerBaseState
                 player.PlayerState.DashSpeed * Time.fixedDeltaTime);
 
             //대쉬 종료
-            if (Vector2.Distance(player.transform.position, _dashTargetPosition) < 0.1f)
+            if (Vector2.Distance(player.transform.position, _dashTargetPosition) <= 0.1f)
             {
-                player.PlayerCondition.IsInvincible = false;
+                isDash = false;
 
                 //점프 중이었다면 점프 상태로 돌아감
                 if (!player.isGrounded)
