@@ -206,9 +206,9 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
-  detectionRange: 5
-  attackRange: 5
+  detectionRange: 8
+  attackRange: 8
   idleTime: 1
-  maxHealth: 10
-  currentHealth: 10
+  maxHealth: 100
+  currentHealth: 100
   coinPrefab: {fileID: 1250505169038823776, guid: 87fc548d8d6232040b5cd9ab8bf1a8a3, type: 3}
