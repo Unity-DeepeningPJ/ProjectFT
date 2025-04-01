@@ -105,15 +105,16 @@ public class HealthUI
         }
     }
 
-    public void UpdateMaxValue(float newMaxValue)
+    public void UpdateMaxValue(float current, float newMaxValue)
     {
         if (newMaxValue <= 0) newMaxValue = 1f;
 
         // 최대값이 변경되면 현재값을 최대값으로 설정
-        targetFillAmount = Mathf.Clamp01(currentDisplayValue / newMaxValue);
+        targetFillAmount = Mathf.Clamp01(current / newMaxValue);
         currentMaxValue = newMaxValue;
 
         // 텍스트 업데이트
-        UpdateText(currentDisplayValue, newMaxValue);
+        SetValue(current, newMaxValue);
+        UpdateUI();
     }
 }

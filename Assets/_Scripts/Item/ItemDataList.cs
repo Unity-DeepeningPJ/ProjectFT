@@ -10,7 +10,7 @@ public class ItemDataList
     {
         ItemList = new Dictionary<int, ItemData>();
         LoadItemData();
-        Debug.Log($"{ItemList.Count} ¼ö·® ¾ÆÀÌÅÛ ¾÷·Îµå Çß½À´Ï´Ù.");
+        Debug.Log($"{ItemList.Count} ìˆ˜ëŸ‰ ì•„ì´í…œ ì—…ë¡œë“œ í–ˆìŠµë‹ˆë‹¤.");
     }
 
     private void LoadItemData()
@@ -31,7 +31,7 @@ public class ItemDataList
         }
         else
         {
-            Debug.Log($"{id} ¿¡ ÇØ´çÇÏ´Â µ¥ÀÌÅÍ°¡ ¾ø½À´Ï´Ù.");
+            Debug.Log($"{id} ì— í•´ë‹¹í•˜ëŠ” ë°ì´í„°ê°€ ì—†ìŠµë‹ˆë‹¤.");
             return null;
         }
     }

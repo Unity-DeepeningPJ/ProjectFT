@@ -132,7 +132,7 @@ public class PlayerUI : MonoBehaviour
     private void UpdateMaxHealth(float newMaxHealth)
     {
         Debug.Log($"최대 체력 업데이트: {newMaxHealth}");
-        healthUI.UpdateMaxValue(newMaxHealth);
+        healthUI.UpdateMaxValue(playerCondition.CurrentHealth, newMaxHealth);
     }
     
     // 경험치 이벤트 핸들러

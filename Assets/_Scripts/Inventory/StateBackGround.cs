@@ -32,7 +32,7 @@ public class StateBackGround : MonoBehaviour
         PlayerStatePower.text = $"공격력: {playerState.TotalPower.ToString()}"; 
         playerStateDefense.text = $"방어력: {playerState.TotalDefense.ToString()}"; 
         playerStatehealth.text = $"체력: {playerState.TotalHealth.ToString()}";
-        playerStateCritical.text = $"체력: {playerState.TotalCriticalChance.ToString()}"; 
+        playerStateCritical.text = $"크리티컬: {playerState.TotalCriticalChance.ToString()}"; 
 
     }
 
