@@ -16,13 +16,16 @@ public class StateBackGround : MonoBehaviour
 
     private void Start()
     {
-        playerState = GameManager.Instance.PlayerManager.player.PlayerState;
-
-        playerState.OnStatsChanged += OnUpdateAllStats;
-
+        Init();
 
     }
 
+    public void Init()
+    {
+        playerState = GameManager.Instance.PlayerManager.player.PlayerState;
+
+        playerState.OnStatsChanged += OnUpdateAllStats;
+    }
 
     private void OnUpdateAllStats(PlayerState playerState)
     {

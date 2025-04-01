@@ -10,14 +10,17 @@ public class InventoryManager : MonoBehaviour
 
     public List<SlotItemData> slotItemDatas;
     public event Action OnInventoryChanged;
-
+    [SerializeField] private UiInventory inventoryUI;
+    [SerializeField] private UIIventoryScrean uiinventoryScrean;
+    [SerializeField] private StateBackGround statebackground;
 
     [SerializeField] private List<ItemData> TestItemData;
     private void Awake()
     {
         Init();
-
-
+        inventoryUI.Init();
+        uiinventoryScrean.init();
+        statebackground.Init();
     }
     private void Start()
     {
@@ -62,6 +65,9 @@ public class InventoryManager : MonoBehaviour
         if (ExistItme != null)
         {
             ExistItme.RemoveItem(itemData);
+            //아이템 장착을 해제 +E표시 제거 + 능력치 해제 
+
+
             //slotItemDatas.Remove(ExistItme);
             //OnInventoryChanged?.Invoke();
             return true;
@@ -134,6 +140,7 @@ public class InventoryManager : MonoBehaviour
         for (int i = 0; i < TestItemData.Count; i++)
         {
             RemoveInventoryitme(TestItemData[i]);
+            GameManager.Instance.EquipManager.UnequipItem(TestItemData[i]);
         }
         ArrayInventory();
     }

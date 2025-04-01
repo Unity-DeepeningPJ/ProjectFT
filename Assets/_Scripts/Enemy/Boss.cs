@@ -82,12 +82,12 @@ public class Boss : MeleeEnemy, IDamageable
         if (player != null)
         {
             playerTransform = player.transform;
-            Debug.Log("플레이어 찾음");
+            //Debug.Log("플레이어 찾음");
         }
         else
         {
             playerTransform = null;
-            Debug.Log("플레이어 감지 실패");
+            //Debug.Log("플레이어 감지 실패");
         }
         if (currentHealth <= 0)
         {
@@ -149,6 +149,7 @@ public class Boss : MeleeEnemy, IDamageable
     {
         if (Time.time >= nextAttackTime && !isSpecialAttacking && playerTransform != null)
         {
+            
             isAttacking = true;
             isChasing = true;
 
@@ -203,6 +204,7 @@ public class Boss : MeleeEnemy, IDamageable
     System.Collections.IEnumerator DashAttack()
     {
         isSpecialAttacking = true; // 특수 공격 중 상태로 변경
+        animi.OnAttack(false);
 
         // 돌진
         if (playerTransform != null)
@@ -231,6 +233,8 @@ public class Boss : MeleeEnemy, IDamageable
         Vector2 directionToPlayer = (playerTransform.position - transform.position).normalized;
         Debug.Log("directionToPlayer: " + directionToPlayer); // 방향 벡터 확인
 
+        animi.OnAttack(true);
+        
         for (int i = 0; i < spreadShotProjectileCount; i++)
         {
             GameObject projectile = ObjectPool.Instance.GetPooledObject();
