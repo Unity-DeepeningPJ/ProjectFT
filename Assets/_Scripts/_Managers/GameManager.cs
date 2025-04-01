@@ -73,21 +73,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // private void OnEnable()
-    // {
-    //     UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
-    // }
+    private void OnEnable()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
-    // private void OnDisable()
-    // {
-    //     UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
-    // }
+    private void OnDisable()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
-    // private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
-    // {
-    //     Debug.Log($"새 씬 '{scene.name}' 로드됨: 매니저 참조 찾기...");
-    //     LoadManagers();
-    // }
+    private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+    {
+        Debug.Log($"새 씬 '{scene.name}' 로드됨: 매니저 참조 찾기...");
+        LoadManagers();
+    }
 
     public void LoadManagers()
     {

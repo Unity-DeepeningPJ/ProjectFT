@@ -281,7 +281,6 @@ public class TitleUI : MonoBehaviour
             gameManager.SetGameState(GameManager.GameState.Playing);
         }
         Debug.Log("게임 씬 로드");
-        gameManager.LoadManagers();
     }
     
     // 타이틀 음악 재생
