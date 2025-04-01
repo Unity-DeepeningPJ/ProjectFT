@@ -41,6 +41,8 @@ public class MeleeEnemy : BaseState, IDamageable
     protected bool isIdle = false; // 멈춰있는지 여부
 
     protected Rigidbody2D rb; // Rigidbody2D 컴포넌트
+    SpriteRenderer sprite;
+    CharacterAnimation animi;
 
     public MeleeEnemy(int Power, int Defense, int health, float speed, float jumpPower) : base(Power, Defense, health, speed, jumpPower)
     {
@@ -51,6 +53,8 @@ public class MeleeEnemy : BaseState, IDamageable
         startPosition = transform.position;
         nextAttackTime = Time.time;
 
+        sprite = GetComponent<SpriteRenderer>();
+        animi = GetComponent<CharacterAnimation>();
         rb = GetComponent<Rigidbody2D>(); // Rigidbody2D 컴포넌트 가져오기
         if (rb == null)
         {
@@ -121,11 +125,12 @@ public class MeleeEnemy : BaseState, IDamageable
         {
             rb.velocity = new Vector2(-moveSpeed, rb.velocity.y);
             if (transform.position.x < startPosition.x - moveDistance)
-            {
+            {               
                 movingRight = true;
             }
         }
 
+        sprite.flipX = movingRight; 
     }
 
     
@@ -134,6 +139,7 @@ public class MeleeEnemy : BaseState, IDamageable
     {
         if (Time.time >= nextAttackTime)
         {
+            animi.OnAttack(true);
             isAttacking = true;
             isChasing = true;
 
@@ -141,6 +147,8 @@ public class MeleeEnemy : BaseState, IDamageable
             // 돌진 목표 위치 설정
             dashTarget = playerTransform.position;
             dashStartTime = Time.time;
+
+            sprite.flipX = dashTarget.x - transform.position.x > 0;
 
             Vector2 direction = new Vector2(dashTarget.x - transform.position.x, 0).normalized;
             rb.velocity = direction * chaseSpeed;
@@ -165,6 +173,7 @@ public class MeleeEnemy : BaseState, IDamageable
 
     public void StopAttack()
     {
+        animi.OnAttack(false);
         isAttacking = false;
         isChasing = false;
         isIdle = true;

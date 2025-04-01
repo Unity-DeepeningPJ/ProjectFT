@@ -84,6 +84,7 @@ public class Enemy : BaseState, IDamageable
                 movingRight = true;
             }
         }
+        sprite.flipX = movingRight;
     }
 
     void Shoot()
