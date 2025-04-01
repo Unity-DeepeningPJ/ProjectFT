@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CurrencyManager currencyManager;
     // 다른 컴포넌트가 접근할 수 있도록 프로퍼티로 노출
     public AbilityManager AbilityManager => abilityManager;
-    public InventoryManager InventoryManager => inventoryManager;    
+    public InventoryManager InventoryManager => inventoryManager;
     public PlayerManager PlayerManager => playerManager;
     public EquipManager EquipManager => equipManager;
     public CurrencyManager CurrencyManager => currencyManager;
@@ -48,17 +48,13 @@ public class GameManager : MonoBehaviour
         {
             _instance = this;
             DontDestroyOnLoad(gameObject);
+            LoadManagers();
         }
         else
         {
             Destroy(gameObject);
             return;
         }
-
-        // 매니저들 초기화
-        // uIManager.Init();
-        // inventoryManager.Init();
-        // uIinventoryManager.Init();
 
     }
 
@@ -77,6 +73,55 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // private void OnEnable()
+    // {
+    //     UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+    // }
+
+    // private void OnDisable()
+    // {
+    //     UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
+    // }
+
+    // private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+    // {
+    //     Debug.Log($"새 씬 '{scene.name}' 로드됨: 매니저 참조 찾기...");
+    //     LoadManagers();
+    // }
+
+    public void LoadManagers()
+    {
+        // "Managers" GameObject 찾기
+        GameObject managersObject = GameObject.Find("Managers");
+
+        if (managersObject != null)
+        {
+            Debug.Log("Managers 게임오브젝트를 찾았습니다.");
+
+            // 해당 오브젝트에서 매니저 컴포넌트 가져오기
+            if (abilityManager == null)
+                abilityManager = managersObject.GetComponentInChildren<AbilityManager>();
+
+            if (inventoryManager == null)
+                inventoryManager = managersObject.GetComponentInChildren<InventoryManager>();
+
+            if (playerManager == null)
+                playerManager = managersObject.GetComponentInChildren<PlayerManager>();
+
+            if (equipManager == null)
+                equipManager = managersObject.GetComponentInChildren<EquipManager>();
+
+            if (currencyManager == null)
+                currencyManager = managersObject.GetComponentInChildren<CurrencyManager>();
+
+            Debug.Log("매니저 컴포넌트 참조 완료");
+        }
+        else
+        {
+            Debug.LogWarning("Managers 게임오브젝트를 찾을 수 없습니다!");
+        }
+    }
+
     private void HandleEscapeKey()
     {
         // 현재 상태에 따라 다른 처리
@@ -90,7 +135,7 @@ public class GameManager : MonoBehaviour
                 // 일시정지 상태에서 ESC를 누르면 게임으로 복귀
                 SetGameState(GameState.Playing);
                 break;
-            // 다른 상태에서는 별도 처리 없음
+                // 다른 상태에서는 별도 처리 없음
         }
     }
 
@@ -102,7 +147,7 @@ public class GameManager : MonoBehaviour
     {
         // 저장할 데이터 생성
         SaveData data = new SaveData();
-        
+
         // 플레이어 정보 저장
         if (playerManager != null && playerManager.player != null)
         {
@@ -115,42 +160,42 @@ public class GameManager : MonoBehaviour
             data.playerPosX = player.transform.position.x;
             data.playerPosY = player.transform.position.y;
         }
-        
+
         // 인벤토리 정보 저장
         if (inventoryManager != null)
         {
             // 인벤토리 아이템들을 InventoryItemData 리스트로 변환
             // data.inventoryItems = ...
         }
-        
+
         // 장비 정보 저장
         if (equipManager != null)
         {
             // 현재 장착된 장비 정보 저장
             // data.equippedWeapon = ...
         }
-        
+
         // 시간 정보 저장
         data.playTimeSeconds = GetTotalPlayTime(); // 플레이 시간 계산 메서드 필요
         data.lastSaveTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        
+
         // 현재 슬롯에 저장
         string json = JsonUtility.ToJson(data, true); // true는 pretty print를 의미
         string path = $"{Application.persistentDataPath}/savedata_{currentSlot}.json";
         System.IO.File.WriteAllText(path, json);
-        
-        Debug.Log($"슬롯 {currentSlot+1}에 게임 데이터 저장 완료");
+
+        Debug.Log($"슬롯 {currentSlot + 1}에 게임 데이터 저장 완료");
     }
 
     public void LoadGameData()
     {
         string path = $"{Application.persistentDataPath}/savedata_{currentSlot}.json";
-        
+
         if (System.IO.File.Exists(path))
         {
             string json = System.IO.File.ReadAllText(path);
             SaveData data = JsonUtility.FromJson<SaveData>(json);
-            
+
             // 플레이어 정보 적용
             if (playerManager != null && playerManager.player != null)
             {
@@ -160,7 +205,7 @@ public class GameManager : MonoBehaviour
                 // player.SetLevel(data.playerLevel);
                 // 추가 플레이어 정보...
             }
-            
+
             // 인벤토리 정보 적용
             if (inventoryManager != null)
             {
@@ -168,7 +213,7 @@ public class GameManager : MonoBehaviour
                 // inventoryManager.ClearInventory();
                 // foreach (var itemData in data.inventoryItems) { ... }
             }
-            
+
             // 장비 정보 적용
             if (equipManager != null)
             {
@@ -176,15 +221,15 @@ public class GameManager : MonoBehaviour
                 // equipManager.EquipItem(data.equippedWeapon);
                 // ...
             }
-            
+
             // 시간 정보 적용
             // SetTotalPlayTime(data.playTimeSeconds);
-            
-            Debug.Log($"슬롯 {currentSlot+1}에서 게임 데이터 로드 완료");
+
+            Debug.Log($"슬롯 {currentSlot + 1}에서 게임 데이터 로드 완료");
         }
         else
         {
-            Debug.LogWarning($"슬롯 {currentSlot+1}에 저장 데이터가 없습니다.");
+            Debug.LogWarning($"슬롯 {currentSlot + 1}에 저장 데이터가 없습니다.");
         }
     }
 
@@ -207,7 +252,7 @@ public class GameManager : MonoBehaviour
     public SaveSlotData GetSaveSlotInfo(int slotIndex)
     {
         SaveSlotData data = new SaveSlotData();
-        
+
         // 파일이 존재하는지 확인
         string path = $"{Application.persistentDataPath}/savedata_{slotIndex}.json";
         if (System.IO.File.Exists(path))
@@ -217,7 +262,7 @@ public class GameManager : MonoBehaviour
                 // 파일에서 기본 정보만 읽기 (전체 데이터를 읽지 않고 필요한 정보만)
                 string json = System.IO.File.ReadAllText(path);
                 SaveData fullData = JsonUtility.FromJson<SaveData>(json);
-                
+
                 // 메타데이터만 추출
                 data.playerLevel = fullData.playerLevel;
                 data.playerName = fullData.playerName;
@@ -229,7 +274,7 @@ public class GameManager : MonoBehaviour
                 Debug.LogError($"슬롯 {slotIndex} 데이터 읽기 오류: {e.Message}");
             }
         }
-        
+
         return data;
     }
 
@@ -255,7 +300,7 @@ public class GameManager : MonoBehaviour
     {
         // 게임 데이터 초기화 로직
         Debug.Log("게임 데이터 초기화");
-        
+
         // 플레이어 스탯 초기화
         // 게임 진행 초기화
         // 등등...
@@ -295,20 +340,20 @@ public class GameManager : MonoBehaviour
     {
         // 동일한 상태로 변경하는 경우 무시
         if (currentState == newState) return;
-        
+
         // 상태 전환 전 후처리
         ExitState(currentState);
-        
+
         // 상태 변경
         GameState oldState = currentState;
         currentState = newState;
-        
+
         // 새 상태에 대한 처리
         EnterState(newState);
-        
+
         // 이벤트 발생
         OnGameStateChanged?.Invoke(newState);
-        
+
         Debug.Log($"게임 상태 변경: {oldState} -> {newState}");
     }
 
@@ -405,31 +450,31 @@ public class SaveData
     public float playerCurrentHealth = 100f;
     public int playerPower = 10;
     public int playerDefense = 5;
-    
+
     // 위치 정보
-    public string currentSceneName = ""; 
+    public string currentSceneName = "";
     public float playerPosX = 0f;
     public float playerPosY = 0f;
-    
+
     // 게임 진행 정보
     public int gold = 0;
     public List<string> unlockedAbilities = new List<string>();
     public List<string> completedQuests = new List<string>();
     public List<string> unlockedMaps = new List<string>();
     public List<string> unlockedAchievements = new List<string>();
-    
+
     // 인벤토리 정보
     public List<InventoryItemData> inventoryItems = new List<InventoryItemData>();
-    
+
     // 장비 정보
     public string equippedWeapon = "";
     public string equippedArmor = "";
     public string equippedAccessory = "";
-    
+
     // 시간 정보
     public int playTimeSeconds = 0;
     public string lastSaveTime = "";
-    
+
     // 추가적인 필드...
 }
 
@@ -439,7 +484,7 @@ public class InventoryItemData
     public string itemId;
     public int amount;
     public int slotIndex;
-    
+
     public InventoryItemData(string id, int count, int slot)
     {
         itemId = id;
