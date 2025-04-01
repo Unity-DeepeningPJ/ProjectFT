@@ -32,6 +32,14 @@ public class InventoryManager : MonoBehaviour
 
         GameManager.Instance.PlayerManager.player.PlayerState.UpdateEquipStats(0, 0, 0, 0);
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            consumePostion();
+        }
+    }
     private void Init()
     {
         slotItemDatas = new List<SlotItemData>();

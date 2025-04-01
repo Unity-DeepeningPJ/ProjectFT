@@ -28,11 +28,11 @@ public class SlotItemData
     public void RemoveItem(ItemData newitem, int count = 1)
     {
         item = null;
-        amount -= count;
+        amount =0;
         //IsEmpty= true;
-        if (amount <= 0)
-        {
-            amount = 0;
-        }
+        //if (amount <= 0)
+        //{
+        //    amount = 0;
+        //}
     }
 }
