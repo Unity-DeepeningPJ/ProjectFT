@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        PlayerState.UpdateEquipStats(0, 0, 0, 0);
+        
     }
 
     private void Update()

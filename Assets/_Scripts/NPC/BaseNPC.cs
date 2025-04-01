@@ -33,7 +33,7 @@ public abstract class BaseNPC : MonoBehaviour, INPC
         // 플레이어가 범위 내에 있고 상호작용 가능하면
         if (playerInRange && interactable)
         {
-            Debug.Log($"{npcName}: 플레이어가 범위 내에 있음, 상호작용 키 대기 중");
+            //Debug.Log($"{npcName}: 플레이어가 범위 내에 있음, 상호작용 키 대기 중");
             
             // 상호작용 키를 눌렀을 때
             if (Input.GetKeyDown(interactionKey))

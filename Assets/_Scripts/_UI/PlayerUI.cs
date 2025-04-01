@@ -1,4 +1,6 @@
 // PlayerUI.cs - 플레이어 UI 전체를 관리하는 메인 클래스
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -6,11 +8,10 @@ using TMPro;
 public class PlayerUI : MonoBehaviour
 {
     [Header("체력 관련")]
-    [SerializeField] private HealthBar healthBar;
+    [SerializeField] private HealthUI healthUI;
     
     [Header("레벨과 경험치")]
-    [SerializeField] private ExpBar experienceBar;
-    [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private ExpUI expUI; 
     
     [Header("골드")]
     [SerializeField] private TextMeshProUGUI goldText;
@@ -18,7 +19,8 @@ public class PlayerUI : MonoBehaviour
     // 플레이어 참조
     private Player player;
     private PlayerState playerState;
-    // private PlayerInventory playerInventory;  // 골드 정보가 여기에 있다고 가정
+    private PlayerCondition playerCondition;
+    private CurrencyManager playerGold;
     
     private void Start()
     {
@@ -32,85 +34,119 @@ public class PlayerUI : MonoBehaviour
         
         // 필요한 컴포넌트 참조 가져오기
         playerState = player.GetComponent<PlayerState>();
-        // playerInventory = player.GetComponent<PlayerInventory>();
+        playerCondition = player.GetComponent<PlayerCondition>();
+        playerGold = player.GetComponent<CurrencyManager>();
         
-        // 초기 UI 세팅
-        SetupUI();
+        // UI 초기화
+        InitializeUIComponents();
         
         // 이벤트 구독
         SubscribeToEvents();
     }
     
-    private void SetupUI()
+    private void Update()
     {
-        if (playerState != null)
+        // HealthUI 애니메이션 업데이트 - 프레임마다 호출해야 함
+        healthUI.UpdateUI(5f); // 애니메이션 속도 5로 설정
+    }
+    
+    private void InitializeUIComponents()
+    {
+        // 체력 UI 초기화
+        if (playerCondition != null && playerState != null)
         {
-            // 체력바 초기화
-            if (healthBar != null)
-                healthBar.SetValue(playerState.health, playerState.TotalHealth);
-                
-            // 경험치바 초기화
-            if (experienceBar != null)
-                experienceBar.SetValue(playerState.CurrentExp, playerState.ExpToNextLevel);
-                
-            // 레벨 텍스트 초기화
-            if (levelText != null)
-                levelText.text = $"Lv. {playerState.Level}";
+            Debug.Log($"체력 UI 초기화: {playerCondition.CurrentHealth}/{playerState.TotalHealth}");
+            healthUI.SetValue(playerCondition.CurrentHealth, playerState.TotalHealth);
+        }
+        else
+        {
+            Debug.LogWarning("PlayerUI: playerCondition 또는 playerState가 null입니다!");
+        }
+        
+        // ExpBar 초기화
+        if (expUI != null)
+        {
+            expUI.Initialize();
+            
+            // 초기값 설정
+            if (playerState != null)
+            {
+                expUI.UpdateAll
+                (
+                    playerState.Level,
+                    playerState.CurrentExp, 
+                    playerState.ExpToNextLevel
+                );
+            }
         }
         
         // 골드 텍스트 초기화
-        // if (playerInventory != null && goldText != null)
-        //     goldText.text = $"Gold: {playerInventory.Gold}";
+        if (playerGold != null && goldText != null)
+        {
+            goldText.text = $"Gold: {playerGold.currencies[CurrenyType.Gold]}";
+        }
     }
     
     private void SubscribeToEvents()
     {
-        if (playerState != null)
+        // 체력 관련 이벤트 구독
+        if (playerCondition != null)
         {
-            // 체력 변화 이벤트 구독
-            playerState.OnHealthChanged += UpdateHealthBar;
-            playerState.OnMaxHealthChanged += UpdateMaxHealth;
-            
-            // 레벨 변화 이벤트 구독
-            playerState.OnLevelChanged += UpdateLevel;
-            
-            // 경험치 변화 이벤트 구독
-            playerState.OnExpChanged += UpdateExperience;
+            playerCondition.OnHealthChanged += UpdateHealthFromCondition;
+            Debug.Log("PlayerUI: 플레이어 컨디션 체력 이벤트 구독");
         }
         
-        // if (playerInventory != null)
-        // {
-        //     // 골드 변화 이벤트 구독
-        //     playerInventory.OnGoldChanged += UpdateGold;
-        // }
+        if (playerState != null)
+        {
+            playerState.OnHealthChanged += UpdateHealth;
+            playerState.OnMaxHealthChanged += UpdateMaxHealth;
+            playerState.OnLevelChanged += OnLevelChanged;
+            playerState.OnExpChanged += OnExpChanged;
+            Debug.Log("PlayerUI: 플레이어 스테이트 이벤트 구독");
+        }
+        
+        if (playerGold != null)
+        {
+            playerGold.OnGoldChange += UpdateGold;
+        }
     }
     
-    // 체력바 업데이트
-    private void UpdateHealthBar(float current, float max)
+    // PlayerCondition의 체력 변화 처리
+    private void UpdateHealthFromCondition(float current)
     {
-        if (healthBar != null)
-            healthBar.SetValue(current, max);
+        Debug.Log($"체력 업데이트(컨디션): {current}/{playerState?.TotalHealth}");
+        if (playerState != null)
+        {
+            healthUI.SetValue(current, playerState.TotalHealth);
+        }
     }
     
-    // 최대 체력 업데이트
+    // PlayerState의 체력 변화 처리
+    private void UpdateHealth(float current, float max)
+    {
+        Debug.Log($"체력 업데이트(스테이트): {current}/{max}");
+        healthUI.SetValue(current, max);
+    }
+    
+    // 최대 체력 변경 처리
     private void UpdateMaxHealth(float newMaxHealth)
     {
-        if (healthBar != null)
-            healthBar.UpdateMaxValue(newMaxHealth);
+        Debug.Log($"최대 체력 업데이트: {newMaxHealth}");
+        healthUI.UpdateMaxValue(newMaxHealth);
     }
     
-    // 레벨 업데이트
-    private void UpdateLevel(int newLevel)
+    // 경험치 이벤트 핸들러
+    private void OnExpChanged(int current, int max)
     {
-        if (levelText != null)
-            levelText.text = $"Lv. {newLevel}";
+        if (expUI != null)
+            expUI.SetExp(current, max);
     }
-    
-    // 경험치 업데이트
-    private void UpdateExperience(int current, int max)
+
+    // 레벨 이벤트 핸들러
+    private void OnLevelChanged(int newLevel)
     {
-        if (experienceBar != null)
-            experienceBar.SetValue(current, max);
+        if (expUI != null)
+            expUI.SetLevel(newLevel);
     }
     
     // 골드 업데이트
@@ -128,17 +164,23 @@ public class PlayerUI : MonoBehaviour
     
     private void UnsubscribeFromEvents()
     {
-        if (playerState != null)
+        // 체력 이벤트 구독 해제 추가
+        if (playerCondition != null)
         {
-            playerState.OnHealthChanged -= UpdateHealthBar;
-            playerState.OnMaxHealthChanged -= UpdateMaxHealth;
-            playerState.OnLevelChanged -= UpdateLevel;
-            playerState.OnExpChanged -= UpdateExperience;
+            playerCondition.OnHealthChanged -= UpdateHealthFromCondition;
         }
         
-        // if (playerInventory != null)
-        // {
-        //     playerInventory.OnGoldChanged -= UpdateGold;
-        // }
+        if (playerState != null)
+        {
+            playerState.OnHealthChanged -= UpdateHealth;
+            playerState.OnMaxHealthChanged -= UpdateMaxHealth;
+            playerState.OnLevelChanged -= OnLevelChanged;
+            playerState.OnExpChanged -= OnExpChanged;
+        }
+        
+        if (playerGold != null)
+        {
+            playerGold.OnGoldChange -= UpdateGold;
+        }
     }
 }

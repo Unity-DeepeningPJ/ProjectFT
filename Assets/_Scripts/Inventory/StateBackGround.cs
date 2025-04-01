@@ -16,7 +16,7 @@ public class StateBackGround : MonoBehaviour
 
     private void Start()
     {
-        Init();
+       // Init();
 
     }
 

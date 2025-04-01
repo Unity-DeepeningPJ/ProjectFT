@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 
 [Serializable]
-public class HealthBar
+public class HealthUI
 {
     // UI 요소
     public Image fillImage;              // 채워지는 이미지

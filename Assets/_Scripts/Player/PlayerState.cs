@@ -78,7 +78,6 @@ public class PlayerState : BaseState
         if (CurrentExp >= ExpToNextLevel)
         {
             LevelUp();
-
         }
     }
 
