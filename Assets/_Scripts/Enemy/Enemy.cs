@@ -23,7 +23,9 @@ public class Enemy : BaseState, IDamageable
     private Transform playerTransform;
     private bool playerInRange = false;
 
-    
+    CharacterAnimation animi;
+    SpriteRenderer sprite;
+
     public Enemy(int Power, int Defense, int health, float speed, float jumpPower) : base(Power, Defense, health, speed, jumpPower)
     {
     
@@ -31,6 +33,9 @@ public class Enemy : BaseState, IDamageable
 
     void Start()
     {
+        animi = GetComponent<CharacterAnimation>();
+        sprite = GetComponent<SpriteRenderer>();
+
         // BaseState 초기화 (생성자를 사용하지 않는 경우)
         this.Power = Power;
         this.Defense = Defense;
@@ -111,11 +116,14 @@ public class Enemy : BaseState, IDamageable
 
         if (player != null)
         {
+            animi.OnAttack(true);
+            sprite.flipX = player.transform.position.x - transform.position.x > 0;
             playerTransform = player.transform;
             playerInRange = true;
         }
         else
         {
+            animi.OnAttack(false);
             playerTransform = null;
             playerInRange = false;
         }
