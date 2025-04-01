@@ -29,6 +29,8 @@ public class InventoryManager : MonoBehaviour
         inventoryUI.Init();
         uiinventoryScrean.init();
         statebackground.Init();
+
+        GameManager.Instance.PlayerManager.player.PlayerState.UpdateEquipStats(0, 0, 0, 0);
     }
     private void Init()
     {
