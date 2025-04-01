@@ -19,7 +19,7 @@ public class UiInventory : MonoBehaviour
 
     private void Start()
     {
-        
+
 
         //Init();
 
@@ -41,6 +41,7 @@ public class UiInventory : MonoBehaviour
         // 그 부위에 아이템이 장착 되어있나 없나 
         if (GameManager.Instance.EquipManager.EqipDictionary.TryGetValue(slotItemData.item.type, out ItemData item))
         {
+
             // 그게 장착된 아이템인가? 아닌가 ?
             if (item.id == slotItemData.item.id)
             {

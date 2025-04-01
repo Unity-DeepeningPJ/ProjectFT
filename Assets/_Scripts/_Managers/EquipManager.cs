@@ -24,16 +24,21 @@ public class EquipManager : MonoBehaviour
     public void EqipDictionaryAddItem(ItemData itemData)
     {
         //근데 같은 타입의 데이터가 있으면 안됨 따라서 검사를 하고 그 아이템을 해제하고 이 아이템을 넣어줘야됨 
+        //포션일때 
         UnequipItem(itemData);
 
         //새 장비 장착 
         EqipDictionary.Add(itemData.type, itemData);
-        //Debug.Log("장착 아이템 더하기 완료 ");
-        // 장비 장착 이벤트 발생 
-        // 여기서 능력치를 더해주기 
 
-        // 모든 장착 아이템의 스탯 합산
-        AddStats();
+        if (itemData.type == EquipType.Consumealbe)
+        {
+        }
+        else
+        {
+            // 여기서 능력치를 더해주기 
+            AddStats();
+        }
+        // 장비 장착 이벤트 발생 
         OnEquipmentAdd?.Invoke(itemData);
     }
 
@@ -51,7 +56,15 @@ public class EquipManager : MonoBehaviour
             {
                 EqipDictionary.Remove(itemData.type);
                 //능력치 해제 
-                AddStats();
+                //포션일때 
+                if (itemData.type == EquipType.Consumealbe)
+                {
+                    
+                }
+                else
+                {
+                    AddStats();
+                }
                 //해제 이벤트 
                 OnEquipmentRemoved?.Invoke(unequippedItem);
             }
