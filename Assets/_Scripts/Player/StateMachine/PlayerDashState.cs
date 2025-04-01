@@ -17,7 +17,7 @@ public class PlayerDashState : PlayerBaseState
     {
         base.Enter();
 
-        Debug.Log("Dash State");
+        //Debug.Log("Dash State");
 
         _dashDistance = player.PlayerState.DashDistance;
         _dashSpeed = player.PlayerState.DashSpeed;
@@ -26,7 +26,6 @@ public class PlayerDashState : PlayerBaseState
         //대쉬 중 중력, 점프 영향 받지 않도록 함
         _gravityScale = player.Rigidbody.gravityScale;
         player.Rigidbody.gravityScale = 0f;
-
         player.Rigidbody.velocity = new Vector2(player.Rigidbody.velocity.x, 0f);
 
         //대쉬 방향
@@ -38,8 +37,21 @@ public class PlayerDashState : PlayerBaseState
         //현재 y 값 고정
         _fixedYPosition = player.Rigidbody.position.y;
 
+        //대쉬 거리 안 장애물 체크
+        int ignoreLayers = LayerMask.GetMask("Player", "Enemy", "Camera");
+        int mapLayers = ~ignoreLayers;
+
+        RaycastHit2D hit = Physics2D.Raycast(player.transform.position, Vector2.right * _dashDirection, _dashDistance, mapLayers);
+
         //대쉬 위치 계산
-        _dashTargetPosition = new Vector2(player.transform.position.x + (_dashDirection * player.PlayerState.DashDistance), _fixedYPosition);
+        if (hit.collider != null)
+        {
+            _dashTargetPosition = new Vector2(hit.point.x - (_dashDirection * 0.5f), _fixedYPosition);
+        }
+        else
+        {
+            _dashTargetPosition = new Vector2(player.transform.position.x + (_dashDirection * player.PlayerState.DashDistance), _fixedYPosition);
+        }
 
         isDash = true;
 
