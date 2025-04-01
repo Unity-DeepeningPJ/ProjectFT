@@ -41,20 +41,23 @@ public class MeleeEnemy : BaseState, IDamageable
     protected bool isIdle = false; // 멈춰있는지 여부
 
     protected Rigidbody2D rb; // Rigidbody2D 컴포넌트
-    SpriteRenderer sprite;
-    CharacterAnimation animi;
+    protected SpriteRenderer sprite;
+    protected CharacterAnimation animi;
 
     public MeleeEnemy(int Power, int Defense, int health, float speed, float jumpPower) : base(Power, Defense, health, speed, jumpPower)
     {
+    }
+    private void Awake()
+    {
+        sprite = GetComponent<SpriteRenderer>();
+        animi = GetComponent<CharacterAnimation>();
     }
 
     void Start()
     {
         startPosition = transform.position;
         nextAttackTime = Time.time;
-
-        sprite = GetComponent<SpriteRenderer>();
-        animi = GetComponent<CharacterAnimation>();
+      
         rb = GetComponent<Rigidbody2D>(); // Rigidbody2D 컴포넌트 가져오기
         if (rb == null)
         {
@@ -173,6 +176,7 @@ public class MeleeEnemy : BaseState, IDamageable
 
     public void StopAttack()
     {
+        Debug.Log(this.gameObject.name);
         animi.OnAttack(false);
         isAttacking = false;
         isChasing = false;
