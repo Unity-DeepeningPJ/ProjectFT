@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAnimation : MonoBehaviour
+public class CharacterAnimation : MonoBehaviour
 {
     static readonly int Idle = Animator.StringToHash("Idle");
     static readonly int Move = Animator.StringToHash("Move");
