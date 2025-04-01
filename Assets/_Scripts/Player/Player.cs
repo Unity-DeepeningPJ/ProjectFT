@@ -30,6 +30,11 @@ public class Player : MonoBehaviour
         animi = GetComponent<CharacterAnimation>();
     }
 
+    private void Start()
+    {
+        PlayerState.UpdateEquipStats(0, 0, 0, 0);
+    }
+
     private void Update()
     {
         StateMachine.HandleInput();

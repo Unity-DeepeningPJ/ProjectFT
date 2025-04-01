@@ -1107,6 +1107,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4698742366203595333, guid: 939270886279167489fa0b3f48e6902b, type: 3}
+      propertyPath: inventoryUI
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4698742366203595333, guid: 939270886279167489fa0b3f48e6902b, type: 3}
+      propertyPath: statebackground
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4698742366203595333, guid: 939270886279167489fa0b3f48e6902b, type: 3}
+      propertyPath: uiinventoryScrean
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6675418246124082803, guid: 939270886279167489fa0b3f48e6902b, type: 3}
       propertyPath: m_Name
       value: GameManager

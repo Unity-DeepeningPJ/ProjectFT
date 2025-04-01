@@ -18,8 +18,7 @@ public class EquipManager : MonoBehaviour
 
     private void Start()
     {
-        //플레이어 스텟 초기화 작업 >원래는 여기서 하면 안될거같은데 다른분 코드 건들면 안되니까 여기서 실행 
-        GameManager.Instance.PlayerManager.player.PlayerState.UpdateEquipStats(0, 0, 0, 0);
+
     }
 
     public void EqipDictionaryAddItem(ItemData itemData)
