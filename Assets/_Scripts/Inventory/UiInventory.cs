@@ -45,7 +45,7 @@ public class UiInventory : MonoBehaviour
             if (item.id == slotItemData.item.id)
             {
                 //장착되어있다면 >해제 
-                GameManager.Instance.EquipManager.UnequipItem(item.type);
+                GameManager.Instance.EquipManager.UnequipItem(item);
             }
             else // 미리 장착된 아이템이 있고 지금 장착할 아이템은 다른 아이템 
             {
@@ -56,7 +56,7 @@ public class UiInventory : MonoBehaviour
                     oldItem.UpdateRemoveEquip();
                 }
                 // 그게 아니라면 > 보유아이템 해제 > 슬롯아이템 더해줘
-                GameManager.Instance.EquipManager.UnequipItem(item.type);
+                GameManager.Instance.EquipManager.UnequipItem(item);
                 GameManager.Instance.EquipManager.EqipDictionaryAddItem(slotItemData.item);
             }
         }

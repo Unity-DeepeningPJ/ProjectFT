@@ -88,6 +88,7 @@ public class UiSlot : MonoBehaviour
         {
             //이미지 비활성화
             iconImage.sprite = null;
+            text_equip.gameObject.SetActive(false);
             // 컴포넌트 자체를 비활성화 렌더링 비용 절약 가능
             iconImage.enabled = false;
         }
