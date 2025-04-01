@@ -131,6 +131,38 @@ public class InventoryManager : MonoBehaviour
     }
 
 
+    public void consumePostion()
+    {
+        var Posionitem = slotItemDatas.Find(slotitem =>
+        slotitem != null &&
+        slotitem.item != null &&
+        slotitem.item.itemName == "HP포션");
+
+        if (Posionitem != null && Posionitem.amount > 0)
+        {
+            //체력회복 
+            GameManager.Instance.PlayerManager.player.PlayerCondition.AddHealth(
+                Posionitem.item.equipCondition.value);
+
+            //아이템을 수량에서 제외 
+            if (Posionitem.amount > 0)
+            {
+                Posionitem.amount--;
+                if (Posionitem.amount == 0)
+                {
+                    slotItemDatas.Remove(Posionitem);
+                }
+            }
+            else
+            {
+                slotItemDatas.Remove(Posionitem);
+            }
+        }
+
+        ArrayInventory();
+    }
+
+
     public void AddItemlist()
     {
         for (int i = 0; i < BaseItemData.Count; i++)

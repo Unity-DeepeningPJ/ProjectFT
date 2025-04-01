@@ -25,6 +25,18 @@ public class PlayerCondition : MonoBehaviour, IDamageable
         OnHealthChanged?.Invoke(CurrentHealth);
     }
 
+    public float AddHealth(float value)
+    {
+        //최대 체력 이상일수는없잔아 ? 
+        //최대 체력 가져와서 검사를 진행 
+        int MaxHealth=GameManager.Instance.PlayerManager.player.PlayerState.TotalHealth;
+        float Addhealth = CurrentHealth + value;
+        
+        CurrentHealth = Math.Min(MaxHealth, Addhealth);
+        OnHealthChanged?.Invoke(CurrentHealth);
+        return CurrentHealth;
+    }
+
     //데미지 계산
     public void TakePhysicalDamage(int damage)
     {
