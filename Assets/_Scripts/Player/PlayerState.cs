@@ -26,6 +26,10 @@ public class PlayerState : BaseState
 
 
     public event Action<PlayerState> OnStatsChanged;
+    public event Action<float, float> OnHealthChanged;  // 현재 체력, 최대 체력
+    public event Action<float> OnMaxHealthChanged;  // 최대 체력
+    public event Action<int> OnLevelChanged;  // 새 레벨
+    public event Action<int, int> OnExpChanged;  // 현재 경험치, 다음 레벨까지 필요한 경험치
 
     public PlayerState(PlayerData data) : base(data.basePower, data.baseDefense, data.baseHealth, data.baseSpeed, data.baseJumpPower)
     {
@@ -60,6 +64,8 @@ public class PlayerState : BaseState
     public void AddExp(int amount)
     {
         CurrentExp += amount;
+        OnExpChanged?.Invoke(CurrentExp, ExpToNextLevel);
+        
         if (CurrentExp >= ExpToNextLevel)
         {
             LevelUp();
@@ -74,5 +80,11 @@ public class PlayerState : BaseState
         health += 10;
         Power += 1;
         Defense += 1;
+        
+        // 이벤트 발생
+        OnLevelChanged?.Invoke(Level);
+        OnExpChanged?.Invoke(CurrentExp, ExpToNextLevel);
+        OnMaxHealthChanged?.Invoke(TotalHealth);
+        OnStatsChanged?.Invoke(this);
     }
 }
