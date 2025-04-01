@@ -11,10 +11,7 @@ public class Enemy : BaseState, IDamageable
     public LayerMask playerLayer;
     public float detectionRange = 5f;
     public int maxHealth = 200;
-    //public int Power = 10;
-    //public int Defense = 5;
-    //public float speed = 1f;
-    //public float jumpPower = 5f;
+    public GameObject coinPrefab;
 
     private int currentHealth;
     private Vector2 startPosition;
@@ -167,7 +164,7 @@ public class Enemy : BaseState, IDamageable
 
     void Die()
     {
-        Debug.Log("Enemy Die!");
+        Instantiate(coinPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject);
 
         if (player != null)

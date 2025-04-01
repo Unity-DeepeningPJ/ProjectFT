@@ -26,7 +26,8 @@ public class MeleeEnemy : BaseState, IDamageable
 
     public int maxHealth = 100; // 최대 체력 (Inspector 창에서 설정 가능)
     public int currentHealth; // 현재 체력 (Inspector 창에서 확인 가능)
-    
+
+    public GameObject coinPrefab;
 
     protected Vector2 startPosition;
     protected bool movingRight = true;
@@ -252,6 +253,7 @@ public class MeleeEnemy : BaseState, IDamageable
     }
     void Die()
     {        
+        Instantiate(coinPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject); // 또는 오브젝트 풀에 반환
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 

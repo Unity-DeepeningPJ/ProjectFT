@@ -27,7 +27,7 @@ public class Boss : MeleeEnemy, IDamageable
 
     [Header("References")]
     public Transform firePoint; // 투사체 발사 위치
-
+    
     private float nextSpecialAttackTime;
     private bool isSpecialAttacking = false; // 특수 공격 중인지 여부
 
@@ -334,11 +334,18 @@ public class Boss : MeleeEnemy, IDamageable
         }
         isSpecialAttacking = false;
     }
-
+    public void TakePhysicalDamage(int damage)
+    {
+        currentHealth -= damage;
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
 
     void Die()
     {
-        Debug.Log("Boss Die!");
+        Instantiate(coinPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject); // 또는 오브젝트 풀에 반환
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
