@@ -72,7 +72,7 @@ public class Boss : MeleeEnemy, IDamageable
         }
         else
         {
-            Debug.LogError("Player not found in layer!");
+            //Debug.LogError("Player not found in layer!");
         }
     }
 

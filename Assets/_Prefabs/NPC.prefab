@@ -95,9 +95,9 @@ GameObject:
   - component: {fileID: 759277712956934553}
   - component: {fileID: 3500633366847184358}
   - component: {fileID: 4503102781164182985}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: NPC
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -270,7 +270,7 @@ GameObject:
   - component: {fileID: 5640053353670269410}
   - component: {fileID: 8205672919065696570}
   - component: {fileID: 4513166194829404609}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -574,7 +574,7 @@ GameObject:
   - component: {fileID: 3997678182697105839}
   - component: {fileID: 5890722579033737289}
   - component: {fileID: 5363195375284112676}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
