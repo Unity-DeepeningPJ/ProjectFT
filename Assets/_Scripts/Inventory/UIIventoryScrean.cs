@@ -15,6 +15,9 @@ public class UIIventoryScrean : MonoBehaviour
     [SerializeField] private TextMeshProUGUI Gold;
     [SerializeField] private SpriteRenderer coatSprite;
     [SerializeField] private SpriteRenderer weaponSprite;
+    [SerializeField] private Image Posion_Inventory;
+    [SerializeField] private Image Posion_MainUI;
+
 
     private void Start()
     {
@@ -63,6 +66,10 @@ public class UIIventoryScrean : MonoBehaviour
             // 보유아이템
             switch (item.type)
             {
+                case EquipType.Consumealbe:
+                    Posion_Inventory.sprite = item.Icon;
+                    Posion_MainUI.sprite =item.Icon;
+                    break;
                 case EquipType.Weapon:
                     Slot_Equip_Weapon.sprite = item.Icon;
                     weaponSprite.sprite = item.Icon;
@@ -92,6 +99,10 @@ public class UIIventoryScrean : MonoBehaviour
             // 보유아이템
             switch (itemData.type)
             {
+                case EquipType.Consumealbe:
+                    Posion_Inventory.sprite =null;
+                    Posion_MainUI.sprite = null;
+                    break;
                 case EquipType.Weapon:
                     Slot_Equip_Weapon.sprite = null;
                     weaponSprite.sprite = null;
