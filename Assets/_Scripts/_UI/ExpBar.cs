@@ -4,11 +4,10 @@ using UnityEngine.UI;
 using TMPro;
 
 [Serializable]
-public class ExpBar
+public class ExpBar : MonoBehaviour
 {
-    // UI 요소
-    public Image fillImage;              // 채워지는 이미지
-    public TextMeshProUGUI expText;      // 경험치 텍스트
+    [SerializeField] private Image fillImage;  // 반드시 할당되어야 함
+    [SerializeField] private TextMeshProUGUI expText;  // 선택적
     
     [Header("애니메이션 설정")]
     [SerializeField] private float animationSpeed = 3f;
@@ -17,7 +16,7 @@ public class ExpBar
     private float currentDisplayValue;
     private int targetValue;
     private int maxValue;
-    
+
     private void Start()
     {
         fillImage.color = expColor;
@@ -26,17 +25,33 @@ public class ExpBar
             Debug.LogError("ExpBar: fillImage가 할당되지 않았습니다!");
     }
     
+    // 이 메서드가 호출되면 즉시 UI 업데이트가 되어야 함
     public void SetValue(int current, int max)
     {
         targetValue = current;
         maxValue = max;
+
+        // 디버그 추가
+        Debug.Log($"ExpBar.SetValue: {current}/{max}");
         
-        // 텍스트 업데이트
+        // 즉시 UI 업데이트
+        if (fillImage != null && max > 0)
+        {
+            fillImage.fillAmount = (float)current / max;
+            Debug.Log($"ExpBar fillAmount 설정: {fillImage.fillAmount}");
+        }
+        else
+        {
+            Debug.LogError("ExpBar fillImage가 null이거나 max가 0입니다!");
+        }
+        
+        // 텍스트 업데이트 (선택적)
         if (expText != null)
             expText.text = $"{current}/{max}";
     }
     
-    public void UpdateUI()
+    // 값이 점진적으로 변하는 것을 원한다면 Update 메서드 필요
+    private void Update()
     {
         if (fillImage == null) return;
         
