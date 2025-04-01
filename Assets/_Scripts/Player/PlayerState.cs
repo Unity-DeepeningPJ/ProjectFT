@@ -6,7 +6,7 @@ public class PlayerState : BaseState
 {
     public string Name { get; private set; }
     public int Level { get; private set; }
-    public int CurrentExp {  get; private set; }
+    public int CurrentExp { get; private set; }
     public int ExpToNextLevel { get; private set; }
 
     public float CriticalChance { get; private set; }
@@ -26,22 +26,28 @@ public class PlayerState : BaseState
     public int TotalHealth => health + _equipHealth;
     public float TotalCriticalChance => CriticalChance + _equipCriticalChance;
 
-
     public event Action<PlayerState> OnStatsChanged;
     public event Action<float, float> OnHealthChanged;  // 현재 체력, 최대 체력
     public event Action<float> OnMaxHealthChanged;  // 최대 체력
     public event Action<int> OnLevelChanged;  // 새 레벨
     public event Action<int, int> OnExpChanged;  // 현재 경험치, 다음 레벨까지 필요한 경험치
 
-    public PlayerState(PlayerData data) : base(data.basePower, data.baseDefense, data.baseHealth, data.baseSpeed, data.baseJumpPower)
+    public PlayerState(PlayerData data) : base(data.basePower, data.baseDefense, data.baseHealth, data.baseSpeed, data.baseJumpPower) { }
+
+    public void Initialize(PlayerData data)
     {
         Name = data.playerName;
         Level = data.startLevel;
         CurrentExp = data.startExp;
         ExpToNextLevel = data.expToNextLevel;
 
+        Power = data.basePower;
+        Defense = data.baseDefense;
+        health = data.baseHealth;
         CriticalChance = data.baseCriticalChance;
 
+        speed = data.baseSpeed;
+        jumpPower = data.baseJumpPower;
         DashDistance = data.baseDashDistance;
         DashSpeed = data.baseDashSpeed;
 
@@ -52,7 +58,7 @@ public class PlayerState : BaseState
     }
 
     //장비 스텟 변경 메서드
-    public void UpdateEquipStats(int power,int defense,int health,float critical)
+    public void UpdateEquipStats(int power, int defense, int health, float critical)
     {
         _equipPower = power;
         _equipDefense = defense;
@@ -68,11 +74,11 @@ public class PlayerState : BaseState
         Debug.Log($"CurrentExp: {CurrentExp}, ExpToNextLevel: {ExpToNextLevel}");
         CurrentExp += amount;
         OnExpChanged?.Invoke(CurrentExp, ExpToNextLevel);
-        
+
         if (CurrentExp >= ExpToNextLevel)
         {
             LevelUp();
-            
+
         }
     }
 
@@ -86,7 +92,7 @@ public class PlayerState : BaseState
         health += 10;
         Power += 1;
         Defense += 1;
-        
+
         // 이벤트 발생
         OnLevelChanged?.Invoke(Level);
         OnExpChanged?.Invoke(CurrentExp, ExpToNextLevel);
