@@ -66,6 +66,7 @@ public class PlayerState : BaseState
         _equipCriticalChance = critical;
 
         OnStatsChanged?.Invoke(this);
+        OnMaxHealthChanged?.Invoke(TotalHealth);
     }
 
     //경험치 추가 및 레벨업

@@ -204,5 +204,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   detectionRange: 5
-  maxHealth: 10
+  maxHealth: 50
   coinPrefab: {fileID: 1250505169038823776, guid: 87fc548d8d6232040b5cd9ab8bf1a8a3, type: 3}

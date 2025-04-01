@@ -90,7 +90,9 @@ MonoBehaviour:
   inventoryUI: {fileID: 0}
   uiinventoryScrean: {fileID: 0}
   statebackground: {fileID: 0}
-  TestItemData: []
+  BaseItemData:
+  - {fileID: 11400000, guid: c3f361e85607fa64393ee4a6ff3e48ce, type: 2}
+  - {fileID: 11400000, guid: f4d4771637c68be4baccccf42a40723b, type: 2}
 --- !u!114 &175835010222876980
 MonoBehaviour:
   m_ObjectHideFlags: 0
