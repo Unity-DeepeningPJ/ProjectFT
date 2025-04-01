@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,7 +12,7 @@ public abstract class BaseNPC : MonoBehaviour, INPC
     
     [Header("상호작용 설정")]
     [SerializeField] protected float interactionRadius = 2f; // 상호작용 범위
-    [SerializeField] protected GameObject interactionPrompt; // 상호작용 프롬프트
+    [SerializeField] protected TextMeshProUGUI interactionPrompt; // 상호작용 프롬프트
     [SerializeField] protected KeyCode interactionKey = KeyCode.W;
     [SerializeField] protected KeyCode cancelKey = KeyCode.S;
     
@@ -24,8 +25,9 @@ public abstract class BaseNPC : MonoBehaviour, INPC
     
     protected virtual void Start()
     {
-        if (interactionPrompt != null)
-            interactionPrompt.SetActive(false);
+        //if (interactionPrompt != null)
+        //interactionPrompt.SetActive(false);
+        interactionPrompt.text = "";
     }
     
     protected virtual void Update()
@@ -59,10 +61,11 @@ public abstract class BaseNPC : MonoBehaviour, INPC
             Debug.Log($"{npcName}: 플레이어 감지됨!");
             playerInRange = true;
             nearbyPlayer = other.GetComponent<PlayerController>();
-            
+
             // 상호작용 프롬프트 표시
             if (interactionPrompt != null && interactable)
-                interactionPrompt.SetActive(true);
+                //interactionPrompt.SetActive(true);
+                interactionPrompt.text = "W(key) 를 눌러주세요.";
         }
     }
     
@@ -73,10 +76,10 @@ public abstract class BaseNPC : MonoBehaviour, INPC
         {
             playerInRange = false;
             nearbyPlayer = null;
-            
+
             // 상호작용 프롬프트 숨기기
             if (interactionPrompt != null)
-                interactionPrompt.SetActive(false);
+                interactionPrompt.text = "";
         }
 
         // 만약 플레이어가 범위 내에 있고 상호작용 중이라면
