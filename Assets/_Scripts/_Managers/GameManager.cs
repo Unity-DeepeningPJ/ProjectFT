@@ -72,22 +72,39 @@ public class GameManager : MonoBehaviour
             HandleEscapeKey();
         }
     }
+    private void HandleEscapeKey()
+    {
+        // 현재 상태에 따라 다른 처리
+        switch (currentState)
+        {
+            case GameState.Playing:
+                // 플레이 중에 ESC를 누르면 일시정지
+                SetGameState(GameState.Paused);
+                break;
+            case GameState.Paused:
+                // 일시정지 상태에서 ESC를 누르면 게임으로 복귀
+                SetGameState(GameState.Playing);
+                break;
+                // 다른 상태에서는 별도 처리 없음
+        }
+    }
 
-    // private void OnEnable()
-    // {
-    //     UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
-    // }
+    #region 씬 로드 관리
+    private void OnEnable()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
-    // private void OnDisable()
-    // {
-    //     UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
-    // }
+    private void OnDisable()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
-    // private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
-    // {
-    //     Debug.Log($"새 씬 '{scene.name}' 로드됨: 매니저 참조 찾기...");
-    //     LoadManagers();
-    // }
+    private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+    {
+        Debug.Log($"새 씬 '{scene.name}' 로드됨: 매니저 참조 찾기...");
+        LoadManagers();
+    }
 
     public void LoadManagers()
     {
@@ -121,25 +138,7 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("Managers 게임오브젝트를 찾을 수 없습니다!");
         }
     }
-
-    private void HandleEscapeKey()
-    {
-        // 현재 상태에 따라 다른 처리
-        switch (currentState)
-        {
-            case GameState.Playing:
-                // 플레이 중에 ESC를 누르면 일시정지
-                SetGameState(GameState.Paused);
-                break;
-            case GameState.Paused:
-                // 일시정지 상태에서 ESC를 누르면 게임으로 복귀
-                SetGameState(GameState.Playing);
-                break;
-                // 다른 상태에서는 별도 처리 없음
-        }
-    }
-
-    // 게임 데이터를 언제 저장할지 생각해 봐야함
+    #endregion
 
     #region 저장 및 로드
 
