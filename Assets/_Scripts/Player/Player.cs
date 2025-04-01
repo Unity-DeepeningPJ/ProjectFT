@@ -18,7 +18,8 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        PlayerState = new PlayerState(Data);
+        PlayerState = gameObject.AddComponent<PlayerState>();
+        PlayerState.Initialize(Data);
 
         PlayerCondition = gameObject.AddComponent<PlayerCondition>();
         PlayerCondition.Initizlize(this, PlayerState.TotalHealth);
