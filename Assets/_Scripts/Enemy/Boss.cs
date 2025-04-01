@@ -12,7 +12,7 @@ public class Boss : MeleeEnemy, IDamageable
 
     [Header("Spread Shot")]
     public int spreadShotProjectileCount = 5; // 확산 투사체 발사 개수
-    public float spreadShotProjectileSpreadAngle = 30f; // 확산 투사체 확산 각도
+
 
     [Header("Offset Round Shot")]
     public int roundShotProjectileCount = 12; // 전방위 투사체 발사 개수
@@ -20,6 +20,12 @@ public class Boss : MeleeEnemy, IDamageable
     public int offsetRoundShotProjectileCount = 6; // 한쪽 면에서 발사할 투사체 개수
     public float offsetRoundShotSideOffset = 2f; // 보스 중심으로부터의 거리
     public float yOffset = 0.5f;
+
+    [Header("Fan Shot")] 
+    public int fanShotProjectileCount = 6;   // 부채꼴 발사 투사체 개수
+    public float fanShotSpreadAngle = 60f;   // 부채꼴 총 확산 각도
+    public float fanShotJumpPower = 5f;      // 점프 힘
+
     [Header("Projectile")]
     public GameObject projectilePrefab; // 투사체 프리팹
     public float projectileSpeed = 5f; // 투사체 속도
@@ -34,7 +40,8 @@ public class Boss : MeleeEnemy, IDamageable
     public enum SpecialAttackType
     {
         DashAttack,
-        JumpRoundShot
+        JumpRoundShot,
+        FanShot
     }
 
 
@@ -198,6 +205,9 @@ public class Boss : MeleeEnemy, IDamageable
             case SpecialAttackType.JumpRoundShot:
                 StartCoroutine(JumpRoundShot());
                 break;
+            case SpecialAttackType.FanShot: 
+                StartCoroutine(FanShot());
+                break;
         }
     }
 
@@ -333,6 +343,68 @@ public class Boss : MeleeEnemy, IDamageable
             yield return new WaitForSeconds(roundShotDelay); // 투사체 발사 간격
         }
         isSpecialAttacking = false;
+    }
+    System.Collections.IEnumerator FanShot()
+    {
+        Debug.Log("Executing FanShot");
+        isSpecialAttacking = true; 
+        
+
+        if (playerTransform == null)
+        {
+            Debug.LogWarning("FanShot: PlayerTransform is null. Aborting attack.");
+            isSpecialAttacking = false;
+            yield break; // 플레이어가 없으면 코루틴 종료
+        }
+        
+        
+        rb.AddForce(Vector2.up * fanShotJumpPower, ForceMode2D.Impulse); // 위쪽으로 힘을 가해서 점프
+        yield return new WaitForSeconds(0.3f); // 점프 후 0.3초 정도 대기         
+
+                
+        Vector2 centerDirection = (playerTransform.position - firePoint.position).normalized;               
+        float startAngle = -fanShotSpreadAngle / 2f;       
+        float angleStep = (fanShotProjectileCount > 1) ? fanShotSpreadAngle / (fanShotProjectileCount - 1) : 0f;
+
+        // 4. 투사체 발사
+        for (int i = 0; i < fanShotProjectileCount; i++)
+        {
+            // 현재 투사체의 발사 각도 계산
+            float currentAngle = startAngle + (i * angleStep);
+
+            // 중심 방향 벡터를 현재 각도만큼 회전시켜 최종 발사 방향 계산
+            Vector2 fireDirection = Quaternion.AngleAxis(currentAngle, Vector3.forward) * centerDirection;
+
+            // 오브젝트 풀에서 투사체 가져오기
+            GameObject projectile = ObjectPool.Instance.GetPooledObject();
+
+            if (projectile != null)
+            {
+                projectile.transform.position = firePoint.position;
+                // 선택 사항: 투사체가 발사 방향을 바라보도록 회전
+                projectile.transform.rotation = Quaternion.LookRotation(Vector3.forward, fireDirection); 
+
+                Rigidbody2D projectileRb = projectile.GetComponent<Rigidbody2D>();
+                Bullet bulletScript = projectile.GetComponent<Bullet>(); // Bullet 스크립트 가져오기
+
+                if (projectileRb != null && bulletScript != null)
+                {                    
+                    bulletScript.SetDirection(fireDirection);                    
+                    projectileRb.velocity = fireDirection * projectileSpeed;// Rigidbody 속도 설정
+                    projectile.SetActive(true);
+                    
+                }
+                else
+                {                    
+                    projectile.SetActive(false);
+                }
+            }           
+            
+        }
+                
+        yield return new WaitForSeconds(0.1f); // 아주 짧은 후딜레이        
+        isSpecialAttacking = false; // 특수 공격 종료
+        
     }
     public void TakePhysicalDamage(int damage)
     {
