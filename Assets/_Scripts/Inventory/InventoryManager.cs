@@ -14,7 +14,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private UIIventoryScrean uiinventoryScrean;
     [SerializeField] private StateBackGround statebackground;
 
-    [SerializeField] private List<ItemData> TestItemData;
+    [SerializeField] private List<ItemData> BaseItemData;
     private void Awake()
     {
 
@@ -40,6 +40,8 @@ public class InventoryManager : MonoBehaviour
         {
             slotItemDatas.Add(new SlotItemData());
         }
+        //기본 장착 아이템 추가 
+        AddItemlist();
     }
 
     public bool AddInventoryitme(ItemData itemData)
@@ -129,21 +131,21 @@ public class InventoryManager : MonoBehaviour
     }
 
 
-    public void Additem_test()
+    public void AddItemlist()
     {
-        for (int i = 0; i < TestItemData.Count; i++)
+        for (int i = 0; i < BaseItemData.Count; i++)
         {
-            AddInventoryitme(TestItemData[i]);
+            AddInventoryitme(BaseItemData[i]);
         }
         ArrayInventory();
     }
 
     public void Removeitem_test()
     {
-        for (int i = 0; i < TestItemData.Count; i++)
+        for (int i = 0; i < BaseItemData.Count; i++)
         {
-            RemoveInventoryitme(TestItemData[i]);
-            GameManager.Instance.EquipManager.UnequipItem(TestItemData[i]);
+            RemoveInventoryitme(BaseItemData[i]);
+            GameManager.Instance.EquipManager.UnequipItem(BaseItemData[i]);
         }
         ArrayInventory();
     }
@@ -152,7 +154,7 @@ public class InventoryManager : MonoBehaviour
     public void Removeitem_one__test()
     {
 
-        RemoveInventoryitme(TestItemData[1]);
+        RemoveInventoryitme(BaseItemData[1]);
 
         ArrayInventory();
     }
