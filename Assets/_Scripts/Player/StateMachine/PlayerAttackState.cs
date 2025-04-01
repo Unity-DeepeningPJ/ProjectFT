@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 public class PlayerAttackState : PlayerBaseState
 {
     private float _attackRange;
@@ -16,7 +17,7 @@ public class PlayerAttackState : PlayerBaseState
         player.animi.OnAttack(true);
         // Debug.Log("Attack State");
 
-        _attackRange = 3f;
+        _attackRange = 5f;
         _attackDuration = 0.5f;
         _attackTimer = 0f;
 
@@ -78,7 +79,7 @@ public class PlayerAttackState : PlayerBaseState
                     //치명타 확률 적용
                     bool isCritical = Random.Range(0f, 100f) < player.PlayerState.TotalCriticalChance;
                     if (isCritical) damage *= 2;
-
+                    
                     enemy.TakePhysicalDamage(damage);
                     Debug.Log("적에게 " + damage + "의 피해를 입혔습니다.");
                 }

@@ -345,8 +345,23 @@ public class Boss : MeleeEnemy, IDamageable
 
     void Die()
     {
-        Instantiate(coinPrefab, transform.position, Quaternion.identity);
+        for (int i = 0; i < 5; i++)
+        {
+            Vector3 spawnPos = new Vector3(
+                Random.Range(transform.position.x - 4f, transform.position.x + 4f),
+                transform.position.y +3,
+                transform.position.z
+            );
+            Instantiate(coinPrefab, spawnPos, Quaternion.identity);
+        }
+
         Destroy(gameObject); // 또는 오브젝트 풀에 반환
+
+        GameObject npcObj = GameObject.FindGameObjectWithTag("NPC");
+        ShopkeeperNPC npc = npcObj.GetComponent<ShopkeeperNPC>();
+        npc.MoveNPC();
+        
+
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
         if (player != null)

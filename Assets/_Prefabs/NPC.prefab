@@ -117,6 +117,7 @@ Transform:
   m_Children:
   - {fileID: 3268035900692088353}
   - {fileID: 3200306662710718940}
+  - {fileID: 6145826450685779474}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!70 &3500633366847184358
@@ -174,6 +175,7 @@ MonoBehaviour:
   interactionKey: 119
   cancelKey: 27
   shopUI: {fileID: 0}
+  responNPC: {fileID: 6145826450685779474}
 --- !u!1 &4717929096459782011
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,6 +260,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &5337375469285878718
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6145826450685779474}
+  m_Layer: 0
+  m_Name: NPCResPonPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6145826450685779474
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5337375469285878718}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 59.04, y: 0.72, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 759277712956934553}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5928701679767618156
 GameObject:
   m_ObjectHideFlags: 0
