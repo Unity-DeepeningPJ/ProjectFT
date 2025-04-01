@@ -25,7 +25,7 @@ public class EquipManager : MonoBehaviour
     public void EqipDictionaryAddItem(ItemData itemData)
     {
         //근데 같은 타입의 데이터가 있으면 안됨 따라서 검사를 하고 그 아이템을 해제하고 이 아이템을 넣어줘야됨 
-        UnequipItem(itemData.type);
+        UnequipItem(itemData);
 
         //새 장비 장착 
         EqipDictionary.Add(itemData.type, itemData);
@@ -40,24 +40,22 @@ public class EquipManager : MonoBehaviour
 
 
     //
-    public void UnequipItem(EquipType type)
+    public void UnequipItem(ItemData itemData)
     {
-        if (EqipDictionary.ContainsKey(type))
+        if (EqipDictionary.ContainsKey(itemData.type))
         {
-            ItemData unequippedItem = EqipDictionary[type];
+            ItemData unequippedItem = EqipDictionary[itemData.type];
             //기존 장비 해제 
 
-
-
-            EqipDictionary.Remove(type);
-            //Debug.Log("장착 아이템 삭제 완료 ");
-            //해제시 이벤트 처리 
-            // inventory에서 아이템 해제 이미지 보여줘야됨 
-            // 능력치도 해제시켜줘야됨 
-            AddStats();
-            OnEquipmentRemoved?.Invoke(unequippedItem);
-
-
+            //id값을 비교해줘야됨 
+            if (unequippedItem.id == itemData.id)
+            {
+                EqipDictionary.Remove(itemData.type);
+                //능력치 해제 
+                AddStats();
+                //해제 이벤트 
+                OnEquipmentRemoved?.Invoke(unequippedItem);
+            }
         }
 
 

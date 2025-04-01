@@ -72,6 +72,7 @@ public class UIItemSell : UIBaseTrade
         if (selecetItem.type != EquipType.Consumealbe)
         {
             inven.RemoveInventoryitme(selecetItem);
+            GameManager.Instance.EquipManager.UnequipItem(selecetItem);
             inven.ArrayInventory();
             BuyTradeComplete(); return;
         }

@@ -19,7 +19,7 @@ public class ShopkeeperNPC : BaseNPC
         {
             shopUI.StoreExit();
             isShopOpen = false;
-            Debug.LogError($"상점 NPC '{npcName}'에 ShopUI가 할당되지 않았거나 이미 상점이 열려있습니다.");
+            //Debug.LogError($"상점 NPC '{npcName}'에 ShopUI가 할당되지 않았거나 이미 상점이 열려있습니다.");
         }
     }
     // 
