@@ -65,18 +65,22 @@ public class PlayerAttackState : PlayerBaseState
         Vector2 attackDirection = player.transform.localScale.x > 0 ? Vector2.left : Vector2.right;
         RaycastHit2D[] hits = Physics2D.RaycastAll(player.transform.position, attackDirection, _attackRange);
 
+        int damage = player.PlayerState.TotalPower;
+
         foreach (RaycastHit2D hit in hits)
         {
             if (hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                Debug.Log("공격확인");
                 var enemy = hit.collider.GetComponent<IDamageable>();
 
                 if (enemy != null)
                 {
-                    Debug.Log("공격처리");
-                    enemy.TakePhysicalDamage(player.PlayerState.TotalPower);
-                    Debug.Log("적에게 " + player.PlayerState.TotalPower + "의 피해를 입혔습니다.");
+                    //치명타 확률 적용
+                    bool isCritical = Random.Range(0f, 100f) < player.PlayerState.TotalCriticalChance;
+                    if (isCritical) damage *= 2;
+
+                    enemy.TakePhysicalDamage(damage);
+                    Debug.Log("적에게 " + damage + "의 피해를 입혔습니다.");
                 }
             }
         }
