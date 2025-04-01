@@ -17,15 +17,17 @@ public class UIIventoryScrean : MonoBehaviour
 
     private void Start()
     {
+;
+
+        //init();
+    }
+    public void init()
+    {
+        //이벤트 연결
         GameManager.Instance.InventoryManager.OnInventoryChanged += OnChangeSpace;
         GameManager.Instance.EquipManager.OnEquipmentAdd += OnChangeAddEquipItems;
         GameManager.Instance.EquipManager.OnEquipmentRemoved += OnChangeRemoveEquipItems;
         GameManager.Instance.PlayerManager.player.Currency.OnGoldChange += OnGoldChangeText;
-
-        init();
-    }
-    private void init()
-    {
         //골드 Currency 초기화 ?? 어디서 해야할지 모르겟음 
         GameManager.Instance.PlayerManager.player.Currency.init_OngoldChange();
         OnChangeSpace();

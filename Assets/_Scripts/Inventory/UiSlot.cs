@@ -9,7 +9,7 @@ public class UiSlot : MonoBehaviour
 {
     [SerializeField] private Image iconImage;
     [SerializeField] private Button slotButton;
-    public TextMeshProUGUI text_equip;
+    [SerializeField] private TextMeshProUGUI text_equip;
 
     //슬롯별로 데이터를 가지고 있어야하네 
 
@@ -27,7 +27,7 @@ public class UiSlot : MonoBehaviour
     private void Start()
     {
         slotButton.onClick.AddListener(onSlotClick);
-        text_equip = GetComponentInChildren<TextMeshProUGUI>();
+        
         text_equip.gameObject.SetActive(false);
     }
 

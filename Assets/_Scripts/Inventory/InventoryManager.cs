@@ -10,14 +10,17 @@ public class InventoryManager : MonoBehaviour
 
     public List<SlotItemData> slotItemDatas;
     public event Action OnInventoryChanged;
-
+    [SerializeField] private UiInventory inventoryUI;
+    [SerializeField] private UIIventoryScrean uiinventoryScrean;
+    [SerializeField] private StateBackGround statebackground;
 
     [SerializeField] private List<ItemData> TestItemData;
     private void Awake()
     {
         Init();
-
-
+        inventoryUI.Init();
+        uiinventoryScrean.init();
+        statebackground.Init();
     }
     private void Start()
     {

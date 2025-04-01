@@ -13,22 +13,17 @@ public class UiInventory : MonoBehaviour
 
     private void Awake()
     {
-        //슬롯 데이터 
-        slots = new List<UiSlot>();
+
 
     }
 
     private void Start()
     {
-        GameManager.Instance.InventoryManager.OnInventoryChanged += UpdateUI;
+        
 
-        Init();
+        //Init();
 
-        foreach (var slot in slots)
-        {
-            slot.OnItemClicked += HandleItemOneClicked;
-            slot.OnItemDoubleClicked += HandleItemDubleClickd;
-        }
+
     }
 
     private void HandleItemOneClicked(SlotItemData slotItemData)
@@ -72,8 +67,12 @@ public class UiInventory : MonoBehaviour
         }
     }
 
-    private void Init()
+    public void Init()
     {
+        GameManager.Instance.InventoryManager.OnInventoryChanged += UpdateUI;
+
+        //슬롯 데이터 
+        slots = new List<UiSlot>();
         //슬롯 생성만  > UI도 그려주기 
         for (int i = 0; i < GameManager.Instance.InventoryManager.MaxSlots; i++)
         {
@@ -83,6 +82,13 @@ public class UiInventory : MonoBehaviour
 
         UpdateUI();
         // 생성해주기? 
+
+        foreach (var slot in slots)
+        {
+            slot.OnItemClicked += HandleItemOneClicked;
+            slot.OnItemDoubleClicked += HandleItemDubleClickd;
+        }
+
     }
 
     // 슬롯에 itemdata 넣어주기  + Equip 표시 넣어주기 (장착한 아이템만)
