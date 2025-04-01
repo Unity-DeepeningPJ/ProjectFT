@@ -229,9 +229,9 @@ public class Boss : MeleeEnemy, IDamageable
 
     System.Collections.IEnumerator SpreadShot()
     {
-        Debug.Log("SpreadShot");
+        // Debug.Log("SpreadShot");
         Vector2 directionToPlayer = (playerTransform.position - transform.position).normalized;
-        Debug.Log("directionToPlayer: " + directionToPlayer); // 방향 벡터 확인
+        // Debug.Log("directionToPlayer: " + directionToPlayer); // 방향 벡터 확인
 
         animi.OnAttack(true);
         
@@ -262,9 +262,9 @@ public class Boss : MeleeEnemy, IDamageable
                 if (projectileRb != null)
                 {
                     projectileRb.velocity = directionToPlayer * projectileSpeed; // 투사체 속도 설정
-                    Debug.Log("Projectile " + i + " velocity: " + projectileRb.velocity); // 속도 확인
+                    // Debug.Log("Projectile " + i + " velocity: " + projectileRb.velocity); // 속도 확인
                     projectile.SetActive(true);
-                    Debug.Log("Projectile " + i + " activated"); // 활성화 확인
+                    // Debug.Log("Projectile " + i + " activa   ted"); // 활성화 확인
                 }
                 else
                     Debug.LogError("투사체에 rigidbody가 없습니다");
@@ -280,11 +280,11 @@ public class Boss : MeleeEnemy, IDamageable
 
     System.Collections.IEnumerator JumpRoundShot()
     {
-        Debug.Log("JumpRoundShot");
+        // Debug.Log("JumpRoundShot");
         isSpecialAttacking = true; // 특수 공격 중 상태로 변경
 
         // 플레이어의 위치를 기준으로 보스의 왼쪽 또는 오른쪽 선택
-        Debug.Log("playerTransform: " + playerTransform);
+        // Debug.Log("playerTransform: " + playerTransform);
         float side = playerTransform.position.x > transform.position.x ? 1f : -1f; // 플레이어가 오른쪽에 있으면 1, 왼쪽에 있으면 -1
 
         // 플레이어 방향과 반대 방향으로 offset 설정
@@ -305,7 +305,7 @@ public class Boss : MeleeEnemy, IDamageable
             {
                 // 투사체 생성 위치 조정
                 Vector3 spawnPosition = firePoint.position + offset + Vector3.up * yOffset;
-                Debug.Log("spawnPosition: " + spawnPosition);
+                // Debug.Log("spawnPosition: " + spawnPosition);
                 projectile.transform.position = spawnPosition;
                 projectile.transform.rotation = Quaternion.identity;
 
@@ -321,7 +321,7 @@ public class Boss : MeleeEnemy, IDamageable
                         bulletScript.SetDirection(direction);
                     }
 
-                    Debug.Log("projectileRb.velocity: " + projectileRb.velocity);
+                    // Debug.Log("projectileRb.velocity: " + projectileRb.velocity);
                     projectile.SetActive(true);
                 }
                 else

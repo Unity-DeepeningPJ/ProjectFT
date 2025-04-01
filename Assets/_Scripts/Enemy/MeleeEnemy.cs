@@ -176,7 +176,6 @@ public class MeleeEnemy : BaseState, IDamageable
 
     public void StopAttack()
     {
-        Debug.Log(this.gameObject.name);
         animi.OnAttack(false);
         isAttacking = false;
         isChasing = false;

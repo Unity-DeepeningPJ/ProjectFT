@@ -17,10 +17,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private List<ItemData> TestItemData;
     private void Awake()
     {
-        Init();
-        inventoryUI.Init();
-        uiinventoryScrean.init();
-        statebackground.Init();
+
     }
     private void Start()
     {
@@ -28,6 +25,10 @@ public class InventoryManager : MonoBehaviour
         //currency.GoldAdd(CurrenyType.Gold, 10);
         //currency.GoldAdd(CurrenyType.Gold, -20);
 
+        Init();
+        inventoryUI.Init();
+        uiinventoryScrean.init();
+        statebackground.Init();
     }
     private void Init()
     {

@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("충돌 감지: " + collision.gameObject.name);
+        // Debug.Log("충돌 감지: " + collision.gameObject.name);
         LayerMask targetLayers = LayerMask.GetMask("Bullet", "Enemy", "Camera");
         if ((targetLayers.value & (1 << collision.gameObject.layer)) != 0)
         {
@@ -41,7 +41,7 @@ public class Bullet : MonoBehaviour
 
     void ReturnToPool()
     {
-        Debug.Log("ReturnToPool 호출");
+        // Debug.Log("ReturnToPool 호출");
         gameObject.SetActive(false);
         rb.velocity = Vector2.zero;
         ObjectPool.Instance.ReturnObjectToPool(gameObject);
@@ -50,7 +50,7 @@ public class Bullet : MonoBehaviour
     public void SetDirection(Vector2 direction)
     {
         this.direction = direction.normalized; // 방향 정규화
-        Debug.Log("Set Direction: " + direction);
+        // Debug.Log("Set Direction: " + direction);
     }
 
 

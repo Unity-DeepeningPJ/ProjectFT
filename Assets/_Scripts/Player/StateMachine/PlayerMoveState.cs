@@ -8,7 +8,7 @@ public class PlayerMoveState : PlayerBaseState
     {
         base.Enter();
         
-        Debug.Log("Move State");
+        // Debug.Log("Move State");
         player.animi.OnMove(true);
     }
 

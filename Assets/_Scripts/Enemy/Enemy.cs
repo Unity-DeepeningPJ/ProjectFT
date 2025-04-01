@@ -26,15 +26,18 @@ public class Enemy : BaseState, IDamageable
     CharacterAnimation animi;
     SpriteRenderer sprite;
 
+    Player player;
+
     public Enemy(int Power, int Defense, int health, float speed, float jumpPower) : base(Power, Defense, health, speed, jumpPower)
     {
-    
+
     }
 
     void Start()
     {
         animi = GetComponent<CharacterAnimation>();
         sprite = GetComponent<SpriteRenderer>();
+        player = GameManager.Instance.PlayerManager.player;
 
         // BaseState 초기화 (생성자를 사용하지 않는 경우)
         this.Power = Power;
@@ -166,18 +169,13 @@ public class Enemy : BaseState, IDamageable
     {
         Debug.Log("Enemy Die!");
         Destroy(gameObject);
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
 
         if (player != null)
         {
-            // PlayerState 컴포넌트 가져오기
-            PlayerState playerState = player.GetComponent<PlayerState>();
-
-            if (playerState != null)
-            {
-                // 레벨업 로직 실행
-                playerState.LevelUp();
-            }
+            player.PlayerState.AddExp(10); // 경험치 추가
+            player.PlayerState.LevelUp();
+            Debug.Log("Player Exp: " + player.PlayerState.CurrentExp);
+            Debug.Log("Player Level: " + player.PlayerState.Level);
         }
     }
 }

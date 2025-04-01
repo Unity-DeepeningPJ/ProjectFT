@@ -8,7 +8,7 @@ public class PlayerJumpState : PlayerBaseState
     {
         base.Enter();
         player.animi.OnJump(true);
-        Debug.Log("Jump State");
+        // Debug.Log("Jump State");
 
         //점프
         if (player.isGrounded)

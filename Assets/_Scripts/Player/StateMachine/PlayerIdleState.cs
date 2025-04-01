@@ -8,7 +8,7 @@ public class PlayerIdleState : PlayerBaseState
     {
         base.Enter();
 
-        Debug.Log("Idle State");
+        // Debug.Log("Idle State");
     }
 
     public override void HandleInput()

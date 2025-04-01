@@ -14,7 +14,7 @@ public class PlayerAttackState : PlayerBaseState
         base.Enter();
 
         player.animi.OnAttack(true);
-        Debug.Log("Attack State");
+        // Debug.Log("Attack State");
 
         _attackRange = 3f;
         _attackDuration = 0.5f;
@@ -76,6 +76,7 @@ public class PlayerAttackState : PlayerBaseState
                 {
                     Debug.Log("공격처리");
                     enemy.TakePhysicalDamage(player.PlayerState.TotalPower);
+                    Debug.Log("적에게 " + player.PlayerState.TotalPower + "의 피해를 입혔습니다.");
                 }
             }
         }

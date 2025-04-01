@@ -1,4 +1,6 @@
 using System;
+using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
 public class PlayerState : BaseState
 {
@@ -59,15 +61,19 @@ public class PlayerState : BaseState
     //경험치 추가 및 레벨업
     public void AddExp(int amount)
     {
+        Debug.Log($"CurrentExp: {CurrentExp}, ExpToNextLevel: {ExpToNextLevel}");
         CurrentExp += amount;
         if (CurrentExp >= ExpToNextLevel)
         {
             LevelUp();
+            
         }
     }
 
     public void LevelUp()
     {
+        Debug.Log($"Level Up! New Level: {Level + 1}");
+        Debug.Log($"CurrentExp: {CurrentExp}, ExpToNextLevel: {ExpToNextLevel}");
         Level++;
         CurrentExp = 0;
         ExpToNextLevel = (int)(ExpToNextLevel * 1.2f);
