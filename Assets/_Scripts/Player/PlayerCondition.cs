@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -9,11 +10,19 @@ public class PlayerCondition : MonoBehaviour, IDamageable
 
     private Collider2D _playerCollider;
 
+    public event Action<float> OnHealthChanged;
+
     public void Initizlize(Player player, float currentHealth)
     {
         _player = player;
         CurrentHealth = currentHealth;
         _playerCollider = GetComponent<Collider2D>();
+    }
+
+    public void SetHealth(float value)
+    {
+        CurrentHealth = value;
+        OnHealthChanged?.Invoke(CurrentHealth);
     }
 
     //데미지 계산
@@ -33,6 +42,13 @@ public class PlayerCondition : MonoBehaviour, IDamageable
             _player.StartCoroutine(InvincibilityFrames(1f));
         }
         Debug.Log("현재 체력 : " + CurrentHealth);
+        OnHealthChanged?.Invoke(CurrentHealth);
+    }
+
+    public void TakeDamage(float damage)
+    {
+        CurrentHealth = Mathf.Max(0, CurrentHealth - damage);
+        OnHealthChanged?.Invoke(CurrentHealth);
     }
 
     //데미지 받은 후 잠시 무적상태
