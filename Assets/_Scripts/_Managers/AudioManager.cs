@@ -50,6 +50,8 @@ public class AudioManager : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField] private float voiceVolume = 1.0f;
 
+    private bool[] isMuted = new bool[4]; // BGM, SFX, UI, Voice 순서
+
     // 오디오 소스 풀
     private AudioSource bgmSource;
     private List<AudioSource> sfxSources = new List<AudioSource>();
@@ -123,10 +125,10 @@ public class AudioManager : MonoBehaviour
     private void UpdateMixerVolumes()
     {
         SetMixerVolume("MasterVolume", masterVolume);
-        SetMixerVolume("BGMVolume", bgmVolume);
-        SetMixerVolume("SFXVolume", sfxVolume);
-        SetMixerVolume("UIVolume", uiVolume);
-        SetMixerVolume("VoiceVolume", voiceVolume);
+        SetMixerVolume("BGMVolume", isMuted[0] ? 0 : bgmVolume);
+        SetMixerVolume("SFXVolume", isMuted[1] ? 0 : sfxVolume);
+        SetMixerVolume("UIVolume", isMuted[2] ? 0 : uiVolume);
+        SetMixerVolume("VoiceVolume", isMuted[3] ? 0 : voiceVolume);
     }
     
     // 믹서 볼륨 설정 헬퍼 메서드
@@ -204,19 +206,19 @@ public class AudioManager : MonoBehaviour
         {
             case AudioType.BGM:
                 bgmVolume = volume;
-                SetMixerVolume("BGMVolume", bgmVolume);
+                SetMixerVolume("BGMVolume", isMuted[0] ? 0 : bgmVolume);
                 break;
             case AudioType.SFX:
                 sfxVolume = volume;
-                SetMixerVolume("SFXVolume", sfxVolume);
+                SetMixerVolume("SFXVolume", isMuted[1] ? 0 : sfxVolume);
                 break;
             case AudioType.UI:
                 uiVolume = volume;
-                SetMixerVolume("UIVolume", uiVolume);
+                SetMixerVolume("UIVolume", isMuted[2] ? 0 : uiVolume);
                 break;
             case AudioType.Voice:
                 voiceVolume = volume;
-                SetMixerVolume("VoiceVolume", voiceVolume);
+                SetMixerVolume("VoiceVolume", isMuted[3] ? 0 : voiceVolume);
                 break;
         }
         
@@ -229,6 +231,33 @@ public class AudioManager : MonoBehaviour
         masterVolume = Mathf.Clamp01(volume);
         SetMixerVolume("MasterVolume", masterVolume);
         SaveVolumeSettings();
+    }
+
+    // 음소거 설정
+    public void SetMute(AudioType audioType, bool mute)
+    {
+        int index = (int)audioType;
+        if (index >= 0 && index < isMuted.Length)
+        {
+            isMuted[index] = mute;
+            
+            // 해당 채널 볼륨 업데이트
+            switch (audioType)
+            {
+                case AudioType.BGM:
+                    SetMixerVolume("BGMVolume", mute ? 0 : bgmVolume);
+                    break;
+                case AudioType.SFX:
+                    SetMixerVolume("SFXVolume", mute ? 0 : sfxVolume);
+                    break;
+                case AudioType.UI:
+                    SetMixerVolume("UIVolume", mute ? 0 : uiVolume);
+                    break;
+                case AudioType.Voice:
+                    SetMixerVolume("VoiceVolume", mute ? 0 : voiceVolume);
+                    break;
+            }
+        }
     }
 
     #endregion
