@@ -287,7 +287,7 @@ public class TitleUI : MonoBehaviour
     private void PlayTitleMusic()
     {
         // 오디오 매니저가 있다면 타이틀 음악 재생
-        // AudioManager.Instance.PlayMusic("TitleTheme");
+        AudioManager.Instance.PlayBGM("Test");
         Debug.Log("타이틀 음악 재생");
     }
 }
