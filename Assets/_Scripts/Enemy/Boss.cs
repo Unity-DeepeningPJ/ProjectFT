@@ -390,6 +390,7 @@ public class Boss : MeleeEnemy, IDamageable
         if (currentHealth <= 0)
         {
             Die();
+            AudioManager.Instance.PlayBGM("Test");
         }
     }
 
