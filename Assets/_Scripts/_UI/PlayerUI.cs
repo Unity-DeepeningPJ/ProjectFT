@@ -21,7 +21,8 @@ public class PlayerUI : MonoBehaviour
     private PlayerState playerState;
     private PlayerCondition playerCondition;
     private CurrencyManager playerGold;
-    
+
+    private float minCurrentHelath =0;
     private void Start()
     {
         // 플레이어 찾기
@@ -55,8 +56,9 @@ public class PlayerUI : MonoBehaviour
         // 체력 UI 초기화
         if (playerCondition != null && playerState != null)
         {
-            Debug.Log($"체력 UI 초기화: {playerCondition.CurrentHealth}/{playerState.TotalHealth}");
-            healthUI.SetValue(playerCondition.CurrentHealth, playerState.TotalHealth);
+            minCurrentHelath = Mathf.Min(playerCondition.CurrentHealth, playerState.TotalHealth);
+            Debug.Log($"체력 UI 초기화: {minCurrentHelath}/{playerState.TotalHealth}");
+            healthUI.SetValue(minCurrentHelath, playerState.TotalHealth);
         }
         else
         {
@@ -124,15 +126,17 @@ public class PlayerUI : MonoBehaviour
     // PlayerState의 체력 변화 처리
     private void UpdateHealth(float current, float max)
     {
-        Debug.Log($"체력 업데이트(스테이트): {current}/{max}");
-        healthUI.SetValue(current, max);
+        minCurrentHelath = Mathf.Min(current,max);
+        Debug.Log($"체력 업데이트(스테이트): {minCurrentHelath}/{max}");
+        healthUI.SetValue(minCurrentHelath, max);
     }
     
     // 최대 체력 변경 처리
     private void UpdateMaxHealth(float newMaxHealth)
     {
         Debug.Log($"최대 체력 업데이트: {newMaxHealth}");
-        healthUI.UpdateMaxValue(playerCondition.CurrentHealth, newMaxHealth);
+        minCurrentHelath = Mathf.Min(minCurrentHelath, newMaxHealth);
+        healthUI.UpdateMaxValue(minCurrentHelath, newMaxHealth);
     }
     
     // 경험치 이벤트 핸들러
