@@ -21,7 +21,7 @@ public class UIIventoryScrean : MonoBehaviour
 
     private void Start()
     {
-;
+        ;
 
         //init();
     }
@@ -32,6 +32,9 @@ public class UIIventoryScrean : MonoBehaviour
         GameManager.Instance.EquipManager.OnEquipmentAdd += OnChangeAddEquipItems;
         GameManager.Instance.EquipManager.OnEquipmentRemoved += OnChangeRemoveEquipItems;
         GameManager.Instance.PlayerManager.player.Currency.OnGoldChange += OnGoldChangeText;
+        GameManager.Instance.InventoryManager.UiInventory.OnposionAddevent += OnChangeAddEquipItems;
+        GameManager.Instance.InventoryManager.UiInventory.OnposionRemoveevent += OnChangeRemoveEquipItems;
+        GameManager.Instance.InventoryManager.OnPosionRemove += OnChangeRemoveEquipItems;
         //골드 Currency 초기화 ?? 어디서 해야할지 모르겟음 
         GameManager.Instance.PlayerManager.player.Currency.init_OngoldChange();
         OnChangeSpace();
@@ -59,17 +62,25 @@ public class UIIventoryScrean : MonoBehaviour
 
     }
 
-    private void OnChangeAddEquipItems(ItemData itemData)
+    private void OnChangeAddEquipItems(ItemData itemdata)
     {
-        if (GameManager.Instance.EquipManager.EqipDictionary.TryGetValue(itemData.type, out ItemData item))
+        //포션 
+        if (itemdata.type == EquipType.Consumealbe)
+        {
+            Posion_Inventory.sprite = itemdata.Icon;
+            Posion_MainUI.sprite = itemdata.Icon;
+            //수량도 표시 
+            Posion_MainUI.GetComponentInChildren<TextMeshProUGUI>().text = $"{itemdata}";
+        }
+
+
+        //장착 아이템
+        if (GameManager.Instance.EquipManager.EqipDictionary.TryGetValue(itemdata.type, out ItemData item))
         {
             // 보유아이템
             switch (item.type)
             {
-                case EquipType.Consumealbe:
-                    Posion_Inventory.sprite = item.Icon;
-                    Posion_MainUI.sprite =item.Icon;
-                    break;
+
                 case EquipType.Weapon:
                     Slot_Equip_Weapon.sprite = item.Icon;
                     weaponSprite.sprite = item.Icon;
@@ -93,16 +104,19 @@ public class UIIventoryScrean : MonoBehaviour
 
     private void OnChangeRemoveEquipItems(ItemData itemData)
     {
+        //포션 
+        if (itemData.type == EquipType.Consumealbe)
+        {
+            Posion_Inventory.sprite = null;
+            Posion_MainUI.sprite = null;
+        }
+
         if (!GameManager.Instance.EquipManager.EqipDictionary.TryGetValue(itemData.type, out ItemData item))
         {
             //보유하지 않은 아이템 
             // 보유아이템
             switch (itemData.type)
             {
-                case EquipType.Consumealbe:
-                    Posion_Inventory.sprite =null;
-                    Posion_MainUI.sprite = null;
-                    break;
                 case EquipType.Weapon:
                     Slot_Equip_Weapon.sprite = null;
                     weaponSprite.sprite = null;
@@ -125,5 +139,25 @@ public class UIIventoryScrean : MonoBehaviour
     private void OnGoldChangeText(int gold)
     {
         Gold.text = gold.ToString();
+    }
+
+    public bool ChkPosion()
+    {
+        if (Posion_Inventory != null && Posion_MainUI != null)
+        {
+            if (Posion_Inventory.sprite == null && Posion_MainUI.sprite == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+
     }
 }

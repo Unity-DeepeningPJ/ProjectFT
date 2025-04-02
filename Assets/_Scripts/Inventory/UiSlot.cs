@@ -16,8 +16,8 @@ public class UiSlot : MonoBehaviour
     public SlotItemData currentItemData;
 
     //아이템 클릭 이벤트(외부에서 구독 가능)
-    public Action<SlotItemData> OnItemClicked;
-    public Action<SlotItemData> OnItemDoubleClicked;
+    public Action<ItemData> OnItemClicked;
+    public Action<ItemData> OnItemDoubleClicked;
 
     // 더블 클릭 관련 변수
     private float lastClickTime = 0f;
@@ -48,7 +48,7 @@ public class UiSlot : MonoBehaviour
 
             // 더블 클릭 처리
             //Debug.Log($"더블 클릭: {currentItemData.item.itemName}");
-            OnItemDoubleClicked?.Invoke(currentItemData);
+            OnItemDoubleClicked?.Invoke(currentItemData.item);
             UpdateEquip();
         }
         else
@@ -66,7 +66,7 @@ public class UiSlot : MonoBehaviour
 
         // 시간이 지나면 싱글클릭으로 처리
         //Debug.Log($"클릭: {currentItemData.item.itemName}");
-        OnItemClicked?.Invoke(currentItemData);
+        OnItemClicked?.Invoke(currentItemData.item);
 
         clickCoroutine = null;
     }

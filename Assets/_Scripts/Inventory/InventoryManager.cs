@@ -10,17 +10,32 @@ public class InventoryManager : MonoBehaviour
 
     public List<SlotItemData> slotItemDatas;
     public event Action OnInventoryChanged;
+    public event Action<ItemData> OnPosionRemove;
     [SerializeField] private UiInventory inventoryUI;
     [SerializeField] private UIIventoryScrean uiinventoryScrean;
     [SerializeField] private StateBackGround statebackground;
 
     [SerializeField] private List<ItemData> BaseItemData;
+    [SerializeField] private UiInventory uiInventory;
+    public UiInventory UiInventory
+    {
+        get => uiInventory;
+        private set => uiInventory = value;
+    }
+    [SerializeField] private UIIventoryScrean uiiventoryScrean;
+    public UIIventoryScrean UIIventoryScrean
+    {
+        get => uiiventoryScrean;
+        private set => uiinventoryScrean= value;
+    }
+
     private void Awake()
     {
 
     }
     private void Start()
     {
+        
         //var currency=GameManager.Instance.PlayerManager.player.Currency;
         //currency.GoldAdd(CurrenyType.Gold, 10);
         //currency.GoldAdd(CurrenyType.Gold, -20);
@@ -35,9 +50,9 @@ public class InventoryManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1) && !uiinventoryScrean.ChkPosion())
         {
-            consumePostion();
+            GameManager.Instance.InventoryManager.consumePostion();
         }
     }
     private void Init()
@@ -159,6 +174,8 @@ public class InventoryManager : MonoBehaviour
                 if (Posionitem.amount == 0)
                 {
                     slotItemDatas.Remove(Posionitem);
+                    // 포션의 이미지를 없애주기 
+                    OnPosionRemove?.Invoke(Posionitem.item);
                 }
             }
             else
