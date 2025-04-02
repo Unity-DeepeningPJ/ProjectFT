@@ -38,6 +38,10 @@ public class TitleUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI versionText;  // 버전 텍스트
     [SerializeField] private string versionNumber = "v0.1";
 
+    [Header("시각 효과")]
+    [SerializeField] private ParticleSystem[] titleParticles;
+    [SerializeField] private bool enableParticles = true;
+
     private GameManager gameManager;
     
     private void Awake()
@@ -62,6 +66,9 @@ public class TitleUI : MonoBehaviour
         
         // 배경 음악 재생 (있다면)
         PlayTitleMusic();
+        
+        // 파티클 효과 초기화
+        SetupParticleEffects();
     }
     
     private void InitializeUI()
@@ -332,5 +339,19 @@ public class TitleUI : MonoBehaviour
     {
         // UI 클릭 사운드 재생
         AudioManager.Instance.PlayUISound("Click");
+    }
+    
+    private void SetupParticleEffects()
+    {
+        if (!enableParticles || titleParticles == null) return;
+        
+        foreach (ParticleSystem particle in titleParticles)
+        {
+            if (particle != null)
+            {
+                particle.gameObject.SetActive(true);
+                particle.Play();
+            }
+        }
     }
 }
