@@ -40,6 +40,7 @@ public class CurrencyManager : MonoBehaviour
                 currencies[currenyType] = addglod;
                 Debug.Log($"현재 골드: {currencies[currenyType]}");
                 //여기서 골드 변환 이벤트 발생 
+                AudioManager.Instance.PlaySFX("Coin");
                 OnGoldChange?.Invoke(currencies[currenyType]);
                 return true;
             }

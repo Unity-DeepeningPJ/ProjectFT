@@ -59,7 +59,7 @@ public class MeleeEnemy : BaseState, IDamageable
         player = GameManager.Instance.PlayerManager.player;
         startPosition = transform.position;
         nextAttackTime = Time.time;
-      
+
         rb = GetComponent<Rigidbody2D>(); // Rigidbody2D 컴포넌트 가져오기
         if (rb == null)
         {
@@ -130,15 +130,15 @@ public class MeleeEnemy : BaseState, IDamageable
         {
             rb.velocity = new Vector2(-moveSpeed, rb.velocity.y);
             if (transform.position.x < startPosition.x - moveDistance)
-            {               
+            {
                 movingRight = true;
             }
         }
 
-        sprite.flipX = movingRight; 
+        sprite.flipX = movingRight;
     }
 
-    
+
 
     public void StartAttack()
     {
@@ -253,14 +253,16 @@ public class MeleeEnemy : BaseState, IDamageable
         }
     }
     void Die()
-    {        
+    {
         Instantiate(coinPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject); // 또는 오브젝트 풀에 반환
+        AudioManager.Instance.PlaySFX("Die");
+
 
         if (player != null)
         {
             player.PlayerState.AddExp(30); // 경험치 추가
         }
     }
-    
+
 }
