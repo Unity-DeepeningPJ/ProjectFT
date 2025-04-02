@@ -1,43 +1,28 @@
 fileFormatVersion: 2
-guid: 6991e54fe8bb5724bafb4aba16583d49
+guid: 91eefb54b9951ad438a3bcd9ebcf3640
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3474578761864754926
-    second: Run (36x30)_0
+      213: 8469967320015633513
+    second: Hit Wall 1 (52x54)_0
   - first:
-      213: -7861724204117881798
-    second: Run (36x30)_1
+      213: 789990734823635674
+    second: Hit Wall 1 (52x54)_1
   - first:
-      213: 2119680168770453554
-    second: Run (36x30)_2
+      213: -6329676049017846068
+    second: Hit Wall 1 (52x54)_2
   - first:
-      213: 5541496122314044350
-    second: Run (36x30)_3
+      213: -2131096160782434848
+    second: Hit Wall 1 (52x54)_3
   - first:
-      213: 3041231964648980877
-    second: Run (36x30)_4
+      213: -5115758099669746976
+    second: Hit Wall 1 (52x54)_4
   - first:
-      213: 3543320282646675927
-    second: Run (36x30)_5
+      213: 8631773879474628898
+    second: Hit Wall 1 (52x54)_5
   - first:
-      213: -2166700348111286119
-    second: Run (36x30)_6
-  - first:
-      213: 803746274884267316
-    second: Run (36x30)_7
-  - first:
-      213: -7843640178425004176
-    second: Run (36x30)_8
-  - first:
-      213: 825235917888009318
-    second: Run (36x30)_9
-  - first:
-      213: -2858323395674415253
-    second: Run (36x30)_10
-  - first:
-      213: -6682066749158643149
-    second: Run (36x30)_11
+      213: 5998954015408890803
+    second: Hit Wall 1 (52x54)_6
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -84,7 +69,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 15
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -172,13 +157,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Run (36x30)_0
+      name: Hit Wall 1 (52x54)_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 36
-        height: 30
+        width: 52
+        height: 54
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -186,20 +171,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a07bd846d8585aa4f847cb145bf9d9f9
-      internalID: 3474578761864754926
+      spriteID: 69f8c0643ec75914396ba7861ba3ce66
+      internalID: 8469967320015633513
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Run (36x30)_1
+      name: Hit Wall 1 (52x54)_1
       rect:
         serializedVersion: 2
-        x: 36
+        x: 52
         y: 0
-        width: 36
-        height: 30
+        width: 52
+        height: 54
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -207,20 +192,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: db3605e831b647d44a4d843777949ac1
-      internalID: -7861724204117881798
+      spriteID: 556bb5f0c5772b340832ce08b54c6156
+      internalID: 789990734823635674
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Run (36x30)_2
+      name: Hit Wall 1 (52x54)_2
       rect:
         serializedVersion: 2
-        x: 72
+        x: 104
         y: 0
-        width: 36
-        height: 30
+        width: 52
+        height: 54
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -228,20 +213,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1f8e187e13b83f545a2dc004b09e9bdc
-      internalID: 2119680168770453554
+      spriteID: d24b7dfbd49188d4c88c2e5208f9706b
+      internalID: -6329676049017846068
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Run (36x30)_3
+      name: Hit Wall 1 (52x54)_3
       rect:
         serializedVersion: 2
-        x: 108
+        x: 156
         y: 0
-        width: 36
-        height: 30
+        width: 52
+        height: 54
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -249,20 +234,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b3392b762675df247be105e39b2dd6c3
-      internalID: 5541496122314044350
+      spriteID: 3a495ff59b1bd6c40a53067d0c92c1dc
+      internalID: -2131096160782434848
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Run (36x30)_4
+      name: Hit Wall 1 (52x54)_4
       rect:
         serializedVersion: 2
-        x: 144
+        x: 208
         y: 0
-        width: 36
-        height: 30
+        width: 52
+        height: 54
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -270,20 +255,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 363762e1ba326b44e82465e961020dc5
-      internalID: 3041231964648980877
+      spriteID: 62846a1e64e46454ead988d5a92d04a9
+      internalID: -5115758099669746976
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Run (36x30)_5
+      name: Hit Wall 1 (52x54)_5
       rect:
         serializedVersion: 2
-        x: 180
+        x: 260
         y: 0
-        width: 36
-        height: 30
+        width: 52
+        height: 54
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -291,20 +276,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2b8a4f3d095bc774aa80def180733828
-      internalID: 3543320282646675927
+      spriteID: fc115a5808dd2d848b51beec605ab7d0
+      internalID: 8631773879474628898
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Run (36x30)_6
+      name: Hit Wall 1 (52x54)_6
       rect:
         serializedVersion: 2
-        x: 216
+        x: 312
         y: 0
-        width: 36
-        height: 30
+        width: 52
+        height: 54
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -312,113 +297,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8d85ecbd334dd644a97a21c606fe23b8
-      internalID: -2166700348111286119
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Run (36x30)_7
-      rect:
-        serializedVersion: 2
-        x: 252
-        y: 0
-        width: 36
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 24e540c0d3a0be842999f16e8453c677
-      internalID: 803746274884267316
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Run (36x30)_8
-      rect:
-        serializedVersion: 2
-        x: 288
-        y: 0
-        width: 36
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: da8c20ff39cef2b46b838b519dd448af
-      internalID: -7843640178425004176
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Run (36x30)_9
-      rect:
-        serializedVersion: 2
-        x: 324
-        y: 0
-        width: 36
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 03a50d1056bab6040b7215362604752f
-      internalID: 825235917888009318
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Run (36x30)_10
-      rect:
-        serializedVersion: 2
-        x: 360
-        y: 0
-        width: 36
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 929bb8bdaf17ed44289a5b97d1a29e40
-      internalID: -2858323395674415253
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Run (36x30)_11
-      rect:
-        serializedVersion: 2
-        x: 396
-        y: 0
-        width: 36
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4951b3ce08868604ca118b96b5cf38e0
-      internalID: -6682066749158643149
+      spriteID: 28d3d12e0c2e67c438dfb25235842e95
+      internalID: 5998954015408890803
       vertices: []
       indices: 
       edges: []
@@ -434,18 +314,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Run (36x30)_0: 3474578761864754926
-      Run (36x30)_1: -7861724204117881798
-      Run (36x30)_10: -2858323395674415253
-      Run (36x30)_11: -6682066749158643149
-      Run (36x30)_2: 2119680168770453554
-      Run (36x30)_3: 5541496122314044350
-      Run (36x30)_4: 3041231964648980877
-      Run (36x30)_5: 3543320282646675927
-      Run (36x30)_6: -2166700348111286119
-      Run (36x30)_7: 803746274884267316
-      Run (36x30)_8: -7843640178425004176
-      Run (36x30)_9: 825235917888009318
+      Hit Wall 1 (52x54)_0: 8469967320015633513
+      Hit Wall 1 (52x54)_1: 789990734823635674
+      Hit Wall 1 (52x54)_2: -6329676049017846068
+      Hit Wall 1 (52x54)_3: -2131096160782434848
+      Hit Wall 1 (52x54)_4: -5115758099669746976
+      Hit Wall 1 (52x54)_5: 8631773879474628898
+      Hit Wall 1 (52x54)_6: 5998954015408890803
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
