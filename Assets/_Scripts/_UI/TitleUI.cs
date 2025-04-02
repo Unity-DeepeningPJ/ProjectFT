@@ -81,28 +81,63 @@ public class TitleUI : MonoBehaviour
     private void SetupButtons()
     {
         // 메인 메뉴 버튼 이벤트 연결
-        if (startGameButton != null) startGameButton.onClick.AddListener(ShowSaveSlots); // 변경
-        if (settingsButton != null) settingsButton.onClick.AddListener(OpenSettings);
-        if (achievementsButton != null) achievementsButton.onClick.AddListener(OpenAchievements);
-        if (moreButton != null) moreButton.onClick.AddListener(OpenMore);
-        if (quitButton != null) quitButton.onClick.AddListener(QuitGame);
+        if (startGameButton != null) startGameButton.onClick.AddListener(() => {
+            PlayButtonClickSound();
+            ShowSaveSlots();
+        });
         
-        // 저장 슬롯 버튼 이벤트 연결 (추가)
+        if (settingsButton != null) settingsButton.onClick.AddListener(() => {
+            PlayButtonClickSound();
+            OpenSettings();
+        });
+        
+        if (achievementsButton != null) achievementsButton.onClick.AddListener(() => {
+            PlayButtonClickSound();
+            OpenAchievements();
+        });
+        
+        if (moreButton != null) moreButton.onClick.AddListener(() => {
+            PlayButtonClickSound();
+            OpenMore();
+        });
+        
+        if (quitButton != null) quitButton.onClick.AddListener(() => {
+            PlayButtonClickSound();
+            QuitGame();
+        });
+        
+        // 저장 슬롯 버튼 이벤트 연결
         for (int i = 0; i < saveSlotButtons.Length; i++)
         {
             int slotIndex = i; // 클로저를 위한 로컬 변수
             if (saveSlotButtons[i] != null)
-                saveSlotButtons[i].onClick.AddListener(() => SelectSaveSlot(slotIndex));
+                saveSlotButtons[i].onClick.AddListener(() => {
+                    PlayButtonClickSound();
+                    SelectSaveSlot(slotIndex);
+                });
         }
         
-        // 저장 슬롯 뒤로가기 버튼 (추가)
+        // 뒤로가기 버튼들
         if (saveSlotBackButton != null)
-            saveSlotBackButton.onClick.AddListener(CloseSaveSlots);
+            saveSlotBackButton.onClick.AddListener(() => {
+                PlayButtonClickSound();
+                CloseSaveSlots();
+            });
         
-        // 다른 뒤로가기 버튼들
-        if (settingsBackButton != null) settingsBackButton.onClick.AddListener(CloseSettings);
-        if (achievementsBackButton != null) achievementsBackButton.onClick.AddListener(CloseAchievements);
-        if (moreBackButton != null) moreBackButton.onClick.AddListener(CloseMore);
+        if (settingsBackButton != null) settingsBackButton.onClick.AddListener(() => {
+            PlayButtonClickSound();
+            CloseSettings();
+        });
+        
+        if (achievementsBackButton != null) achievementsBackButton.onClick.AddListener(() => {
+            PlayButtonClickSound();
+            CloseAchievements();
+        });
+        
+        if (moreBackButton != null) moreBackButton.onClick.AddListener(() => {
+            PlayButtonClickSound();
+            CloseMore();
+        });
     }
     
     // 저장 슬롯 보여주기 (새로운 메서드)
@@ -290,5 +325,12 @@ public class TitleUI : MonoBehaviour
         // 오디오 매니저가 있다면 타이틀 음악 재생
         AudioManager.Instance.PlayBGM("Test");
         Debug.Log("타이틀 음악 재생");
+    }
+    
+    // 버튼 클릭 사운드 재생 메서드
+    private void PlayButtonClickSound()
+    {
+        // UI 클릭 사운드 재생
+        AudioManager.Instance.PlayUISound("Click");
     }
 }

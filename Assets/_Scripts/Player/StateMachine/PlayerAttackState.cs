@@ -70,6 +70,7 @@ public class PlayerAttackState : PlayerBaseState
 
         foreach (RaycastHit2D hit in hits)
         {
+            AudioManager.Instance.PlaySFX("Attack");
             if (hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 var enemy = hit.collider.GetComponent<IDamageable>();

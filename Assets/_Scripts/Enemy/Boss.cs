@@ -87,11 +87,11 @@ public class Boss : MeleeEnemy, IDamageable
         GameObject player = FindClosestObjectWithLayer(transform.position, playerLayer, maxDetectionDistance);
         if (player != null)
         {
-            playerTransform = player.transform;            
+            playerTransform = player.transform;
         }
         else
         {
-            playerTransform = null;            
+            playerTransform = null;
         }
         if (currentHealth <= 0)
         {
@@ -229,8 +229,8 @@ public class Boss : MeleeEnemy, IDamageable
     }
 
     System.Collections.IEnumerator SpreadShot()
-    {        
-        Vector2 directionToPlayer = (playerTransform.position - transform.position).normalized;        
+    {
+        Vector2 directionToPlayer = (playerTransform.position - transform.position).normalized;
         animi.OnAttack(true);
 
         for (int i = 0; i < spreadShotProjectileCount; i++)
@@ -260,7 +260,7 @@ public class Boss : MeleeEnemy, IDamageable
                 if (projectileRb != null)
                 {
                     projectileRb.velocity = directionToPlayer * projectileSpeed; // 투사체 속도 설정                    
-                    projectile.SetActive(true);                    
+                    projectile.SetActive(true);
                 }
                 else
                     Debug.LogError("투사체에 rigidbody가 없습니다");
@@ -275,7 +275,7 @@ public class Boss : MeleeEnemy, IDamageable
     }
 
     System.Collections.IEnumerator RoundShot()
-    {        
+    {
         isSpecialAttacking = true; // 특수 공격 중 상태로 변경
         animi.OnAttack(true);
         // 플레이어의 위치를 기준으로 보스의 왼쪽 또는 오른쪽 선택        
@@ -298,7 +298,7 @@ public class Boss : MeleeEnemy, IDamageable
             if (projectile != null)
             {
                 // 투사체 생성 위치 조정
-                Vector3 spawnPosition = firePoint.position + offset + Vector3.up * yOffset;                
+                Vector3 spawnPosition = firePoint.position + offset + Vector3.up * yOffset;
                 projectile.transform.position = spawnPosition;
                 projectile.transform.rotation = Quaternion.identity;
 
@@ -327,11 +327,11 @@ public class Boss : MeleeEnemy, IDamageable
         isSpecialAttacking = false;
     }
     System.Collections.IEnumerator FanShot()
-    {        
+    {
         isSpecialAttacking = true;
         animi.OnAttack(true);
         if (playerTransform == null)
-        {            
+        {
             isSpecialAttacking = false;
             yield break; // 플레이어가 없으면 코루틴 종료
         }
@@ -391,6 +391,8 @@ public class Boss : MeleeEnemy, IDamageable
         {
             Die();
             AudioManager.Instance.PlayBGM("Test");
+            AudioManager.Instance.PlaySFX("Die");
+
         }
     }
 
