@@ -199,7 +199,7 @@ MonoBehaviour:
   moveDistance: 0
   moveSpeed: 0
   chaseSpeed: 0
-  attackDamage: 1
+  attackDamage: 50
   attackRate: 8
   dashDistance: 1
   dashDuration: 1
@@ -216,12 +216,14 @@ MonoBehaviour:
   dashAttackDashSpeed: 7
   dashAttackDashDistance: 3
   spreadShotProjectileCount: 4
-  spreadShotProjectileSpreadAngle: 180
   roundShotProjectileCount: 12
   roundShotDelay: 0.2
   offsetRoundShotProjectileCount: 6
   offsetRoundShotSideOffset: 1
   yOffset: 0
+  fanShotProjectileCount: 30
+  fanShotSpreadAngle: 360
+  fanShotJumpPower: 10
   projectilePrefab: {fileID: 8451655365352330938, guid: 934319ec0c6e17d4d938dfef8b178760, type: 3}
   projectileSpeed: 2
   maxDetectionDistance: 13
