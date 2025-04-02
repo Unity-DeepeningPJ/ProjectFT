@@ -32,9 +32,11 @@ public class UIIventoryScrean : MonoBehaviour
         GameManager.Instance.EquipManager.OnEquipmentAdd += OnChangeAddEquipItems;
         GameManager.Instance.EquipManager.OnEquipmentRemoved += OnChangeRemoveEquipItems;
         GameManager.Instance.PlayerManager.player.Currency.OnGoldChange += OnGoldChangeText;
-        GameManager.Instance.InventoryManager.UiInventory.OnposionAddevent += OnChangeAddEquipItems;
-        GameManager.Instance.InventoryManager.UiInventory.OnposionRemoveevent += OnChangeRemoveEquipItems;
-        GameManager.Instance.InventoryManager.OnPosionRemove += OnChangeRemoveEquipItems;
+
+        GameManager.Instance.InventoryManager.UiInventory.OnposionAddevent += OnChageAddPosion;
+        GameManager.Instance.InventoryManager.UiInventory.OnposionRemoveevent += OnChageRemovePosion;
+        GameManager.Instance.InventoryManager.OnPosionadd += OnChageAddPosion;
+        GameManager.Instance.InventoryManager.OnPosionRemove += OnChageRemovePosion;
         //골드 Currency 초기화 ?? 어디서 해야할지 모르겟음 
         GameManager.Instance.PlayerManager.player.Currency.init_OngoldChange();
         OnChangeSpace();
@@ -62,18 +64,31 @@ public class UIIventoryScrean : MonoBehaviour
 
     }
 
-    private void OnChangeAddEquipItems(ItemData itemdata)
+    private void OnChageAddPosion(SlotItemData slotItemData)
     {
         //포션 
-        if (itemdata.type == EquipType.Consumealbe)
+        if (slotItemData.item.type == EquipType.Consumealbe)
         {
-            Posion_Inventory.sprite = itemdata.Icon;
-            Posion_MainUI.sprite = itemdata.Icon;
+            Posion_Inventory.sprite = slotItemData.item.Icon;
+            Posion_MainUI.sprite = slotItemData.item.Icon;
             //수량도 표시 
-            Posion_MainUI.GetComponentInChildren<TextMeshProUGUI>().text = $"{itemdata}";
+            Posion_MainUI.GetComponentInChildren<TextMeshProUGUI>().text = $"{slotItemData.amount}";
         }
+    }
+    private void OnChageRemovePosion(SlotItemData slotItemData)
+    {
+        //포션 
+        if (slotItemData.item.type == EquipType.Consumealbe)
+        {
+            Posion_Inventory.sprite = null;
+            Posion_MainUI.sprite = null;
+            //수량도 표시 
+            Posion_MainUI.GetComponentInChildren<TextMeshProUGUI>().text = $"{0}";
+        }
+    }
 
-
+    private void OnChangeAddEquipItems(ItemData itemdata)
+    {
         //장착 아이템
         if (GameManager.Instance.EquipManager.EqipDictionary.TryGetValue(itemdata.type, out ItemData item))
         {
@@ -104,12 +119,7 @@ public class UIIventoryScrean : MonoBehaviour
 
     private void OnChangeRemoveEquipItems(ItemData itemData)
     {
-        //포션 
-        if (itemData.type == EquipType.Consumealbe)
-        {
-            Posion_Inventory.sprite = null;
-            Posion_MainUI.sprite = null;
-        }
+
 
         if (!GameManager.Instance.EquipManager.EqipDictionary.TryGetValue(itemData.type, out ItemData item))
         {

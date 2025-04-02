@@ -10,8 +10,8 @@ public class UiInventory : MonoBehaviour
     [SerializeField] private UiSlot uiSlotPrefab;
     [SerializeField] private Transform slotsparent;
 
-    public event Action<ItemData> OnposionAddevent;
-    public event Action<ItemData> OnposionRemoveevent;
+    public event Action<SlotItemData> OnposionAddevent;
+    public event Action<SlotItemData> OnposionRemoveevent;
 
     private void Awake()
     {
@@ -28,19 +28,19 @@ public class UiInventory : MonoBehaviour
 
     }
 
-    private void HandleItemOneClicked(ItemData slotItemData)
+    private void HandleItemOneClicked(SlotItemData slotItemData)
     {
         //Debug.Log($"원클릭 :{slotItemData.item.itemName}");
 
 
 
     }
-    private void HandleItemDubleClickd(ItemData slotItemData)
+    private void HandleItemDubleClickd(SlotItemData slotItemData)
     {
         //더블클릭 이벤트처리 
         //Debug.Log($"더블클릭 :{slotItemData.item.itemName}");
         //포션은 다르게 처리를 해야됨 
-        if (slotItemData.type ==EquipType.Consumealbe)
+        if (slotItemData.item.type ==EquipType.Consumealbe)
         {
             // 내가 포션을 장착하고 있는가 ? 아닌가? 를 체크해야됨 
             // 그 슬롯에 아이템이 있는가 없는가 ?
@@ -63,11 +63,11 @@ public class UiInventory : MonoBehaviour
 
 
         // 그 부위에 아이템이 장착 되어있나 없나 
-        if (GameManager.Instance.EquipManager.EqipDictionary.TryGetValue(slotItemData.type, out ItemData item))
+        if (GameManager.Instance.EquipManager.EqipDictionary.TryGetValue(slotItemData.item.type, out ItemData item))
         {
 
             // 그게 장착된 아이템인가? 아닌가 ?
-            if (item.id == slotItemData.id)
+            if (item.id == slotItemData.item.id)
             {
                 //장착되어있다면 >해제 
                 GameManager.Instance.EquipManager.UnequipItem(item);
@@ -82,13 +82,13 @@ public class UiInventory : MonoBehaviour
                 }
                 // 그게 아니라면 > 보유아이템 해제 > 슬롯아이템 더해줘
                 GameManager.Instance.EquipManager.UnequipItem(item);
-                GameManager.Instance.EquipManager.EqipDictionaryAddItem(slotItemData);
+                GameManager.Instance.EquipManager.EqipDictionaryAddItem(slotItemData.item);
             }
         }
         else
         {
             //비장착 아이템 > 장착 
-            GameManager.Instance.EquipManager.EqipDictionaryAddItem(slotItemData);
+            GameManager.Instance.EquipManager.EqipDictionaryAddItem(slotItemData.item);
         }
     }
 
