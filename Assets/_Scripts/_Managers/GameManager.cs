@@ -182,7 +182,7 @@ public class GameManager : MonoBehaviour
         string json = JsonUtility.ToJson(data, true); // true는 pretty print를 의미
         string path = $"{Application.persistentDataPath}/savedata_{currentSlot}.json";
         System.IO.File.WriteAllText(path, json);
-
+        Debug.Log(Application.persistentDataPath);
         Debug.Log($"슬롯 {currentSlot + 1}에 게임 데이터 저장 완료");
     }
 
