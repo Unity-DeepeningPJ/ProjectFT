@@ -17,7 +17,7 @@ MonoBehaviour:
   startExp: 0
   expToNextLevel: 100
   basePower: 10
-  baseDefense: 10
+  baseDefense: 5
   baseHealth: 100
   baseCriticalChance: 5
   baseSpeed: 10
