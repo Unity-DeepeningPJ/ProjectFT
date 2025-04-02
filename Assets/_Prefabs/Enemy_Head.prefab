@@ -199,7 +199,7 @@ MonoBehaviour:
   moveDistance: 2
   moveSpeed: 2
   chaseSpeed: 5
-  attackDamage: 10
+  attackDamage: 20
   attackRate: 2
   dashDistance: 5
   dashDuration: 5

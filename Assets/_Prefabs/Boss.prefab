@@ -199,7 +199,7 @@ MonoBehaviour:
   moveDistance: 0
   moveSpeed: 0
   chaseSpeed: 0
-  attackDamage: 1
+  attackDamage: 50
   attackRate: 8
   dashDistance: 1
   dashDuration: 1
