@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static GameManager;
 
 public class UIStore : MonoBehaviour
 {
@@ -32,6 +33,16 @@ public class UIStore : MonoBehaviour
         sellUI.sell += ToggleComplete;
         sellUI.sell += () => CompleteTxt("판매 완료");
         
+    }
+    private void OnEnable()
+    {
+        UpdateGold();
+        GameManager.Instance.EnterState(GameState.Paused);
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.EnterState(GameState.Playing);
     }
 
     private void UpdateGold()

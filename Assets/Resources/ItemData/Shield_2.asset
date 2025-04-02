@@ -18,7 +18,7 @@ MonoBehaviour:
   description: "\uAF64 \uD070 \uBC29\uD328\uC785\uB2C8\uB2E4."
   equipCondition:
     type: 1
-    value: 20
+    value: 10
   gold: 1500
   Icon: {fileID: 21300000, guid: 47619f20dbd036b4c820171ae001a5ef, type: 3}
   itemObj: {fileID: 0}

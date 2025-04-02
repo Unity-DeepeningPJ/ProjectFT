@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static GameManager;
 
 public class UIIventoryScrean : MonoBehaviour
 {
@@ -25,6 +26,17 @@ public class UIIventoryScrean : MonoBehaviour
 
         //init();
     }
+
+    private void OnEnable()
+    {
+        GameManager.Instance.EnterState(GameState.Paused);
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.EnterState(GameState.Playing);
+    }
+
     public void init()
     {
         //이벤트 연결
