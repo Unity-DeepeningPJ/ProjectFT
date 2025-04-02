@@ -64,7 +64,11 @@ public class PlayerState : BaseState
         _equipDefense = defense;
         _equipHealth = health;
         _equipCriticalChance = critical;
-
+        float currenthealth = GameManager.Instance.PlayerManager.player.PlayerCondition.CurrentHealth;
+        if (currenthealth > TotalHealth)
+        {
+            GameManager.Instance.PlayerManager.player.PlayerCondition.SetHealth(TotalHealth);
+        }
         OnStatsChanged?.Invoke(this);
         OnMaxHealthChanged?.Invoke(TotalHealth);
     }
@@ -89,7 +93,8 @@ public class PlayerState : BaseState
         Level++;
         CurrentExp = 0;
         ExpToNextLevel = (int)(ExpToNextLevel * 1.2f);
-        health += 10;
+        GameManager.Instance.PlayerManager.player.PlayerCondition.SetHealth(TotalHealth);
+
         Power += 1;
         Defense += 1;
 

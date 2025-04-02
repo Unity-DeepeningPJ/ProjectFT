@@ -44,7 +44,7 @@ public class MeleeEnemy : BaseState, IDamageable
     protected Rigidbody2D rb; // Rigidbody2D 컴포넌트
     protected SpriteRenderer sprite;
     protected CharacterAnimation animi;
-
+    Player player;
     public MeleeEnemy(int Power, int Defense, int health, float speed, float jumpPower) : base(Power, Defense, health, speed, jumpPower)
     {
     }
@@ -56,6 +56,7 @@ public class MeleeEnemy : BaseState, IDamageable
 
     void Start()
     {
+        player = GameManager.Instance.PlayerManager.player;
         startPosition = transform.position;
         nextAttackTime = Time.time;
       
@@ -255,18 +256,10 @@ public class MeleeEnemy : BaseState, IDamageable
     {        
         Instantiate(coinPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject); // 또는 오브젝트 풀에 반환
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
 
         if (player != null)
         {
-            // PlayerState 컴포넌트 가져오기
-            PlayerState playerState = player.GetComponent<PlayerState>();
-
-            if (playerState != null)
-            {
-                // 레벨업 로직 실행
-                playerState.LevelUp();
-            }
+            player.PlayerState.AddExp(50); // 경험치 추가
         }
     }
     

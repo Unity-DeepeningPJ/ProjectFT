@@ -277,7 +277,7 @@ public class Boss : MeleeEnemy, IDamageable
     System.Collections.IEnumerator RoundShot()
     {        
         isSpecialAttacking = true; // 특수 공격 중 상태로 변경
-
+        animi.OnAttack(true);
         // 플레이어의 위치를 기준으로 보스의 왼쪽 또는 오른쪽 선택        
         float side = playerTransform.position.x > transform.position.x ? 1f : -1f; // 플레이어가 오른쪽에 있으면 1, 왼쪽에 있으면 -1
 
@@ -329,7 +329,7 @@ public class Boss : MeleeEnemy, IDamageable
     System.Collections.IEnumerator FanShot()
     {        
         isSpecialAttacking = true;
-
+        animi.OnAttack(true);
         if (playerTransform == null)
         {            
             isSpecialAttacking = false;
