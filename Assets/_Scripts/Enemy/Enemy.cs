@@ -169,7 +169,7 @@ public class Enemy : BaseState, IDamageable
 
         if (player != null)
         {
-            player.PlayerState.AddExp(50); // 경험치 추가
+            player.PlayerState.AddExp(30); // 경험치 추가
             Debug.Log("Player Exp: " + player.PlayerState.CurrentExp);
             Debug.Log("Player Level: " + player.PlayerState.Level);
         }

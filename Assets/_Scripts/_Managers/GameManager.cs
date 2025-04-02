@@ -376,7 +376,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void EnterState(GameState state)
+    public void EnterState(GameState state)
     {
         switch (state)
         {

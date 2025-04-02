@@ -261,7 +261,7 @@ public class MeleeEnemy : BaseState, IDamageable
 
         if (player != null)
         {
-            player.PlayerState.AddExp(50); // 경험치 추가
+            player.PlayerState.AddExp(30); // 경험치 추가
         }
     }
 
