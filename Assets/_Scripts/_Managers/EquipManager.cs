@@ -95,6 +95,7 @@ public class EquipManager : MonoBehaviour
             }
         }
         GameManager.Instance.PlayerManager.player.PlayerState.UpdateEquipStats(totalPower, totalDefense, totalHealth, totalCritical);
+        
     }
 
 
