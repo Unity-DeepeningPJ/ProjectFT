@@ -232,4 +232,4 @@ MonoBehaviour:
   target:
     serializedVersion: 2
     m_Bits: 64
-  goldValue: 700
+  goldValue: 10000
