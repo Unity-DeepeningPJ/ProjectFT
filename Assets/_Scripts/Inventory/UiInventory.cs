@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,8 @@ public class UiInventory : MonoBehaviour
     [SerializeField] private UiSlot uiSlotPrefab;
     [SerializeField] private Transform slotsparent;
 
-
+    public event Action<SlotItemData> OnposionAddevent;
+    public event Action<SlotItemData> OnposionRemoveevent;
 
     private void Awake()
     {
@@ -37,6 +39,28 @@ public class UiInventory : MonoBehaviour
     {
         //더블클릭 이벤트처리 
         //Debug.Log($"더블클릭 :{slotItemData.item.itemName}");
+        //포션은 다르게 처리를 해야됨 
+        if (slotItemData.item.type ==EquipType.Consumealbe)
+        {
+            // 내가 포션을 장착하고 있는가 ? 아닌가? 를 체크해야됨 
+            // 그 슬롯에 아이템이 있는가 없는가 ?
+            //슬롯에 존재한다면 
+            if (GameManager.Instance.InventoryManager.UIIventoryScrean.ChkPosion())
+            {
+                // 장착 
+                OnposionAddevent?.Invoke(slotItemData);
+            }
+            else
+            {
+                // 해제 
+                OnposionRemoveevent?.Invoke(slotItemData);
+                
+            }
+            
+            
+            
+        }
+
 
         // 그 부위에 아이템이 장착 되어있나 없나 
         if (GameManager.Instance.EquipManager.EqipDictionary.TryGetValue(slotItemData.item.type, out ItemData item))

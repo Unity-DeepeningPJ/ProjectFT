@@ -2228,13 +2228,25 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9060176052667876911, guid: 21eb3c2992aeb4589b34b8c5317777e0, type: 3}
+      propertyPath: UiInventory
+      value: 
+      objectReference: {fileID: 854094872}
+    - target: {fileID: 9060176052667876911, guid: 21eb3c2992aeb4589b34b8c5317777e0, type: 3}
       propertyPath: inventoryUI
+      value: 
+      objectReference: {fileID: 854094872}
+    - target: {fileID: 9060176052667876911, guid: 21eb3c2992aeb4589b34b8c5317777e0, type: 3}
+      propertyPath: uiInventory
       value: 
       objectReference: {fileID: 854094872}
     - target: {fileID: 9060176052667876911, guid: 21eb3c2992aeb4589b34b8c5317777e0, type: 3}
       propertyPath: statebackground
       value: 
       objectReference: {fileID: 2021080731}
+    - target: {fileID: 9060176052667876911, guid: 21eb3c2992aeb4589b34b8c5317777e0, type: 3}
+      propertyPath: uiiventoryScrean
+      value: 
+      objectReference: {fileID: 167861790}
     - target: {fileID: 9060176052667876911, guid: 21eb3c2992aeb4589b34b8c5317777e0, type: 3}
       propertyPath: uiinventoryScrean
       value: 
