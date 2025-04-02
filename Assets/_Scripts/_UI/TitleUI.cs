@@ -275,6 +275,7 @@ public class TitleUI : MonoBehaviour
     {
         // 게임 씬 로드
         SceneManager.LoadScene("Main"); // 실제 게임 씬 이름으로 변경
+        // AudioManager.Instance.PlayBGM("Test2"); // 게임 씬에 맞는 배경 음악 재생
         // 게임상태를 Playing으로 설정
         if (gameManager != null)
         {

@@ -20,6 +20,7 @@ public class BossRoomCamera : MonoBehaviour
         if (collision.gameObject.GetComponent<Player>())
         {
             vcm.Priority = activiePriority;
+            AudioManager.Instance.PlayBGM("Test2");
         }
     }
 
@@ -28,6 +29,7 @@ public class BossRoomCamera : MonoBehaviour
         if (collision.gameObject.GetComponent<Player>())
         {
             vcm.Priority = currentPriority;
+            AudioManager.Instance.PlayBGM("Test");
         }
     }
 }
