@@ -47,7 +47,7 @@ public class UiSlot : MonoBehaviour
             clickCoroutine = null;
 
             // 더블 클릭 처리
-            //Debug.Log($"더블 클릭: {currentItemData.item.itemName}");
+            Debug.Log($"더블 클릭: {currentItemData.item.itemName}");
             OnItemDoubleClicked?.Invoke(currentItemData);
             UpdateEquip();
         }
@@ -61,11 +61,12 @@ public class UiSlot : MonoBehaviour
 
     private IEnumerator SingleClickDelay()
     {
+        Debug.Log($"싱글클릭 코루틴시작 : {currentItemData.item.itemName}");
         // 더블클릭 대기 시간만큼 기다림
-        yield return new WaitForSeconds(doubleClickTimeThreshold);
+        yield return new WaitForSecondsRealtime(doubleClickTimeThreshold);
 
         // 시간이 지나면 싱글클릭으로 처리
-        //Debug.Log($"클릭: {currentItemData.item.itemName}");
+        Debug.Log($"클릭: {currentItemData.item.itemName}");
         OnItemClicked?.Invoke(currentItemData);
 
         clickCoroutine = null;
